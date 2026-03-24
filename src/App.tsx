@@ -24,7 +24,8 @@ import {
   X,
   Terminal,
   BookOpen,
-  FileText
+  FileText,
+  Facebook
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { clsx, type ClassValue } from 'clsx';
@@ -83,31 +84,91 @@ const SectionHeading = ({ title, subtitle }: { title: string; subtitle?: string 
   </div>
 );
 
-const Navbar = () => (
-  <nav className="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-white/5">
-    <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/20">
-          <LobsterLogo className="w-7 h-7 text-white" />
+const Navbar = () => {
+  const [showFb, setShowFb] = useState(false);
+
+  return (
+    <nav className="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-white/5">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/20">
+            <LobsterLogo className="w-7 h-7 text-white" />
+          </div>
+          <span className="text-xl font-bold tracking-tight">AI Automation</span>
         </div>
-        <span className="text-xl font-bold tracking-tight">AI Automation</span>
+        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+          <a href="#services" className="hover:text-white transition-colors">服務項目</a>
+          <a href="#use-cases" className="hover:text-white transition-colors">應用案例</a>
+          <a href="#tech-stack" className="hover:text-white transition-colors">技術架構</a>
+          <a href="#tutorials" className="hover:text-white transition-colors text-red-400 font-bold">教學文章</a>
+          <a href="#faq" className="hover:text-white transition-colors">常見問題</a>
+        </div>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="relative">
+            <button 
+              onClick={() => setShowFb(!showFb)}
+              className="p-2 sm:px-4 sm:py-2.5 rounded-full bg-[#1877F2]/10 hover:bg-[#1877F2]/20 text-[#1877F2] transition-colors flex items-center gap-2 font-medium text-sm border border-[#1877F2]/20 shadow-lg shadow-[#1877F2]/10"
+              title="官方 Facebook 社團"
+            >
+              <Facebook className="w-5 h-5" />
+              <span className="hidden sm:block">FB 社團</span>
+            </button>
+            <AnimatePresence>
+              {showFb && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                  className="absolute right-0 top-full mt-4 w-80 bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl shadow-black/50 origin-top-right border border-zinc-800 z-50 flex flex-col"
+                >
+                  <div className="h-28 bg-gradient-to-br from-[#1877F2]/80 to-[#1877F2] relative overflow-hidden">
+                    <div className="absolute inset-0 bg-black/10" />
+                    <Facebook className="absolute -right-4 -bottom-4 w-24 h-24 text-white/10 transform rotate-12" />
+                  </div>
+                  
+                  <div className="px-6 pb-6 relative flex flex-col items-center text-center">
+                    <div className="w-20 h-20 rounded-2xl border-4 border-zinc-900 bg-zinc-800 -mt-10 mb-3 flex items-center justify-center shadow-lg relative z-10 overflow-hidden shrink-0">
+                      <div className="w-full h-full bg-gradient-to-tr from-red-500 to-red-400 flex items-center justify-center">
+                        <Users className="w-8 h-8 text-white" />
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-lg font-bold text-white mb-1">OpenClaw 中文社群</h3>
+                    <p className="text-sm text-zinc-400 mb-4 flex items-center gap-1.5 justify-center font-medium">
+                      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                      160,000+ 位成員
+                    </p>
+                    
+                    <p className="text-xs text-zinc-500 mb-6 leading-relaxed">
+                      加入我們，與開發者交流 AI 自動化技術、第一手獲取軟體更新與獨家開發資源！
+                    </p>
+                    
+                    <a 
+                      href="https://www.facebook.com/groups/3238547836318385" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="w-full py-3 rounded-xl bg-[#1877F2] hover:bg-[#166fe5] shadow-lg shadow-[#1877F2]/20 text-white font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                    >
+                      <Facebook className="w-4 h-4" />
+                      加入 Facebook 社團
+                    </a>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <a 
+            href="#contact" 
+            className="hidden lg:block px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
+          >
+            聯絡我們
+          </a>
+        </div>
       </div>
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-        <a href="#services" className="hover:text-white transition-colors">服務項目</a>
-        <a href="#use-cases" className="hover:text-white transition-colors">應用案例</a>
-        <a href="#tech-stack" className="hover:text-white transition-colors">技術架構</a>
-        <a href="#tutorials" className="hover:text-white transition-colors text-red-400 font-bold">教學文章</a>
-        <a href="#faq" className="hover:text-white transition-colors">常見問題</a>
-      </div>
-      <a 
-        href="#contact" 
-        className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
-      >
-        聯絡我們
-      </a>
-    </div>
-  </nav>
-);
+    </nav>
+  );
+};
 
 const Hero = () => (
   <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
