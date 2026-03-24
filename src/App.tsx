@@ -21,11 +21,18 @@ import {
   Cloud,
   Layers,
   Box,
-  X
+  X,
+  Terminal,
+  BookOpen,
+  FileText
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Utility for tailwind class merging
 function cn(...inputs: ClassValue[]) {
@@ -89,6 +96,7 @@ const Navbar = () => (
         <a href="#services" className="hover:text-white transition-colors">服務項目</a>
         <a href="#use-cases" className="hover:text-white transition-colors">應用案例</a>
         <a href="#tech-stack" className="hover:text-white transition-colors">技術架構</a>
+        <a href="#tutorials" className="hover:text-white transition-colors text-red-400 font-bold">教學文章</a>
         <a href="#faq" className="hover:text-white transition-colors">常見問題</a>
       </div>
       <a 
@@ -371,6 +379,130 @@ const CaseStudies = () => {
   );
 };
 
+const Tutorials = () => {
+  const [activeDoc, setActiveDoc] = useState<{title: string, content: string} | null>(null);
+
+  const docs = [
+    {
+      id: 'self-healing',
+      title: '雙機自癒系統',
+      desc: '使用 Tailscale 搭配腳本，實現兩台機器互相監測與修復的高可用性部署。',
+      icon: <Terminal className="w-8 h-8" />,
+      file: '/docs/self-healing-system.md'
+    }
+  ];
+
+  const openDoc = async (doc: any) => {
+    try {
+      const res = await fetch(doc.file);
+      const text = await res.text();
+      setActiveDoc({ title: doc.title, content: text });
+    } catch (e) {
+      console.error(e);
+      setActiveDoc({ title: 'Error', content: '無法載入教學文件' });
+    }
+  };
+
+  return (
+    <section id="tutorials" className="py-32 relative border-y border-white/5 bg-zinc-900/40">
+      <div className="max-w-7xl mx-auto px-6">
+        <SectionHeading title="技術教學指南" subtitle="深入了解系統架構與進階部署技巧，輕鬆掌握自動化！" />
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {docs.map((doc) => (
+            <motion.div
+              key={doc.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              onClick={() => openDoc(doc)}
+              className="p-8 rounded-3xl bg-zinc-950 border border-white/10 hover:border-red-500/50 hover:bg-zinc-900/80 transition-all cursor-pointer group shadow-xl"
+            >
+              <div className="w-16 h-16 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-red-500 group-hover:text-white transition-all shadow-lg shadow-red-500/10">
+                {doc.icon}
+              </div>
+              <h3 className="text-xl font-bold mb-3">{doc.title}</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">{doc.desc}</p>
+              
+              <div className="mt-8 flex items-center gap-2 text-sm font-semibold text-red-500 group-hover:text-red-400 ml-auto w-fit">
+                閱讀文件 <ChevronRight className="w-4 h-4" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {activeDoc && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm"
+            onClick={() => setActiveDoc(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              className="relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl overflow-hidden bg-zinc-950 shadow-2xl border border-white/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-zinc-900/50">
+                <div className="flex items-center gap-3">
+                  <BookOpen className="w-5 h-5 text-red-400" />
+                  <h3 className="text-xl font-bold">{activeDoc.title}</h3>
+                </div>
+                <button 
+                  onClick={() => setActiveDoc(null)}
+                  className="p-2 rounded-full hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="p-6 md:p-10 overflow-y-auto text-zinc-300 max-h-[calc(90vh-73px)]">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    code({node, inline, className, children, ...props}: any) {
+                      const match = /language-(\w+)/.exec(className || '');
+                      return !inline && match ? (
+                        <SyntaxHighlighter
+                          style={vscDarkPlus as any}
+                          language={match[1]}
+                          PreTag="div"
+                          className="rounded-xl border border-white/10 !my-6 !bg-[#1E1E1E] text-sm"
+                          {...props}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <code className="bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded text-sm font-mono mx-1" {...props}>
+                          {children}
+                        </code>
+                      )
+                    },
+                    h1: ({node, ...props}) => <h1 className="text-3xl md:text-4xl font-bold mb-8 text-white tracking-tight" {...props} />,
+                    h2: ({node, ...props}) => <h2 className="text-2xl md:text-3xl font-bold mt-12 mb-6 text-white border-b border-white/10 pb-3" {...props} />,
+                    h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-8 mb-4 text-white" {...props} />,
+                    p: ({node, ...props}) => <p className="leading-relaxed mb-6 text-base md:text-lg text-zinc-400" {...props} />,
+                    ul: ({node, ...props}) => <ul className="list-disc list-inside mb-6 space-y-2 text-zinc-400 pl-4" {...props} />,
+                    ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-6 space-y-2 text-zinc-400 pl-4" {...props} />,
+                    li: ({node, ...props}) => <li className="leading-relaxed" {...props} />,
+                    blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-red-500 bg-red-500/10 p-4 md:p-6 rounded-r-xl my-6 text-zinc-300 italic shadow-inner" {...props} />,
+                  }}
+                >
+                  {activeDoc.content}
+                </ReactMarkdown>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
+  );
+};
+
 const DemoVideo = () => {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
@@ -594,6 +726,7 @@ export default function App() {
         <UseCases />
         <TechStack />
         <CaseStudies />
+        <Tutorials />
         <DemoVideo />
         <FAQ />
         <Contact />

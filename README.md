@@ -18,3 +18,7 @@ View your app in AI Studio: https://ai.studio/apps/311be4d9-1bd5-4682-bdd8-dbdaf
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Documentation
+
+- [雙機自癒系統 (Dual-Machine Self-Healing System)](docs/self-healing-system.md)
