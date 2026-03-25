@@ -25,7 +25,9 @@ import {
   Terminal,
   BookOpen,
   FileText,
-  Facebook
+  Facebook,
+  Copy,
+  Check
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { clsx, type ClassValue } from 'clsx';
@@ -387,6 +389,74 @@ const TechStack = () => {
   );
 };
 
+const CodeBlock = ({ children, language, ...props }: any) => {
+  const [copied, setCopied] = useState(false);
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(children);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="relative group">
+      <button
+        onClick={onCopy}
+        className="absolute right-4 top-4 p-2 rounded-lg bg-white/10 border border-white/20 text-zinc-300 opacity-60 group-hover:opacity-100 transition-all hover:bg-white/20 hover:text-white z-10 backdrop-blur-sm shadow-lg"
+        title="複製指令"
+      >
+        {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+      </button>
+      <SyntaxHighlighter
+        style={vscDarkPlus as any}
+        language={language}
+        PreTag="div"
+        className="rounded-xl border border-white/10 !my-6 !bg-[#1E1E1E] text-sm"
+        {...props}
+      >
+        {children}
+      </SyntaxHighlighter>
+    </div>
+  );
+};
+
+const InlineCode = ({ children }: { children: React.ReactNode }) => {
+  const [copied, setCopied] = useState(false);
+  const content = String(children);
+
+  const onCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <code 
+      onClick={onCopy}
+      className={cn(
+        "bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded text-sm font-mono mx-1 cursor-pointer transition-all relative border border-red-500/10 hover:border-red-500/30 whitespace-nowrap",
+        copied ? "bg-green-600/20 text-green-400 border-green-500/40" : "hover:bg-red-500/30"
+      )}
+      title={copied ? "已複製！" : "點擊複製指令"}
+    >
+      {children}
+      <AnimatePresence>
+        {copied && (
+          <motion.span 
+            initial={{ opacity: 0, y: 10, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: -10, x: '-50%' }}
+            className="absolute -top-8 left-1/2 px-2 py-1 bg-green-600 text-white text-[10px] rounded shadow-lg font-bold pointer-events-none z-20"
+          >
+            Copied!
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </code>
+  );
+};
+
 const CaseStudies = () => {
   const studies = [
     { 
@@ -527,20 +597,15 @@ const Tutorials = () => {
                   components={{
                     code({node, inline, className, children, ...props}: any) {
                       const match = /language-(\w+)/.exec(className || '');
+                      const codeContent = String(children).replace(/\n$/, '');
                       return !inline && match ? (
-                        <SyntaxHighlighter
-                          style={vscDarkPlus as any}
-                          language={match[1]}
-                          PreTag="div"
-                          className="rounded-xl border border-white/10 !my-6 !bg-[#1E1E1E] text-sm"
-                          {...props}
-                        >
-                          {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
+                        <CodeBlock language={match[1]} {...props}>
+                          {codeContent}
+                        </CodeBlock>
                       ) : (
-                        <code className="bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded text-sm font-mono mx-1" {...props}>
+                        <InlineCode {...props}>
                           {children}
-                        </code>
+                        </InlineCode>
                       )
                     },
                     h1: ({node, ...props}) => <h1 className="text-3xl md:text-4xl font-bold mb-8 text-white tracking-tight" {...props} />,
