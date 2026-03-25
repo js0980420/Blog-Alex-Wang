@@ -650,6 +650,12 @@ const DemoVideo = () => {
       title: '龍蝦 Openclaw 客服',
       desc: '展示 OpenClaw 自動化引擎如何處理客服流程',
       cover: 'https://upload.wikimedia.org/wikipedia/commons/7/70/Homarus_americanus_230756670.jpg'
+    },
+    {
+      id: 'slOc7fUCuSs',
+      title: 'AI數學解題',
+      desc: '展示 AI 自動解析數學問題，提供詳細步驟說明與互動學習',
+      cover: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1200'
     }
   ];
 
