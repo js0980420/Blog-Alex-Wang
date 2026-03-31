@@ -36,6 +36,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import RolloutPlan from './RolloutPlan';
 
 // Utility for tailwind class merging
 function cn(...inputs: ClassValue[]) {
@@ -93,16 +94,19 @@ const Navbar = () => {
     <nav className="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-white/5">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/20">
-            <LobsterLogo className="w-7 h-7 text-white" />
-          </div>
-          <span className="text-xl font-bold tracking-tight">AI Automation</span>
+          <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/20">
+              <LobsterLogo className="w-7 h-7 text-white" />
+            </div>
+            <span className="text-xl font-bold tracking-tight">AI Automation</span>
+          </a>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+          <a href="/rolloutPlan" className="hover:text-white transition-colors text-red-500 font-bold border border-red-500/20 px-3 py-1.5 rounded-full bg-red-500/10">企業導入計畫</a>
           <a href="#services" className="hover:text-white transition-colors">服務項目</a>
           <a href="#use-cases" className="hover:text-white transition-colors">應用案例</a>
           <a href="#tech-stack" className="hover:text-white transition-colors">技術架構</a>
-          <a href="#tutorials" className="hover:text-white transition-colors text-red-400 font-bold">教學文章</a>
+          <a href="#tutorials" className="hover:text-white transition-colors">教學文章</a>
           <a href="#faq" className="hover:text-white transition-colors">常見問題</a>
         </div>
         <div className="flex items-center gap-3 sm:gap-4">
@@ -300,6 +304,24 @@ const Services = () => {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 flex justify-center"
+        >
+          <a 
+            href="/rolloutPlan" 
+            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-zinc-900 border border-red-500/50 hover:bg-red-600 hover:border-red-600 transition-all shadow-lg shadow-red-900/20 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-600/10 to-red-600/0 group-hover:translate-x-full transition-transform duration-1000" />
+            <span className="text-red-400 group-hover:text-white font-bold text-lg transition-colors relative z-10">
+              深度了解「AI 落地師」企業導入計畫
+            </span>
+            <ChevronRight className="w-5 h-5 text-red-500 group-hover:text-white group-hover:translate-x-1 transition-all relative z-10" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );
@@ -849,20 +871,34 @@ const Footer = () => (
 );
 
 export default function App() {
+  const [path, setPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => setPath(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const isPlanPage = path === '/rolloutPlan';
+
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-red-500/30">
       <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <UseCases />
-        <TechStack />
-        <CaseStudies />
-        <Tutorials />
-        <DemoVideo />
-        <FAQ />
-        <Contact />
-      </main>
+      {isPlanPage ? (
+        <RolloutPlan />
+      ) : (
+        <main>
+          <Hero />
+          <Services />
+          <UseCases />
+          <TechStack />
+          <CaseStudies />
+          <Tutorials />
+          <DemoVideo />
+          <FAQ />
+          <Contact />
+        </main>
+      )}
       <Footer />
     </div>
   );
