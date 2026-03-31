@@ -20,7 +20,8 @@ import {
   Users,
   Video,
 } from 'lucide-react';
-import { useState } from 'react';
+import { type MouseEvent, useEffect, useState } from 'react';
+import RolloutPlan from './RolloutPlan';
 
 type SyllabusItem = {
   label: string;
@@ -107,25 +108,25 @@ const audience = [
 
 const videos: VideoItem[] = [
   {
-    title: '美業 AI 預約客服',
-    description: '把產業情境、客服流程與 AI 回覆設計講清楚，適合放在成果示範區。',
-    duration: 'Demo',
-    tag: '案例示範',
-    href: 'https://www.youtube.com/watch?v=0H-liCZC5pE',
+    title: 'Threads API 申請教學',
+    description: '聚焦自動發文、留言回覆與 token 申請流程，適合放在首頁主打區當作實戰教學代表作。',
+    duration: 'Day 6',
+    tag: 'API 教學',
+    href: 'https://www.youtube.com/watch?v=nTYrG7EuFHA',
   },
   {
-    title: '補教業 AI 助手',
-    description: '適合展示你如何把 AI 放進教育現場與教學工作流，和這個頁面主題很接近。',
-    duration: 'Demo',
-    tag: '教育應用',
-    href: 'https://www.youtube.com/watch?v=JJgLGLOxh_8',
+    title: 'Zeabur Agent Skills 完整指南',
+    description: '把 Coding Agent、伺服器管理與技能應用串在一起，能明確展現你在 AI 實作面的深度。',
+    duration: 'Guide',
+    tag: 'Agent 實戰',
+    href: 'https://www.youtube.com/watch?v=GfU8e5-JURM',
   },
   {
-    title: '龍蝦 OpenClaw 客服',
-    description: '可作為自動化與 AI Agent 展示內容，補足你在系統設計面的可信度。',
-    duration: 'Demo',
-    tag: 'AI Agent',
-    href: 'https://www.youtube.com/watch?v=Rk_4xCbHD6Q',
+    title: '【只靠對話就能拍片？】Claude一鍵生成影片',
+    description: '從對話到剪輯的一條龍流程，很適合補足內容創作與 AI 工作流的應用面向。',
+    duration: 'Day 1',
+    tag: '影音創作',
+    href: 'https://www.youtube.com/watch?v=lq2M7HjH1mY',
   },
 ];
 
@@ -207,6 +208,43 @@ function SectionTitle({
 
 function App() {
   const [openFaq, setOpenFaq] = useState(0);
+  const [path, setPath] = useState(() => window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => setPath(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (nextPath: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    window.history.pushState({}, '', nextPath);
+    setPath(nextPath);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  };
+
+  if (path === '/rolloutPlan') {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-zinc-50">
+        <div className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-zinc-950/82 backdrop-blur-xl">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+            <a
+              href="/"
+              onClick={navigateTo('/')}
+              className="inline-flex items-center gap-3 text-sm font-medium text-zinc-200 transition hover:text-white"
+            >
+              <ArrowRight className="h-4 w-4 rotate-180" />
+              回到 AI新手教學
+            </a>
+            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500">AI Implementation Plan</span>
+          </div>
+        </div>
+        <div className="pt-10">
+          <RolloutPlan />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#120f0b] text-stone-100">
@@ -222,6 +260,13 @@ function App() {
             </div>
           </a>
           <div className="hidden items-center gap-7 text-sm text-stone-300 lg:flex">
+            <a
+              href="/rolloutPlan"
+              onClick={navigateTo('/rolloutPlan')}
+              className="rounded-full border border-amber-300/18 bg-amber-300/8 px-3 py-1.5 text-amber-100 transition hover:border-amber-300/28 hover:bg-amber-300/14 hover:text-white"
+            >
+              企業導入計畫
+            </a>
             <a href="#overview" className="transition hover:text-white">課程介紹</a>
             <a href="#videos" className="transition hover:text-white">YT 影片</a>
             <a href="#syllabus" className="transition hover:text-white">課程大綱</a>
@@ -422,7 +467,7 @@ function App() {
             <SectionTitle
               eyebrow="YouTube"
               title="影片精選"
-              description="子代理幫我從舊建置內容裡找到了 3 支可直接使用的 YouTube 影片。先把它們接進頁面，之後你再替換成最新代表作即可。"
+              description="精選三支代表影片，從 API 實戰、Agent 技能到 AI 影音工作流，直接展示這門課背後的真實應用能力。"
             />
 
             <div className="mt-14 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
@@ -437,7 +482,7 @@ function App() {
                       Featured Video
                     </div>
                     <a
-                      href="https://www.youtube.com/watch?v=JJgLGLOxh_8"
+                      href="https://www.youtube.com/watch?v=nTYrG7EuFHA"
                       target="_blank"
                       rel="noreferrer"
                       className="rounded-full border border-white/10 px-3 py-1 text-xs text-stone-300 transition hover:border-amber-300/20 hover:text-stone-100"
@@ -448,11 +493,11 @@ function App() {
 
                   <div className="mt-10">
                     <h3 className="font-display text-4xl font-semibold text-stone-50 md:text-5xl">
-                      補教業 AI 助手
-                      <span className="block text-stone-300/82">先用真實案例把你的專業感打出來</span>
+                      Threads API 申請教學
+                      <span className="block text-stone-300/82">用實戰流程把自動化與 AI 應用能力直接講清楚</span>
                     </h3>
                     <p className="mt-5 max-w-2xl text-base leading-7 text-stone-300/80">
-                      這支影片最適合放在首頁主打區，因為它同時連到教育情境、AI 應用與你這頁課程主題。後續你如果有更強的品牌影片，再直接把 embed 與連結換掉即可。
+                      這支影片直接示範 Threads API 申請、自動發文與自動回覆留言的完整流程，能讓第一次進站的人很快看懂你教的不只是工具，而是可落地的工作流。
                     </p>
                   </div>
                 </div>
@@ -460,8 +505,8 @@ function App() {
                 <div className="aspect-video w-full bg-black">
                   <iframe
                     className="h-full w-full"
-                    src="https://www.youtube-nocookie.com/embed/JJgLGLOxh_8"
-                    title="補教業 AI 助手"
+                    src="https://www.youtube-nocookie.com/embed/nTYrG7EuFHA"
+                    title="Threads API 申請教學"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
@@ -470,7 +515,7 @@ function App() {
 
                 <div className="flex flex-wrap items-center gap-4 p-8">
                   <a
-                    href="https://www.youtube.com/watch?v=JJgLGLOxh_8"
+                    href="https://www.youtube.com/watch?v=nTYrG7EuFHA"
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-stone-100"
@@ -487,7 +532,7 @@ function App() {
                     <MessageCircle className="h-4 w-4" />
                     LINE 詢問課程
                   </a>
-                  <span className="text-sm text-stone-400">這一區現在已接上真實影片，不再只是展示框</span>
+                  <span className="text-sm text-stone-400">主打影片與下方精選內容已同步更新為最新代表作</span>
                 </div>
               </motion.div>
 
