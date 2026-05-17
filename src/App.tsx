@@ -21,6 +21,15 @@ import {
   Video,
 } from 'lucide-react';
 import { type ReactNode, useState } from 'react';
+import bannerImage from './assets/banner.png';
+import claudeCodeLogo from './assets/claude-code-logo.png';
+import codexLogo from './assets/codex.png';
+import facebookLogo from './assets/facebook-logo.png';
+import instagramGradient from './assets/instagram-gradient.png';
+import instructorShirtImage from './assets/instructor-shirt.jpg';
+import mixerboxTalkImage from './assets/mixerbox-talk.jpeg';
+import oneOnOneTeachingImage from './assets/teaching-one-on-one.jpg';
+import threadsLogo from './assets/threads.png';
 
 type SyllabusItem = {
   label: string;
@@ -151,13 +160,13 @@ const photos: PhotoItem[] = [
     title: '一對一實體課紀錄',
     caption: '一對一實體教學現場。',
     size: 'lg:col-span-1 min-h-[240px]',
-    src: '/images/教學-珊珊.jpg',
+    src: oneOnOneTeachingImage,
   },
   {
     title: 'Mixerbox講課紀錄',
     caption: '講座合作紀錄。',
     size: 'lg:col-span-2 min-h-[220px]',
-    src: '/images/Mixerbox講課紀錄.jpeg',
+    src: mixerboxTalkImage,
   },
 ];
 
@@ -308,14 +317,14 @@ function OutcomeDemoVisual({ index }: { index: number }) {
       <div className="flex h-full w-full items-center justify-center gap-5 px-6 py-7">
         <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-2 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
           <img
-            src="/images/claude code logo.png"
+            src={claudeCodeLogo}
             alt="Claude Code"
             className="h-10 w-10 object-contain"
           />
         </div>
         <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-2 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
           <img
-            src="/images/codex.png"
+            src={codexLogo}
             alt="Codex"
             className="h-10 w-10 object-contain"
           />
@@ -329,14 +338,14 @@ function OutcomeDemoVisual({ index }: { index: number }) {
       <div className="flex h-full w-full items-center justify-center gap-5 px-6 py-7">
         <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-3 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
           <img
-            src="/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Primary Logo/Facebook_Logo_Primary.png"
+            src={facebookLogo}
             alt="Facebook"
             className="h-10 w-10 object-contain"
           />
         </div>
         <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-3 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
           <img
-            src="/images/instagram-gradient.png"
+            src={instagramGradient}
             alt="Instagram"
             className="h-10 w-10 object-contain"
           />
@@ -344,7 +353,7 @@ function OutcomeDemoVisual({ index }: { index: number }) {
         <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-[#111] shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
           <div className="h-10 w-10 overflow-hidden rounded-[0.9rem]">
             <img
-              src="/images/threads.png"
+              src={threadsLogo}
               alt="Threads"
               className="h-full w-full scale-[1.9] object-cover"
             />
@@ -461,7 +470,7 @@ function App() {
             >
               <div className="relative">
                 <img
-                  src="/images/新手學AI橫幅.png"
+                  src={bannerImage}
                   alt="新手學AI課程第一堂"
                   className="block h-auto w-full"
                 />
@@ -566,7 +575,7 @@ function App() {
               <motion.div {...sectionReveal} className="rounded-[2rem] border border-white/10 bg-[#1a1510] p-8">
                 <div className="relative flex aspect-[4/5] items-end overflow-hidden rounded-[1.5rem] bg-stone-950/50">
                   <img
-                    src="/images/半身白襯衫.jpg"
+                    src={instructorShirtImage}
                     alt="講師形象照"
                     className="absolute inset-0 h-full w-full object-cover object-center"
                   />
