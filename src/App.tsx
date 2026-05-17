@@ -191,6 +191,11 @@ const faqs = [
     answer:
       '可以，可以用 Google Meet 或 Discord，只要能分享螢幕畫面，就可以約線上教學。',
   },
+  {
+    question: 'Claude、Codex 預算只夠選一個的話選哪個？',
+    answer:
+      '我會推薦 Codex。因為 5.5 更新後，額度比 Claude 多很多，而且也可以拿來當龍蝦或 Hermes 的飼料，不用太擔心被封號。',
+  },
 ];
 
 const stats = [
