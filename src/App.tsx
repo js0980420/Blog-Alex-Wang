@@ -131,12 +131,6 @@ const videos: VideoItem[] = [
 
 const photos: PhotoItem[] = [
   {
-    title: '新手學AI課程第一堂',
-    caption: '課程開課現場。',
-    size: 'lg:col-span-1 lg:row-span-2 min-h-[320px]',
-    src: '/images/新手學AI課程第一堂.png',
-  },
-  {
     title: '教學-珊珊',
     caption: '一對一實體教學現場。',
     size: 'lg:col-span-1 min-h-[240px]',
@@ -570,8 +564,14 @@ function App() {
 
             <div className="mt-14 grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
               <motion.div {...sectionReveal} className="rounded-[2rem] border border-white/10 bg-[#1a1510] p-8">
-                <div className="flex aspect-[4/5] items-end rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(251,191,36,0.22),rgba(190,24,93,0.18)),linear-gradient(135deg,#3b2a17,#17120d)] p-7">
-                  <div>
+                <div className="relative flex aspect-[4/5] items-end rounded-[1.5rem] overflow-hidden bg-stone-950/50">
+                  <img
+                    src="/images/新手學AI課程第一堂.png"
+                    alt="新手學AI課程第一堂"
+                    className="absolute inset-0 h-full w-full object-contain"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/95 via-stone-950/40 to-transparent" />
+                  <div className="relative z-10 p-7">
                     <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
                       <Star className="h-3.5 w-3.5 text-amber-300" />
                       Lead Instructor
