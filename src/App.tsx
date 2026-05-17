@@ -20,8 +20,7 @@ import {
   Users,
   Video,
 } from 'lucide-react';
-import { type MouseEvent, useEffect, useState } from 'react';
-import RolloutPlan from './RolloutPlan';
+import { useState } from 'react';
 
 type SyllabusItem = {
   label: string;
@@ -35,6 +34,7 @@ type VideoItem = {
   duration: string;
   tag: string;
   href: string;
+  embedId: string;
 };
 
 type PhotoItem = {
@@ -45,47 +45,47 @@ type PhotoItem = {
 };
 
 const facebookGroupUrl = 'https://www.facebook.com/groups/3238547836318385';
-const lineUrl = 'https://line.me/ti/p/kdhrBKYuFZ';
+const lineUrl = 'https://line.me/ti/p/jejH4FkQn-';
 const emailUrl = 'mailto:castion2293@yahoo.com.tw';
 
 const syllabus: SyllabusItem[] = [
   {
     label: 'Module 01',
-    title: 'AI 基礎觀念與教學定位',
-    summary: '先釐清 AI 真正適合做什麼，建立你自己的教學與工作使用範圍。',
+    title: 'Claude Code / Codex 安裝與 AI 工作流起手式',
+    summary: '從桌面版 Claude Code、Codex 安裝開始，帶到 Meta 三大 API 串接、自動發文，以及用 skill 組出可重複使用的工作流。',
   },
   {
     label: 'Module 02',
     title: 'Prompt 結構與任務拆解',
-    summary: '把模糊需求拆成可執行步驟，讓 AI 回答穩定、可控、能重複。',
+    summary: '把新手最容易卡住的需求拆清楚，讓 AI 回答更穩定，也更容易串進日常工作。',
   },
   {
     label: 'Module 03',
     title: '教材、簡報與內容快速生成',
-    summary: '加速教案、講義、投影片、社群內容與教學活動設計。',
+    summary: '用 AI 快速產出講義、投影片、社群貼文與教學素材，降低備課與內容製作時間。',
   },
   {
     label: 'Module 04',
     title: '自動化流程與資料整理',
-    summary: '把表單、筆記、教材與常用工具串起來，減少重複性工作。',
+    summary: '把筆記、文件、表單與社群內容串起來，從手動操作進階到可重複執行的流程。',
   },
   {
     label: 'Module 05',
-    title: 'AI Agent 與知識庫應用',
-    summary: '建立能讀懂你資料、配合你邏輯、持續優化的 AI 助理。',
+    title: 'AI Agent 與 Skill 實作',
+    summary: '學會把常做的事情包成 skill，讓 AI 不只是聊天工具，而是真正能接手任務的助手。',
   },
   {
     label: 'Module 06',
     title: '實戰專題與成果輸出',
-    summary: '把前面學到的工具與方法整合成一個真正可展示、可上線的成果。',
+    summary: '把前面學到的 API、發文流程與 skill 整合成一套能展示、能交付、也能實際使用的成果。',
   },
 ];
 
 const outcomes = [
-  '建立一套你自己的 AI 教學與工作流，不再只是臨時問 AI。',
-  '學會設計可重用的 Prompt 模板與課堂任務模板。',
-  '把 AI 真的用進備課、授課、內容製作與行政流程。',
-  '完成一個能對外展示的專題成果或課程應用案例。',
+  '從零開始完成 Claude Code / Codex 的安裝與基本操作，不再卡在環境設定。',
+  '學會串接 Meta 三大 API，理解 AI 如何接進真實社群工作流。',
+  '做出自動發文流程，讓 AI 從對話工具升級成可執行助手。',
+  '學會寫 skill，把常用任務整理成你自己的可重用工作流。',
 ];
 
 const audience = [
@@ -113,6 +113,7 @@ const videos: VideoItem[] = [
     duration: 'Day 6',
     tag: 'API 教學',
     href: 'https://www.youtube.com/watch?v=nTYrG7EuFHA',
+    embedId: 'nTYrG7EuFHA',
   },
   {
     title: 'Zeabur Agent Skills 完整指南',
@@ -120,6 +121,7 @@ const videos: VideoItem[] = [
     duration: 'Guide',
     tag: 'Agent 實戰',
     href: 'https://www.youtube.com/watch?v=GfU8e5-JURM',
+    embedId: 'GfU8e5-JURM',
   },
   {
     title: '【只靠對話就能拍片？】Claude一鍵生成影片',
@@ -127,6 +129,7 @@ const videos: VideoItem[] = [
     duration: 'Day 1',
     tag: '影音創作',
     href: 'https://www.youtube.com/watch?v=lq2M7HjH1mY',
+    embedId: 'lq2M7HjH1mY',
   },
 ];
 
@@ -171,7 +174,7 @@ const faqs = [
 const stats = [
   ['長頁式課程頁', '把你的定位、內容、影片與信任感一次講清楚'],
   ['影片導流區', '用公開內容先建立專業感，降低報名前的不確定'],
-  ['社群承接', '把網站訪客導到 FB 社團，持續經營後續轉化'],
+  ['新手也能上手', '從安裝、串接到自動化流程，照著做就能真正完成一次'],
 ];
 
 const sectionReveal = {
@@ -208,43 +211,6 @@ function SectionTitle({
 
 function App() {
   const [openFaq, setOpenFaq] = useState(0);
-  const [path, setPath] = useState(() => window.location.pathname);
-
-  useEffect(() => {
-    const handlePopState = () => setPath(window.location.pathname);
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  const navigateTo = (nextPath: string) => (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    window.history.pushState({}, '', nextPath);
-    setPath(nextPath);
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  };
-
-  if (path === '/rolloutPlan') {
-    return (
-      <div className="min-h-screen bg-zinc-950 text-zinc-50">
-        <div className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-zinc-950/82 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-            <a
-              href="/"
-              onClick={navigateTo('/')}
-              className="inline-flex items-center gap-3 text-sm font-medium text-zinc-200 transition hover:text-white"
-            >
-              <ArrowRight className="h-4 w-4 rotate-180" />
-              回到 AI新手教學
-            </a>
-            <span className="text-sm uppercase tracking-[0.2em] text-zinc-500">AI Implementation Plan</span>
-          </div>
-        </div>
-        <div className="pt-10">
-          <RolloutPlan />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[#120f0b] text-stone-100">
@@ -260,151 +226,39 @@ function App() {
             </div>
           </a>
           <div className="hidden items-center gap-7 text-sm text-stone-300 lg:flex">
-            <a
-              href="/rolloutPlan"
-              onClick={navigateTo('/rolloutPlan')}
-              className="rounded-full border border-amber-300/18 bg-amber-300/8 px-3 py-1.5 text-amber-100 transition hover:border-amber-300/28 hover:bg-amber-300/14 hover:text-white"
-            >
-              企業導入計畫
-            </a>
             <a href="#overview" className="transition hover:text-white">課程介紹</a>
-            <a href="#videos" className="transition hover:text-white">YT 影片</a>
             <a href="#syllabus" className="transition hover:text-white">課程大綱</a>
-            <a href="#gallery" className="transition hover:text-white">講課照片</a>
-            <a href="#community" className="transition hover:text-white">FB 社團</a>
+            <a href="#instructor" className="transition hover:text-white">講師介紹</a>
+            <a href="#videos" className="transition hover:text-white">教學影片</a>
             <a href="#faq" className="transition hover:text-white">Q&A</a>
           </div>
-          <a
-            href={facebookGroupUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-2 text-sm font-medium text-amber-100 transition hover:bg-amber-300/20"
-          >
-            加入社群
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href={lineUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-[#06c755]/40 bg-[#06c755] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#05b84d]"
+            >
+              免費諮詢
+            </a>
+            <a
+              href={facebookGroupUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-[#1877F2]/35 bg-[#1877F2]/14 px-4 py-2 text-sm font-medium text-[#cfe0ff] transition hover:bg-[#1877F2]/22 hover:text-white"
+            >
+              FB 社團
+            </a>
+          </div>
         </div>
       </div>
 
       <main id="top">
-        <section className="relative overflow-hidden px-6 pb-20 pt-32 md:pb-28 md:pt-40">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.18),transparent_28%),radial-gradient(circle_at_85%_18%,rgba(244,114,182,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_40%)]" />
-          <div className="absolute left-[-8%] top-24 h-72 w-72 rounded-full bg-orange-500/12 blur-3xl" />
-          <div className="absolute bottom-8 right-[-6%] h-80 w-80 rounded-full bg-rose-500/12 blur-3xl" />
-
-          <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: 'easeOut' }}
-            >
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm text-stone-200/90">
-                <Star className="h-4 w-4 text-amber-300" />
-                以實戰、內容與社群經營串起來的課程頁
-              </div>
-
-              <h1 className="font-display text-5xl font-semibold tracking-[-0.04em] text-stone-50 md:text-7xl lg:text-[5.4rem] lg:leading-[0.95]">
-                用網站把你的課程、
-                <span className="block bg-gradient-to-r from-amber-200 via-orange-300 to-rose-300 bg-clip-text text-transparent">
-                  影片、社群與教學現場一起講清楚
-                </span>
-              </h1>
-
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-stone-300/78 md:text-xl">
-                不只是一頁課綱，而是一個能同時展示你專業、放大內容信任感、並把訪客導向報名與社群的長頁式課程網站。
-              </p>
-
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="#videos"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-stone-100 px-6 py-3.5 text-base font-semibold text-stone-950 transition hover:bg-white"
-                >
-                  看影片展示區
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-                <a
-                  href={facebookGroupUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-white/5 px-6 py-3.5 text-base font-semibold text-stone-100 transition hover:bg-white/10"
-                >
-                  進 FB 社團
-                  <Facebook className="h-4 w-4" />
-                </a>
-              </div>
-
-              <div className="mt-12 grid gap-4 sm:grid-cols-3">
-                {stats.map(([title, text]) => (
-                  <div key={title} className="rounded-3xl border border-white/10 bg-white/6 p-5 backdrop-blur-sm">
-                    <div className="text-lg font-semibold text-stone-50">{title}</div>
-                    <p className="mt-2 text-sm leading-6 text-stone-300/72">{text}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
-              className="relative"
-            >
-              <div className="rounded-[2rem] border border-white/10 bg-[#1b1712] p-6 shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
-                <div className="rounded-[1.5rem] border border-white/8 bg-gradient-to-br from-[#2b2319] via-[#191510] to-[#120f0b] p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-sm uppercase tracking-[0.28em] text-amber-200/70">Course Snapshot</p>
-                      <h3 className="mt-3 font-display text-3xl font-semibold text-stone-50">AI 教學與工作流實戰班</h3>
-                    </div>
-                    <div className="rounded-2xl border border-amber-300/20 bg-amber-300/12 p-3 text-amber-200">
-                      <BookOpen className="h-6 w-6" />
-                    </div>
-                  </div>
-
-                  <div className="mt-8 grid gap-4">
-                    {[
-                      ['課程形式', '直播授課 + 模板講義 + 課後應用任務'],
-                      ['網站重點', '課程內容、YT 影片、講課現場、FB 社群整合呈現'],
-                      ['轉化方向', '先用內容建立信任，再導到社群與報名行動'],
-                    ].map(([label, value]) => (
-                      <div key={label} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
-                        <div className="text-xs uppercase tracking-[0.24em] text-stone-400">{label}</div>
-                        <div className="mt-2 text-base font-medium leading-7 text-stone-100">{value}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-white/8 bg-stone-950/50 p-4">
-                      <div className="flex items-center gap-2 text-sm text-stone-300">
-                        <Clock3 className="h-4 w-4 text-amber-300" />
-                        內容節奏
-                      </div>
-                      <p className="mt-2 text-xl font-semibold text-stone-50">先相信，再報名</p>
-                    </div>
-                    <div className="rounded-2xl border border-white/8 bg-stone-950/50 p-4">
-                      <div className="flex items-center gap-2 text-sm text-stone-300">
-                        <Target className="h-4 w-4 text-amber-300" />
-                        頁面目的
-                      </div>
-                      <p className="mt-2 text-xl font-semibold text-stone-50">內容展示 + 招生承接</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -bottom-8 -left-6 rounded-3xl border border-white/10 bg-white/8 px-5 py-4 backdrop-blur-md">
-                <div className="text-xs uppercase tracking-[0.24em] text-stone-400">Bonus</div>
-                <p className="mt-1 text-sm font-medium text-stone-100">可直接替換成你的 YT 連結與講課照片</p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="overview" className="px-6 py-20 md:py-24">
+<section id="overview" className="px-6 py-20 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
-              eyebrow="Overview"
-              title="這頁的角色不是只有介紹，而是替你放大信任感。"
+              eyebrow="Course Overview"
+              title="課程介紹"
               description="參考長頁式銷售頁邏輯，先說明定位與成果，再用影片、照片與社群承接，把網站變成一個真正能持續招生的入口。"
             />
 
@@ -462,112 +316,7 @@ function App() {
           </div>
         </section>
 
-        <section id="videos" className="px-6 py-20 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <SectionTitle
-              eyebrow="YouTube"
-              title="影片精選"
-              description="精選三支代表影片，從 API 實戰、Agent 技能到 AI 影音工作流，直接展示這門課背後的真實應用能力。"
-            />
-
-            <div className="mt-14 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-              <motion.div
-                {...sectionReveal}
-                className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#18130f]"
-              >
-                <div className="border-b border-white/8 bg-[linear-gradient(180deg,rgba(251,191,36,0.12),rgba(18,15,11,0.05)),linear-gradient(135deg,#342719,#17120d)] p-8">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
-                      <Play className="h-3.5 w-3.5 text-amber-300" />
-                      Featured Video
-                    </div>
-                    <a
-                      href="https://www.youtube.com/watch?v=nTYrG7EuFHA"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="rounded-full border border-white/10 px-3 py-1 text-xs text-stone-300 transition hover:border-amber-300/20 hover:text-stone-100"
-                    >
-                      前往 YouTube
-                    </a>
-                  </div>
-
-                  <div className="mt-10">
-                    <h3 className="font-display text-4xl font-semibold text-stone-50 md:text-5xl">
-                      Threads API 申請教學
-                      <span className="block text-stone-300/82">用實戰流程把自動化與 AI 應用能力直接講清楚</span>
-                    </h3>
-                    <p className="mt-5 max-w-2xl text-base leading-7 text-stone-300/80">
-                      這支影片直接示範 Threads API 申請、自動發文與自動回覆留言的完整流程，能讓第一次進站的人很快看懂你教的不只是工具，而是可落地的工作流。
-                    </p>
-                  </div>
-                </div>
-
-                <div className="aspect-video w-full bg-black">
-                  <iframe
-                    className="h-full w-full"
-                    src="https://www.youtube-nocookie.com/embed/nTYrG7EuFHA"
-                    title="Threads API 申請教學"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  />
-                </div>
-
-                <div className="flex flex-wrap items-center gap-4 p-8">
-                  <a
-                    href="https://www.youtube.com/watch?v=nTYrG7EuFHA"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-stone-100"
-                  >
-                    <Play className="h-4 w-4" />
-                    觀看主打影片
-                  </a>
-                  <a
-                    href={lineUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-5 py-3 text-sm font-semibold text-stone-100 transition hover:bg-white/10"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    LINE 詢問課程
-                  </a>
-                  <span className="text-sm text-stone-400">主打影片與下方精選內容已同步更新為最新代表作</span>
-                </div>
-              </motion.div>
-
-              <div className="grid gap-5">
-                {videos.map((video, index) => (
-                  <motion.a
-                    key={video.title}
-                    {...sectionReveal}
-                    transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
-                    href={video.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 transition hover:border-amber-300/20 hover:bg-white/[0.06]"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-300">
-                        <Video className="h-3.5 w-3.5 text-amber-300" />
-                        {video.tag}
-                      </div>
-                      <span className="text-sm text-stone-400">{video.duration}</span>
-                    </div>
-                    <h3 className="mt-4 font-display text-2xl font-semibold text-stone-50">{video.title}</h3>
-                    <p className="mt-3 leading-7 text-stone-300/76">{video.description}</p>
-                    <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-amber-200">
-                      查看影片位置
-                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                    </div>
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="syllabus" className="px-6 py-20 md:py-24">
+<section id="syllabus" className="px-6 py-20 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
               eyebrow="Syllabus"
@@ -599,7 +348,7 @@ function App() {
           </div>
         </section>
 
-        <section id="instructor" className="px-6 py-20 md:py-24">
+<section id="instructor" className="px-6 py-20 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
               eyebrow="Instructor"
@@ -665,7 +414,71 @@ function App() {
           </div>
         </section>
 
-        <section id="gallery" className="px-6 py-20 md:py-24">
+<section id="videos" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="Teaching Content"
+              title="教學影片"
+              description="三支教學影片都直接放上預覽，讓訪客一進來就能看內容。主打教學影片固定放在最左邊。"
+            />
+
+            <div className="mt-14 grid gap-6 lg:grid-cols-3">
+              {videos.map((video, index) => (
+                <motion.article
+                  key={video.title}
+                  {...sectionReveal}
+                  transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
+                  className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#18130f]"
+                >
+                  <div className="aspect-video w-full bg-black">
+                    <iframe
+                      className="h-full w-full"
+                      src={`https://www.youtube-nocookie.com/embed/${video.embedId}`}
+                      title={video.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
+
+                  <div className="flex flex-1 flex-col border-t border-white/8 bg-[linear-gradient(180deg,rgba(251,191,36,0.12),rgba(18,15,11,0.05)),linear-gradient(135deg,#342719,#17120d)] p-6">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-300">
+                        <Video className="h-3.5 w-3.5 text-amber-300" />
+                        {video.tag}
+                      </div>
+                      <span className="text-sm text-stone-400">{video.duration}</span>
+                    </div>
+
+                    <div className="mt-4 min-h-[4.5rem]">
+                      <h3 className="font-display text-2xl font-semibold text-stone-50">{video.title}</h3>
+                    </div>
+                    <div className="min-h-[6.5rem]">
+                      <p className="leading-7 text-stone-300/76">{video.description}</p>
+                    </div>
+
+                    <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
+                      <a
+                        href={video.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-stone-950 transition hover:bg-stone-100"
+                      >
+                        <Play className="h-4 w-4" />
+                        觀看影片
+                      </a>
+                      <span className="text-sm text-stone-400">
+                        {index === 0 ? '主打教學影片' : '精選教學內容'}
+                      </span>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+<section id="gallery" className="px-6 py-20 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
               eyebrow="Gallery"
@@ -704,96 +517,10 @@ function App() {
           </div>
         </section>
 
-        <section className="px-6 py-20 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <SectionTitle
-              eyebrow="Who It's For"
-              title="這門課適合誰"
-              description="課程內容仍然維持清楚的目標對象設定，讓不同來源的訪客能快速判斷這是不是適合自己的課。"
-            />
-
-            <div className="mt-14 grid gap-6 lg:grid-cols-3">
-              {audience.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  {...sectionReveal}
-                  transition={{ ...sectionReveal.transition, delay: index * 0.06 }}
-                  className="rounded-[1.9rem] border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-7"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-300/12 text-amber-200">
-                    {item.icon}
-                  </div>
-                  <h3 className="mt-5 font-display text-2xl font-semibold text-stone-50">{item.title}</h3>
-                  <p className="mt-3 leading-7 text-stone-300/78">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="community" className="px-6 py-20 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <SectionTitle
-              eyebrow="Community"
-              title="FB 社團承接"
-              description="對還在觀望的人，不一定要立刻成交。把他先帶進社團，你就多了一個後續持續接觸、建立熟悉感與轉化的場域。"
-            />
-
-            <motion.div
-              {...sectionReveal}
-              className="mt-14 overflow-hidden rounded-[2.25rem] border border-white/10 bg-[linear-gradient(135deg,rgba(24,119,242,0.18),rgba(18,15,11,0.12),rgba(255,255,255,0.04))] p-8 md:p-12"
-            >
-              <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-                <div>
-                  <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
-                    <Facebook className="h-3.5 w-3.5 text-[#6da8ff]" />
-                    Facebook Group
-                  </div>
-                  <h3 className="mt-5 font-display text-3xl font-semibold tracking-tight text-stone-50 md:text-5xl">
-                    把網站流量
-                    <span className="block text-stone-300/86">自然接到你的社群裡</span>
-                  </h3>
-                  <p className="mt-5 max-w-2xl text-base leading-7 text-stone-200/82 md:text-lg">
-                    這裡已先接上你原本頁面裡出現過的 Facebook 社團連結。之後如果你要改成粉專、Line 社群或報名頁，也可以直接換掉。
-                  </p>
-                  <div className="mt-8">
-                    <a
-                      href={facebookGroupUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-[#1877F2] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1667d8]"
-                    >
-                      <Facebook className="h-4 w-4" />
-                      前往 Facebook 社團
-                    </a>
-                  </div>
-                </div>
-
-                <div className="grid gap-4">
-                  {[
-                    '放社團價值主張，例如：教學資源、直播通知、案例分享、講義下載。',
-                    '放社團數據，例如成員數、互動率、每週固定內容節奏。',
-                    '放一兩張社團截圖或活動照片，承接會更自然。',
-                  ].map((item) => (
-                    <div key={item} className="rounded-[1.5rem] border border-white/10 bg-[#120f0b]/45 p-5 text-stone-200/84">
-                      <div className="flex gap-3">
-                        <div className="mt-0.5 text-amber-200">
-                          <Check className="h-4 w-4" />
-                        </div>
-                        <p className="leading-7">{item}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="faq" className="px-6 py-20 md:py-24">
+<section id="faq" className="px-6 py-20 md:py-24">
           <div className="mx-auto max-w-5xl">
             <SectionTitle
-              eyebrow="Q&A"
+              eyebrow="FAQ"
               title="常見問題"
               description="最後保留 FAQ，處理觀望者的疑問，讓整個銷售頁的收斂段更完整。"
             />
@@ -835,7 +562,7 @@ function App() {
           </div>
         </section>
 
-        <section id="enroll" className="px-6 pb-24 pt-10">
+<section id="enroll" className="px-6 pb-24 pt-10">
           <div className="mx-auto max-w-6xl">
             <motion.div
               {...sectionReveal}
@@ -858,10 +585,10 @@ function App() {
                       href={lineUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-stone-100"
+                      className="inline-flex items-center gap-2 rounded-full border border-[#06c755]/40 bg-[#06c755] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(6,199,85,0.28)] transition hover:bg-[#05b84d]"
                     >
                       <MessageCircle className="h-4 w-4" />
-                      LINE 詢問
+                      免費諮詢
                     </a>
                     <a
                       href={emailUrl}
@@ -894,7 +621,8 @@ function App() {
             </motion.div>
           </div>
         </section>
-      </main>
+
+</main>
     </div>
   );
 }
