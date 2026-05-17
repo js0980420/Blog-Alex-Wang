@@ -336,7 +336,7 @@ function OutcomeDemoVisual({ index }: { index: number }) {
         </div>
         <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-3 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
           <img
-            src="/images/IG_brand_asset_pack_2023/01 Static Glyph/01 Gradient Glyph/Instagram_Glyph_Gradient.png"
+            src="/images/instagram-gradient.png"
             alt="Instagram"
             className="h-10 w-10 object-contain"
           />
