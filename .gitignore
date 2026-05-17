@@ -6,3 +6,16 @@ coverage/
 *.log
 .env*
 !.env.example
+.claude/
+CLAUDE.md
+*.bak
+public/images/Facebook-Brand-Asset-Pack/__MACOSX/
+public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Primary Logo/Facebook_Logo_Primary.ai
+public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Secondary Logo/
+public/images/IG_brand_asset_pack_2023/01 Static Glyph/01 Gradient Glyph/Instagram_Glyph_Gradient.ai
+public/images/IG_brand_asset_pack_2023/01 Static Glyph/01 Gradient Glyph/Instagram_Glyph_Gradient.png
+public/images/IG_brand_asset_pack_2023/01 Static Glyph/02 White Glyph/
+public/images/IG_brand_asset_pack_2023/01 Static Glyph/03 Black Glyph/
+public/images/Zeabur合作.jpg
+public/images/claude-code.png
+public/images/新手學AI課程第一堂.png
