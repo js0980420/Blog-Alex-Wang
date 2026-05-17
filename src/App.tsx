@@ -536,7 +536,7 @@ function App() {
             <SectionTitle
               eyebrow="Syllabus"
               title="課程大綱"
-              description="保留銷售頁該有的說服結構，讓來自影片與社群的人，能進一步理解課程內容與學習成果。"
+              description="課程會從桌面版 AI 安裝、Meta API 串接、發文權限設定，到 Skill 工作流建立，帶你一步一步做出真正能執行的 AI 自動化流程。"
             />
 
             <div className="mt-14 grid gap-5 lg:grid-cols-2">
