@@ -133,20 +133,14 @@ const photos: PhotoItem[] = [
   {
     title: '新手學AI課程第一堂',
     caption: '課程開課現場。',
-    size: 'lg:col-span-2 lg:row-span-2 min-h-[320px]',
+    size: 'lg:col-span-1 lg:row-span-2 min-h-[320px]',
     src: '/images/新手學AI課程第一堂.png',
   },
   {
     title: '教學-珊珊',
     caption: '一對一實體教學現場。',
-    size: 'min-h-[240px]',
+    size: 'lg:col-span-1 min-h-[240px]',
     src: '/images/教學-珊珊.jpg',
-  },
-  {
-    title: '半身白襯衫',
-    caption: '個人品牌照。',
-    size: 'min-h-[240px]',
-    src: '/images/半身白襯衫.jpg',
   },
   {
     title: 'Mixerbox講課紀錄',
@@ -642,13 +636,13 @@ function App() {
                   transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
                   className={`rounded-[1.9rem] border border-white/10 bg-[#19140f] p-5 overflow-hidden ${photo.size}`}
                 >
-                  <div className="relative h-full min-h-[180px] rounded-[1.5rem] overflow-hidden group">
+                  <div className="relative h-full min-h-[180px] rounded-[1.5rem] overflow-hidden group bg-stone-950/50 flex items-center justify-center">
                     <img
                       src={photo.src}
                       alt={photo.title}
-                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                      className="h-full w-full object-contain"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/30 to-transparent" />
                     <div className="absolute inset-0 flex flex-col justify-between p-6">
                       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-amber-200 backdrop-blur-sm">
                         <ImageIcon className="h-5 w-5" />
