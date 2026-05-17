@@ -1,869 +1,863 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Bot, 
-  MessageSquare, 
-  Database, 
-  Workflow, 
-  BarChart3, 
-  Users, 
-  Zap, 
-  ChevronRight, 
-  PlayCircle, 
-  Mail, 
-  MessageCircle,
-  Server,
-  Code2,
-  Cpu,
-  Network,
-  ChevronDown,
-  Lightbulb,
-  BrainCircuit,
-  Cloud,
-  Layers,
-  Box,
-  X,
-  Terminal,
+import { motion } from 'framer-motion';
+import {
+  ArrowRight,
   BookOpen,
-  FileText,
+  Brain,
+  Briefcase,
+  Check,
+  ChevronDown,
+  Clock3,
   Facebook,
-  Copy,
-  Check
+  HelpCircle,
+  Image as ImageIcon,
+  Lightbulb,
+  Mail,
+  MessageCircle,
+  Play,
+  Sparkles,
+  Star,
+  Target,
+  Users,
+  Video,
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useState } from 'react';
 
-// Utility for tailwind class merging
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+type SyllabusItem = {
+  label: string;
+  title: string;
+  summary: string;
+};
+
+type VideoItem = {
+  title: string;
+  description: string;
+  duration: string;
+  tag: string;
+  href: string;
+};
+
+type PhotoItem = {
+  title: string;
+  caption: string;
+  size: string;
+  src: string;
+};
+
+const facebookGroupUrl = 'https://www.facebook.com/groups/3238547836318385';
+const lineUrl = 'https://line.me/ti/p/kdhrBKYuFZ';
+const emailUrl = 'mailto:castion2293@yahoo.com.tw';
+
+const syllabus: SyllabusItem[] = [
+  {
+    label: 'Module 01',
+    title: 'AI 基礎觀念與教學定位',
+    summary: '先釐清 AI 真正適合做什麼，建立你自己的教學與工作使用範圍。',
+  },
+  {
+    label: 'Module 02',
+    title: 'Prompt 結構與任務拆解',
+    summary: '把模糊需求拆成可執行步驟，讓 AI 回答穩定、可控、能重複。',
+  },
+  {
+    label: 'Module 03',
+    title: '教材、簡報與內容快速生成',
+    summary: '加速教案、講義、投影片、社群內容與教學活動設計。',
+  },
+  {
+    label: 'Module 04',
+    title: '自動化流程與資料整理',
+    summary: '把表單、筆記、教材與常用工具串起來，減少重複性工作。',
+  },
+  {
+    label: 'Module 05',
+    title: 'AI Agent 與知識庫應用',
+    summary: '建立能讀懂你資料、配合你邏輯、持續優化的 AI 助理。',
+  },
+  {
+    label: 'Module 06',
+    title: '實戰專題與成果輸出',
+    summary: '把前面學到的工具與方法整合成一個真正可展示、可上線的成果。',
+  },
+];
+
+const outcomes = [
+  '建立一套你自己的 AI 教學與工作流，不再只是臨時問 AI。',
+  '學會設計可重用的 Prompt 模板與課堂任務模板。',
+  '把 AI 真的用進備課、授課、內容製作與行政流程。',
+  '完成一個能對外展示的專題成果或課程應用案例。',
+];
+
+const audience = [
+  {
+    icon: <Users className="h-5 w-5" />,
+    title: '老師與講師',
+    description: '想提升備課效率、增加互動設計、把 AI 用進實際教學的人。',
+  },
+  {
+    icon: <Briefcase className="h-5 w-5" />,
+    title: '個人品牌經營者',
+    description: '需要大量產出內容、課程說明頁、社群素材與銷售頁的人。',
+  },
+  {
+    icon: <Brain className="h-5 w-5" />,
+    title: '想系統學 AI 的實作者',
+    description: '不想再停留在零散技巧，而是想建立完整方法與實戰作品的人。',
+  },
+];
+
+const videos: VideoItem[] = [
+  {
+    title: '美業 AI 預約客服',
+    description: '把產業情境、客服流程與 AI 回覆設計講清楚，適合放在成果示範區。',
+    duration: 'Demo',
+    tag: '案例示範',
+    href: 'https://www.youtube.com/watch?v=0H-liCZC5pE',
+  },
+  {
+    title: '補教業 AI 助手',
+    description: '適合展示你如何把 AI 放進教育現場與教學工作流，和這個頁面主題很接近。',
+    duration: 'Demo',
+    tag: '教育應用',
+    href: 'https://www.youtube.com/watch?v=JJgLGLOxh_8',
+  },
+  {
+    title: '龍蝦 OpenClaw 客服',
+    description: '可作為自動化與 AI Agent 展示內容，補足你在系統設計面的可信度。',
+    duration: 'Demo',
+    tag: 'AI Agent',
+    href: 'https://www.youtube.com/watch?v=Rk_4xCbHD6Q',
+  },
+];
+
+const photos: PhotoItem[] = [
+  {
+    title: '新手學AI課程第一堂',
+    caption: '課程開課現場。',
+    size: 'lg:col-span-2 lg:row-span-2 min-h-[320px]',
+    src: '/images/新手學AI課程第一堂.png',
+  },
+  {
+    title: '教學-珊珊',
+    caption: '一對一實體教學現場。',
+    size: 'min-h-[240px]',
+    src: '/images/教學-珊珊.jpg',
+  },
+  {
+    title: '半身白襯衫',
+    caption: '個人品牌照。',
+    size: 'min-h-[240px]',
+    src: '/images/半身白襯衫.jpg',
+  },
+  {
+    title: 'Mixerbox講課紀錄',
+    caption: '講座合作紀錄。',
+    size: 'lg:col-span-2 min-h-[220px]',
+    src: '/images/Mixerbox講課紀錄.jpeg',
+  },
+];
+
+const faqs = [
+  {
+    question: '沒有技術背景可以上嗎？',
+    answer:
+      '可以。這門課重點是讓你把 AI 用進真實工作，不是要求你具備工程背景。整體內容會從思路、操作到應用逐步帶入。',
+  },
+  {
+    question: '如果我已經用過 ChatGPT，還適合嗎？',
+    answer:
+      '適合。這門課不是只教基本操作，而是幫你把零散使用經驗整理成能長期重複使用的工作方法。',
+  },
+  {
+    question: '這門課偏理論還是偏實作？',
+    answer:
+      '偏實作。每個模組都會搭配情境案例、模板和應用設計，最後會收斂成實戰成果。',
+  },
+  {
+    question: '上完之後能帶走什麼？',
+    answer:
+      '你會帶走一套 AI 工作流、可重用的指令模板，以及至少一個能直接應用在教學或工作中的成果。',
+  },
+];
+
+const stats = [
+  ['長頁式課程頁', '把你的定位、內容、影片與信任感一次講清楚'],
+  ['影片導流區', '用公開內容先建立專業感，降低報名前的不確定'],
+  ['社群承接', '把網站訪客導到 FB 社團，持續經營後續轉化'],
+];
+
+const sectionReveal = {
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.55, ease: 'easeOut' as const },
+};
+
+function SectionTitle({
+  eyebrow,
+  title,
+  description,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <motion.div {...sectionReveal} className="max-w-3xl">
+      <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-amber-200">
+        <Sparkles className="h-3.5 w-3.5" />
+        {eyebrow}
+      </div>
+      <h2 className="font-display text-3xl font-semibold tracking-tight text-stone-50 md:text-5xl">
+        {title}
+      </h2>
+      <p className="mt-5 max-w-2xl text-base leading-7 text-stone-300/80 md:text-lg">
+        {description}
+      </p>
+    </motion.div>
+  );
 }
 
-const LobsterLogo = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
-    {/* Tail */}
-    <path d="M12 22C9.5 22 7.5 20.5 6.5 18.5L8.5 15H15.5L17.5 18.5C16.5 20.5 14.5 22 12 22Z" />
-    {/* Body */}
-    <rect x="8.5" y="7" width="7" height="9" rx="3.5" />
-    {/* Left Claw */}
-    <path d="M8.5 8.5C4 10 1 5 2.5 2.5C4 0 7.5 1.5 8.5 5C9 6.5 9 7.5 8.5 8.5Z" />
-    {/* Right Claw */}
-    <path d="M15.5 8.5C20 10 23 5 21.5 2.5C20 0 16.5 1.5 15.5 5C15 6.5 15 7.5 15.5 8.5Z" />
-    {/* Antennae */}
-    <path d="M10 7C10 3 6.5 1.5 3.5 1" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-    <path d="M14 7C14 3 17.5 1.5 20.5 1" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-    {/* Legs */}
-    <path d="M8.5 11H3.5M8.5 13.5H4.5M15.5 11H20.5M15.5 13.5H19.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>
-);
-
-// --- Components ---
-
-const SectionHeading = ({ title, subtitle }: { title: string; subtitle?: string }) => (
-  <div className="text-center mb-16">
-    <motion.h2 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="text-3xl md:text-5xl font-bold tracking-tight mb-4"
-    >
-      {title}
-    </motion.h2>
-    {subtitle && (
-      <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1 }}
-        className="text-zinc-400 text-lg max-w-2xl mx-auto"
-      >
-        {subtitle}
-      </motion.p>
-    )}
-  </div>
-);
-
-const Navbar = () => {
-  const [showFb, setShowFb] = useState(false);
+function App() {
+  const [openFaq, setOpenFaq] = useState(0);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-md border-b border-white/5">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center shadow-lg shadow-red-600/20">
-            <LobsterLogo className="w-7 h-7 text-white" />
+    <div className="min-h-screen bg-[#120f0b] text-stone-100">
+      <div className="fixed inset-x-0 top-0 z-50 border-b border-white/8 bg-[#120f0b]/78 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <a href="#top" className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-300 via-orange-400 to-rose-500 shadow-[0_10px_40px_rgba(251,146,60,0.22)]">
+              <Lightbulb className="h-5 w-5 text-stone-950" />
+            </div>
+            <div>
+              <div className="font-display text-lg font-semibold tracking-tight">AI新手教學</div>
+              <div className="text-xs uppercase tracking-[0.18em] text-stone-400">AI Beginner Course</div>
+            </div>
+          </a>
+          <div className="hidden items-center gap-7 text-sm text-stone-300 lg:flex">
+            <a href="#overview" className="transition hover:text-white">課程介紹</a>
+            <a href="#videos" className="transition hover:text-white">YT 影片</a>
+            <a href="#syllabus" className="transition hover:text-white">課程大綱</a>
+            <a href="#gallery" className="transition hover:text-white">講課照片</a>
+            <a href="#community" className="transition hover:text-white">FB 社團</a>
+            <a href="#faq" className="transition hover:text-white">Q&A</a>
           </div>
-          <span className="text-xl font-bold tracking-tight">AI Automation</span>
-        </div>
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-          <a href="#services" className="hover:text-white transition-colors">服務項目</a>
-          <a href="#use-cases" className="hover:text-white transition-colors">應用案例</a>
-          <a href="#tech-stack" className="hover:text-white transition-colors">技術架構</a>
-          <a href="#tutorials" className="hover:text-white transition-colors text-red-400 font-bold">教學文章</a>
-          <a href="#faq" className="hover:text-white transition-colors">常見問題</a>
-        </div>
-        <div className="flex items-center gap-3 sm:gap-4">
-          <div className="relative">
-            <button 
-              onClick={() => setShowFb(!showFb)}
-              className="p-2 sm:px-4 sm:py-2.5 rounded-full bg-[#1877F2]/10 hover:bg-[#1877F2]/20 text-[#1877F2] transition-colors flex items-center gap-2 font-medium text-sm border border-[#1877F2]/20 shadow-lg shadow-[#1877F2]/10"
-              title="官方 Facebook 社團"
-            >
-              <Facebook className="w-5 h-5" />
-              <span className="hidden sm:block">FB 社團</span>
-            </button>
-            <AnimatePresence>
-              {showFb && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                  className="absolute right-0 top-full mt-4 w-80 bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl shadow-black/50 origin-top-right border border-zinc-800 z-50 flex flex-col"
-                >
-                  <div className="h-28 bg-gradient-to-br from-[#1877F2]/80 to-[#1877F2] relative overflow-hidden">
-                    <div className="absolute inset-0 bg-black/10" />
-                    <Facebook className="absolute -right-4 -bottom-4 w-24 h-24 text-white/10 transform rotate-12" />
-                  </div>
-                  
-                  <div className="px-6 pb-6 relative flex flex-col items-center text-center">
-                    <div className="w-20 h-20 rounded-2xl border-4 border-zinc-900 bg-zinc-800 -mt-10 mb-3 flex items-center justify-center shadow-lg relative z-10 overflow-hidden shrink-0">
-                      <div className="w-full h-full bg-gradient-to-tr from-red-500 to-red-400 flex items-center justify-center">
-                        <Users className="w-8 h-8 text-white" />
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-lg font-bold text-white mb-1">OpenClaw 中文社群</h3>
-                    <p className="text-sm text-zinc-400 mb-4 flex items-center gap-1.5 justify-center font-medium">
-                      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                      160,000+ 位成員
-                    </p>
-                    
-                    <p className="text-xs text-zinc-500 mb-6 leading-relaxed">
-                      加入我們，與開發者交流 AI 自動化技術、第一手獲取軟體更新與獨家開發資源！
-                    </p>
-                    
-                    <a 
-                      href="https://www.facebook.com/groups/3238547836318385" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="w-full py-3 rounded-xl bg-[#1877F2] hover:bg-[#166fe5] shadow-lg shadow-[#1877F2]/20 text-white font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
-                    >
-                      <Facebook className="w-4 h-4" />
-                      加入 Facebook 社團
-                    </a>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          <a 
-            href="#contact" 
-            className="hidden lg:block px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
+          <a
+            href={facebookGroupUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-2 text-sm font-medium text-amber-100 transition hover:bg-amber-300/20"
           >
-            聯絡我們
+            加入社群
           </a>
         </div>
       </div>
-    </nav>
-  );
-};
 
-const Hero = () => (
-  <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-    {/* Background Glow */}
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-600/20 rounded-full blur-[120px] opacity-50 pointer-events-none" />
-    
-    <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium mb-8"
-      >
-        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-        Enterprise AI Solutions
-      </motion.div>
-      
-      <motion.h1 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-8 leading-[1.1]"
-      >
-        AI CRM 與企業 <br className="hidden md:block" />
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-300">
-          自動化解決方案
-        </span>
-      </motion.h1>
-      
-      <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto mb-12 leading-relaxed"
-      >
-        讓 CRM、LINE、客服全面 AI 化 <br className="hidden md:block" />
-        打造真正可運作的 AI Agent 自動化系統
-      </motion.p>
-      
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="flex flex-col sm:flex-row items-center justify-center gap-4"
-      >
-        <a 
-          href="#contact" 
-          className="w-full sm:w-auto px-8 py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-medium text-lg transition-colors flex items-center justify-center gap-2"
-        >
-          立即諮詢 <ChevronRight className="w-5 h-5" />
-        </a>
-        <a 
-          href="#services" 
-          className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium text-lg transition-colors flex items-center justify-center gap-2"
-        >
-          查看方案
-        </a>
-      </motion.div>
-    </div>
-  </section>
-);
+      <main id="top">
+        <section className="relative overflow-hidden px-6 pb-20 pt-32 md:pb-28 md:pt-40">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.18),transparent_28%),radial-gradient(circle_at_85%_18%,rgba(244,114,182,0.16),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_40%)]" />
+          <div className="absolute left-[-8%] top-24 h-72 w-72 rounded-full bg-orange-500/12 blur-3xl" />
+          <div className="absolute bottom-8 right-[-6%] h-80 w-80 rounded-full bg-rose-500/12 blur-3xl" />
 
-const Services = () => {
-  const services = [
-    {
-      icon: <Users className="w-8 h-8 text-red-500" />,
-      title: "CRM AI 自動化",
-      description: "導入 OpenClaw 進行 CRM 自動化，提升客戶關係管理效率。",
-      features: ["AI 客戶分析", "AI 任務自動化", "AI workflow", "AI 客戶回覆", "AI 客戶資料整理", "AI CRM automation"]
-    },
-    {
-      icon: <MessageSquare className="w-8 h-8 text-red-500" />,
-      title: "LINE 自動化服務",
-      description: "打造專屬 LINE 官方帳號，結合 AI Agent 提供全天候智能服務。",
-      features: ["LINE Official Account 建置", "LINE LIFF 應用", "LINE + OpenClaw AI Agent", "LINE 自動客服", "LINE AI 回覆", "LINE CRM 整合"]
-    },
-    {
-      icon: <Database className="w-8 h-8 text-red-500" />,
-      title: "RAG 智能客服",
-      description: "基於企業內部資料庫的精準 AI 客服，與 n8n 不同，知識庫可隨時調整，AI 回覆更準確。",
-      features: ["可動態更新知識庫", "PDF 文件知識庫", "文件資料庫", "向量資料庫", "AI 自學習", "多語言客服", "LINE 客服整合"]
-    },
-    {
-      icon: <Lightbulb className="w-8 h-8 text-red-500" />,
-      title: "AI 顧問諮詢",
-      description: "專為企業量身打造的 AI 導入藍圖。從業務流程健檢、痛點分析到技術選型，提供專業且具體的可行性評估，協助您以最低風險實現數位轉型。",
-      features: ["業務流程健檢", "AI 導入可行性評估", "技術選型建議", "數位轉型藍圖規劃", "PoC 概念驗證", "企業內部 AI 培訓"]
-    }
-  ];
-
-  return (
-    <section id="services" className="py-32 relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading 
-          title="我們的服務" 
-          subtitle="為企業量身打造的 AI 自動化解決方案" 
-        />
-        
-        <div className="grid md:grid-cols-2 gap-8">
-          {services.map((service, index) => (
+          <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-zinc-900/50 border border-white/5 rounded-3xl p-8 hover:bg-zinc-900 transition-colors relative group overflow-hidden"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: 'easeOut' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-b from-red-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center mb-6">
-                  {service.icon}
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-4 py-2 text-sm text-stone-200/90">
+                <Star className="h-4 w-4 text-amber-300" />
+                以實戰、內容與社群經營串起來的課程頁
+              </div>
+
+              <h1 className="font-display text-5xl font-semibold tracking-[-0.04em] text-stone-50 md:text-7xl lg:text-[5.4rem] lg:leading-[0.95]">
+                用網站把你的課程、
+                <span className="block bg-gradient-to-r from-amber-200 via-orange-300 to-rose-300 bg-clip-text text-transparent">
+                  影片、社群與教學現場一起講清楚
+                </span>
+              </h1>
+
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-stone-300/78 md:text-xl">
+                不只是一頁課綱，而是一個能同時展示你專業、放大內容信任感、並把訪客導向報名與社群的長頁式課程網站。
+              </p>
+
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <a
+                  href="#videos"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-stone-100 px-6 py-3.5 text-base font-semibold text-stone-950 transition hover:bg-white"
+                >
+                  看影片展示區
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+                <a
+                  href={facebookGroupUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-white/5 px-6 py-3.5 text-base font-semibold text-stone-100 transition hover:bg-white/10"
+                >
+                  進 FB 社團
+                  <Facebook className="h-4 w-4" />
+                </a>
+              </div>
+
+              <div className="mt-12 grid gap-4 sm:grid-cols-3">
+                {stats.map(([title, text]) => (
+                  <div key={title} className="rounded-3xl border border-white/10 bg-white/6 p-5 backdrop-blur-sm">
+                    <div className="text-lg font-semibold text-stone-50">{title}</div>
+                    <p className="mt-2 text-sm leading-6 text-stone-300/72">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
+              className="relative"
+            >
+              <div className="rounded-[2rem] border border-white/10 bg-[#1b1712] p-6 shadow-[0_30px_120px_rgba(0,0,0,0.45)]">
+                <div className="rounded-[1.5rem] border border-white/8 bg-gradient-to-br from-[#2b2319] via-[#191510] to-[#120f0b] p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm uppercase tracking-[0.28em] text-amber-200/70">Course Snapshot</p>
+                      <h3 className="mt-3 font-display text-3xl font-semibold text-stone-50">AI 教學與工作流實戰班</h3>
+                    </div>
+                    <div className="rounded-2xl border border-amber-300/20 bg-amber-300/12 p-3 text-amber-200">
+                      <BookOpen className="h-6 w-6" />
+                    </div>
+                  </div>
+
+                  <div className="mt-8 grid gap-4">
+                    {[
+                      ['課程形式', '直播授課 + 模板講義 + 課後應用任務'],
+                      ['網站重點', '課程內容、YT 影片、講課現場、FB 社群整合呈現'],
+                      ['轉化方向', '先用內容建立信任，再導到社群與報名行動'],
+                    ].map(([label, value]) => (
+                      <div key={label} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4">
+                        <div className="text-xs uppercase tracking-[0.24em] text-stone-400">{label}</div>
+                        <div className="mt-2 text-base font-medium leading-7 text-stone-100">{value}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-2xl border border-white/8 bg-stone-950/50 p-4">
+                      <div className="flex items-center gap-2 text-sm text-stone-300">
+                        <Clock3 className="h-4 w-4 text-amber-300" />
+                        內容節奏
+                      </div>
+                      <p className="mt-2 text-xl font-semibold text-stone-50">先相信，再報名</p>
+                    </div>
+                    <div className="rounded-2xl border border-white/8 bg-stone-950/50 p-4">
+                      <div className="flex items-center gap-2 text-sm text-stone-300">
+                        <Target className="h-4 w-4 text-amber-300" />
+                        頁面目的
+                      </div>
+                      <p className="mt-2 text-xl font-semibold text-stone-50">內容展示 + 招生承接</p>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-                <p className="text-zinc-400 mb-8 leading-relaxed">
-                  {service.description}
-                </p>
-                <ul className="space-y-3">
-                  {service.features.map((feature, fIndex) => (
-                    <li key={fIndex} className="flex items-center gap-3 text-sm text-zinc-300">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                      {feature}
-                    </li>
+              </div>
+
+              <div className="absolute -bottom-8 -left-6 rounded-3xl border border-white/10 bg-white/8 px-5 py-4 backdrop-blur-md">
+                <div className="text-xs uppercase tracking-[0.24em] text-stone-400">Bonus</div>
+                <p className="mt-1 text-sm font-medium text-stone-100">可直接替換成你的 YT 連結與講課照片</p>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <section id="overview" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="Overview"
+              title="這頁的角色不是只有介紹，而是替你放大信任感。"
+              description="參考長頁式銷售頁邏輯，先說明定位與成果，再用影片、照片與社群承接，把網站變成一個真正能持續招生的入口。"
+            />
+
+            <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_1.1fr]">
+              <motion.div {...sectionReveal} className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-8">
+                <div className="flex items-center gap-3 text-amber-200">
+                  <Sparkles className="h-5 w-5" />
+                  <span className="text-sm font-semibold uppercase tracking-[0.24em]">學員能得到</span>
+                </div>
+                <div className="mt-6 space-y-4">
+                  {outcomes.map((item) => (
+                    <div key={item} className="flex gap-4 rounded-2xl border border-white/8 bg-stone-950/35 p-4">
+                      <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-400/12 text-emerald-300">
+                        <Check className="h-4 w-4" />
+                      </div>
+                      <p className="leading-7 text-stone-200/88">{item}</p>
+                    </div>
                   ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const UseCases = () => {
-  const cases = [
-    { icon: <Bot />, title: "AI 客服", desc: "24/7 智能回覆，解決常見問題" },
-    { icon: <Users />, title: "AI CRM", desc: "自動化客戶標籤與跟進提醒" },
-    { icon: <BarChart3 />, title: "AI 客戶分析", desc: "深度洞察客戶行為與需求" },
-    { icon: <MessageCircle />, title: "AI LINE客服", desc: "無縫整合 LINE 生態系" },
-    { icon: <Workflow />, title: "AI 自動工作流程", desc: "串接多個系統，自動化日常任務" },
-  ];
-
-  return (
-    <section id="use-cases" className="py-32 bg-zinc-900/30 border-y border-white/5">
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading title="AI 自動化應用案例" />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cases.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="p-6 rounded-2xl bg-zinc-950 border border-white/5 flex items-start gap-4 hover:border-red-500/30 transition-colors"
-            >
-              <div className="p-3 rounded-xl bg-white/5 text-red-400">
-                {item.icon}
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-1">{item.title}</h4>
-                <p className="text-sm text-zinc-400">{item.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const TechStack = () => {
-  const tech = [
-    { name: "React / Vue", icon: <Code2 />, category: "Frontend" },
-    { name: "Tailwind CSS", icon: <Layers />, category: "Styling" },
-    { name: "Node.js / Python", icon: <Server />, category: "Backend" },
-    { name: "PHP Laravel", icon: <Server />, category: "Backend" },
-    { name: "LLM (OpenAI/Claude)", icon: <BrainCircuit />, category: "AI Models" },
-    { name: "OpenClaw / n8n", icon: <Cpu />, category: "Automation Engine" },
-    { name: "AI Agent", icon: <Bot />, category: "Workflow" },
-    { name: "MySQL / PostgreSQL", icon: <Database />, category: "Database" },
-    { name: "Pinecone / Qdrant", icon: <Network />, category: "Vector DB (RAG)" },
-    { name: "Redis", icon: <Database />, category: "Cache" },
-    { name: "LINE API / LIFF", icon: <MessageSquare />, category: "Integration" },
-    { name: "AWS / GCP", icon: <Cloud />, category: "Infrastructure" },
-    { name: "Docker", icon: <Box />, category: "Deployment" },
-  ];
-
-  return (
-    <section id="tech-stack" className="py-16 md:py-32 relative">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <SectionHeading title="技術架構" subtitle="採用現代化、高擴展性的技術堆疊" />
-        
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-          {tech.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="flex items-center gap-2 md:gap-3 px-3 py-2 md:px-6 md:py-4 rounded-full bg-zinc-900 border border-white/10"
-            >
-              <div className="text-red-500 [&>svg]:w-4 [&>svg]:h-4 md:[&>svg]:w-6 md:[&>svg]:h-6">{item.icon}</div>
-              <div>
-                <div className="text-[10px] md:text-xs text-zinc-500 uppercase tracking-wider font-semibold leading-tight">{item.category}</div>
-                <div className="text-xs md:text-base font-medium leading-tight">{item.name}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const CodeBlock = ({ children, language, ...props }: any) => {
-  const [copied, setCopied] = useState(false);
-
-  const onCopy = () => {
-    navigator.clipboard.writeText(children);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="relative group">
-      <button
-        onClick={onCopy}
-        className="absolute right-4 top-4 p-2 rounded-lg bg-white/10 border border-white/20 text-zinc-300 opacity-60 group-hover:opacity-100 transition-all hover:bg-white/20 hover:text-white z-10 backdrop-blur-sm shadow-lg"
-        title="複製指令"
-      >
-        {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-      </button>
-      <SyntaxHighlighter
-        style={vscDarkPlus as any}
-        language={language}
-        PreTag="div"
-        className="rounded-xl border border-white/10 !my-6 !bg-[#1E1E1E] text-sm"
-        {...props}
-      >
-        {children}
-      </SyntaxHighlighter>
-    </div>
-  );
-};
-
-const InlineCode = ({ children }: { children: React.ReactNode }) => {
-  const [copied, setCopied] = useState(false);
-  const content = String(children);
-
-  const onCopy = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    navigator.clipboard.writeText(content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <code 
-      onClick={onCopy}
-      className={cn(
-        "bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded text-sm font-mono mx-1 cursor-pointer transition-all relative border border-red-500/10 hover:border-red-500/30 whitespace-nowrap",
-        copied ? "bg-green-600/20 text-green-400 border-green-500/40" : "hover:bg-red-500/30"
-      )}
-      title={copied ? "已複製！" : "點擊複製指令"}
-    >
-      {children}
-      <AnimatePresence>
-        {copied && (
-          <motion.span 
-            initial={{ opacity: 0, y: 10, x: '-50%' }}
-            animate={{ opacity: 1, y: 0, x: '-50%' }}
-            exit={{ opacity: 0, y: -10, x: '-50%' }}
-            className="absolute -top-8 left-1/2 px-2 py-1 bg-green-600 text-white text-[10px] rounded shadow-lg font-bold pointer-events-none z-20"
-          >
-            Copied!
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </code>
-  );
-};
-
-const CaseStudies = () => {
-  const studies = [
-    { 
-      title: "知名電商平台：客服自動化", 
-      desc: "導入 AI Agent 處理退換貨與常見問題，降低 70% 人工客服成本，並將平均回覆時間從 2 小時縮短至 3 分鐘。" 
-    },
-    { 
-      title: "連鎖餐飲品牌：LINE 智能服務", 
-      desc: "結合 LIFF 與 AI Agent，打造流暢的線上點餐與客製化諮詢體驗，會員綁定率與回購率雙雙提升 40%。" 
-    },
-    { 
-      title: "跨國製造業：RAG 內部知識庫", 
-      desc: "導入企業內部 SOP 與機台維修手冊，打造專屬的高精準度問答系統，工程師查閱資料時間減少 80%。" 
-    },
-    { 
-      title: "房地產代銷：CRM 潛客自動化", 
-      desc: "自動化客戶分眾、意向評分與行銷推播，精準鎖定高潛力買家，看屋轉換率與成交率顯著提升 25%。" 
-    },
-    { 
-      title: "法律顧問公司：AI 審閱助理", 
-      desc: "透過 AI 顧問導入藍圖，建置專屬合約審查助理，自動標註風險條款，大幅減少律師 50% 的初步審閱時間。" 
-    },
-    { 
-      title: "線上教育平台：24/7 學習助教", 
-      desc: "整合龐大課程內容與 RAG 技術，提供學生全天候的課業解答與個人化學習建議，課程完課率成長 15%。" 
-    },
-  ];
-
-  return (
-    <section className="py-32 bg-zinc-900/30 border-y border-white/5">
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading title="客戶案例" subtitle="看看各行各業如何透過 AI 自動化實現業務增長" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {studies.map((study, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-8 rounded-3xl bg-zinc-950 border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-colors"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-3xl group-hover:bg-red-500/20 transition-colors" />
-              <h3 className="text-xl font-bold mb-4 relative z-10 leading-snug">{study.title}</h3>
-              <p className="text-zinc-400 relative z-10 leading-relaxed text-sm">{study.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const Tutorials = () => {
-  const [activeDoc, setActiveDoc] = useState<{title: string, content: string} | null>(null);
-
-  const docs = [
-    {
-      id: 'self-healing',
-      title: '雙機自癒系統',
-      desc: '使用 Tailscale 搭配腳本，實現兩台機器互相監測與修復的高可用性部署。',
-      icon: <Terminal className="w-8 h-8" />,
-      file: '/docs/self-healing-system.md'
-    }
-  ];
-
-  const openDoc = async (doc: any) => {
-    try {
-      const res = await fetch(doc.file);
-      const text = await res.text();
-      setActiveDoc({ title: doc.title, content: text });
-    } catch (e) {
-      console.error(e);
-      setActiveDoc({ title: 'Error', content: '無法載入教學文件' });
-    }
-  };
-
-  return (
-    <section id="tutorials" className="py-32 relative border-y border-white/5 bg-zinc-900/40">
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionHeading title="技術教學指南" subtitle="深入了解系統架構與進階部署技巧，輕鬆掌握自動化！" />
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {docs.map((doc) => (
-            <motion.div
-              key={doc.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              onClick={() => openDoc(doc)}
-              className="p-8 rounded-3xl bg-zinc-950 border border-white/10 hover:border-red-500/50 hover:bg-zinc-900/80 transition-all cursor-pointer group shadow-xl"
-            >
-              <div className="w-16 h-16 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-red-500 group-hover:text-white transition-all shadow-lg shadow-red-500/10">
-                {doc.icon}
-              </div>
-              <h3 className="text-xl font-bold mb-3">{doc.title}</h3>
-              <p className="text-sm text-zinc-400 leading-relaxed">{doc.desc}</p>
-              
-              <div className="mt-8 flex items-center gap-2 text-sm font-semibold text-red-500 group-hover:text-red-400 ml-auto w-fit">
-                閱讀文件 <ChevronRight className="w-4 h-4" />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {activeDoc && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm"
-            onClick={() => setActiveDoc(null)}
-          >
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="relative w-full max-w-4xl max-h-[90vh] flex flex-col rounded-2xl overflow-hidden bg-zinc-950 shadow-2xl border border-white/10"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-zinc-900/50">
-                <div className="flex items-center gap-3">
-                  <BookOpen className="w-5 h-5 text-red-400" />
-                  <h3 className="text-xl font-bold">{activeDoc.title}</h3>
                 </div>
-                <button 
-                  onClick={() => setActiveDoc(null)}
-                  className="p-2 rounded-full hover:bg-red-500/20 text-zinc-400 hover:text-red-400 transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-              <div className="p-6 md:p-10 overflow-y-auto text-zinc-300 max-h-[calc(90vh-73px)]">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    code({node, inline, className, children, ...props}: any) {
-                      const match = /language-(\w+)/.exec(className || '');
-                      const codeContent = String(children).replace(/\n$/, '');
-                      return !inline && match ? (
-                        <CodeBlock language={match[1]} {...props}>
-                          {codeContent}
-                        </CodeBlock>
-                      ) : (
-                        <InlineCode {...props}>
-                          {children}
-                        </InlineCode>
-                      )
-                    },
-                    h1: ({node, ...props}) => <h1 className="text-3xl md:text-4xl font-bold mb-8 text-white tracking-tight" {...props} />,
-                    h2: ({node, ...props}) => <h2 className="text-2xl md:text-3xl font-bold mt-12 mb-6 text-white border-b border-white/10 pb-3" {...props} />,
-                    h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-8 mb-4 text-white" {...props} />,
-                    p: ({node, ...props}) => <p className="leading-relaxed mb-6 text-base md:text-lg text-zinc-400" {...props} />,
-                    ul: ({node, ...props}) => <ul className="list-disc list-inside mb-6 space-y-2 text-zinc-400 pl-4" {...props} />,
-                    ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-6 space-y-2 text-zinc-400 pl-4" {...props} />,
-                    li: ({node, ...props}) => <li className="leading-relaxed" {...props} />,
-                    blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-red-500 bg-red-500/10 p-4 md:p-6 rounded-r-xl my-6 text-zinc-300 italic shadow-inner" {...props} />,
-                  }}
-                >
-                  {activeDoc.content}
-                </ReactMarkdown>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-};
+              </motion.div>
 
-const DemoVideo = () => {
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+              <motion.div {...sectionReveal} className="grid gap-6 sm:grid-cols-2">
+                {[
+                  {
+                    icon: <Video className="h-6 w-6" />,
+                    title: '用影片建立信任',
+                    text: '先讓訪客看到你的講課風格與專業節奏，比單靠文字更容易轉化。',
+                  },
+                  {
+                    icon: <ImageIcon className="h-6 w-6" />,
+                    title: '用照片補現場感',
+                    text: '講課照片能快速補足真實感，讓網站不只像簡介，而像一個品牌現場。',
+                  },
+                  {
+                    icon: <Facebook className="h-6 w-6" />,
+                    title: '把流量導入社群',
+                    text: '對還沒準備報名的人，先導到社團，後續才有機會長期互動與轉化。',
+                  },
+                  {
+                    icon: <Target className="h-6 w-6" />,
+                    title: '保留銷售頁節奏',
+                    text: '仍然維持課程介紹、課綱、講師、FAQ 的說服順序，不會失焦。',
+                  },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-[1.75rem] border border-white/10 bg-[#1a1611] p-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-300/12 text-amber-200">
+                      {item.icon}
+                    </div>
+                    <h3 className="mt-5 font-display text-2xl font-semibold text-stone-50">{item.title}</h3>
+                    <p className="mt-3 leading-7 text-stone-300/78">{item.text}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </section>
 
-  const videos = [
-    {
-      id: '0H-liCZC5pE',
-      title: '美業AI預約客服',
-      desc: '展示 AI Agent 如何自動處理預約與客服諮詢',
-      cover: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1200'
-    },
-    {
-      id: 'JJgLGLOxh_8',
-      title: '補教業AI助手',
-      desc: '展示 AI Agent 如何協助補教業處理學生問答與行政',
-      cover: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1200'
-    },
-    {
-      id: 'Rk_4xCbHD6Q',
-      title: '龍蝦 Openclaw 客服',
-      desc: '展示 OpenClaw 自動化引擎如何處理客服流程',
-      cover: 'https://upload.wikimedia.org/wikipedia/commons/7/70/Homarus_americanus_230756670.jpg'
-    },
-    {
-      id: 'slOc7fUCuSs',
-      title: 'AI數學解題',
-      desc: '展示 AI 自動解析數學問題，提供詳細步驟說明與互動學習',
-      cover: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1200'
-    }
-  ];
+        <section id="videos" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="YouTube"
+              title="影片精選"
+              description="子代理幫我從舊建置內容裡找到了 3 支可直接使用的 YouTube 影片。先把它們接進頁面，之後你再替換成最新代表作即可。"
+            />
 
-  return (
-    <section className="py-32 relative">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        <SectionHeading title="AI 自動化系統 Demo" subtitle="點擊觀看實際運作畫面" />
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {videos.map((video, idx) => (
-            <motion.div 
-              key={video.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
-              className="cursor-pointer group relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-red-900/10 aspect-video"
-              onClick={() => setActiveVideo(video.id)}
-            >
-              {/* Cover Image */}
-              <img 
-                src={video.cover} 
-                alt={`${video.title} 封面圖`} 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                referrerPolicy="no-referrer"
-              />
-              
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-zinc-950/60 group-hover:bg-zinc-950/40 transition-colors duration-300" />
-              
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-500/90 text-white flex items-center justify-center group-hover:bg-red-500 group-hover:scale-110 transition-all duration-300 shadow-lg shadow-red-500/30 mb-4 backdrop-blur-sm">
-                  <PlayCircle className="w-8 h-8 sm:w-10 sm:h-10 ml-1" />
-                </div>
-                
-                <div className="relative z-10">
-                  <h3 className="text-xl sm:text-2xl font-bold text-white drop-shadow-lg mb-2">{video.title}</h3>
-                  <p className="text-sm sm:text-base text-zinc-200 drop-shadow-md">{video.desc}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {activeVideo && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm"
-            onClick={() => setActiveVideo(null)}
-          >
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden bg-zinc-950 shadow-2xl border border-white/10"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                onClick={() => setActiveVideo(null)}
-                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 hover:bg-red-500 text-white transition-colors"
+            <div className="mt-14 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+              <motion.div
+                {...sectionReveal}
+                className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#18130f]"
               >
-                <X className="w-6 h-6" />
-              </button>
-              <iframe 
-                width="100%" 
-                height="100%" 
-                src={`https://www.youtube.com/embed/${activeVideo}?autoplay=1`} 
-                title="AI 自動化系統 Demo" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerPolicy="strict-origin-when-cross-origin" 
-                allowFullScreen
-                className="absolute inset-0 w-full h-full"
-              ></iframe>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-};
+                <div className="border-b border-white/8 bg-[linear-gradient(180deg,rgba(251,191,36,0.12),rgba(18,15,11,0.05)),linear-gradient(135deg,#342719,#17120d)] p-8">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
+                      <Play className="h-3.5 w-3.5 text-amber-300" />
+                      Featured Video
+                    </div>
+                    <a
+                      href="https://www.youtube.com/watch?v=JJgLGLOxh_8"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-full border border-white/10 px-3 py-1 text-xs text-stone-300 transition hover:border-amber-300/20 hover:text-stone-100"
+                    >
+                      前往 YouTube
+                    </a>
+                  </div>
 
-const FAQ = () => {
-  const faqs = [
-    { q: "什麼是 AI CRM？", a: "AI CRM 是將人工智慧技術融入客戶關係管理系統，能自動分析客戶行為、預測需求，並自動化執行跟進任務，大幅提升業務效率。" },
-    { q: "OpenClaw 是什麼？", a: "OpenClaw 是一個強大的自動化引擎，專為構建 AI Agent 工作流程而設計，能無縫串接各種 API 與服務。" },
-    { q: "RAG 客服如何運作？", a: "RAG (Retrieval-Augmented Generation) 結合了檢索系統與生成式 AI。它會先從您的企業文件庫中找出相關資訊，再交由 AI 整理成自然流暢的回答，確保內容準確且不產生幻覺。" },
-    { q: "AI 客服可以整合 LINE 嗎？", a: "可以的！我們提供完整的 LINE 官方帳號整合方案，包含自動回覆、LIFF 應用以及與 CRM 系統的資料同步。" },
-    { q: "知識庫如何更新？", a: "我們的系統支援動態更新，您可以隨時上傳新的 PDF 或文件，向量資料庫會自動重新建立索引，AI 即可立即根據最新資訊進行回覆。" },
-  ];
-
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  return (
-    <section id="faq" className="py-32 bg-zinc-900/30 border-y border-white/5">
-      <div className="max-w-3xl mx-auto px-6">
-        <SectionHeading title="常見問題" />
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="border border-white/10 rounded-2xl overflow-hidden bg-zinc-950"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
-              >
-                <span className="font-medium text-lg">{faq.q}</span>
-                <ChevronDown className={cn("w-5 h-5 text-zinc-500 transition-transform", openIndex === index && "rotate-180")} />
-              </button>
-              {openIndex === index && (
-                <div className="px-6 pb-5 text-zinc-400 leading-relaxed">
-                  {faq.a}
+                  <div className="mt-10">
+                    <h3 className="font-display text-4xl font-semibold text-stone-50 md:text-5xl">
+                      補教業 AI 助手
+                      <span className="block text-stone-300/82">先用真實案例把你的專業感打出來</span>
+                    </h3>
+                    <p className="mt-5 max-w-2xl text-base leading-7 text-stone-300/80">
+                      這支影片最適合放在首頁主打區，因為它同時連到教育情境、AI 應用與你這頁課程主題。後續你如果有更強的品牌影片，再直接把 embed 與連結換掉即可。
+                    </p>
+                  </div>
                 </div>
-              )}
+
+                <div className="aspect-video w-full bg-black">
+                  <iframe
+                    className="h-full w-full"
+                    src="https://www.youtube-nocookie.com/embed/JJgLGLOxh_8"
+                    title="補教業 AI 助手"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 p-8">
+                  <a
+                    href="https://www.youtube.com/watch?v=JJgLGLOxh_8"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-stone-100"
+                  >
+                    <Play className="h-4 w-4" />
+                    觀看主打影片
+                  </a>
+                  <a
+                    href={lineUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-5 py-3 text-sm font-semibold text-stone-100 transition hover:bg-white/10"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    LINE 詢問課程
+                  </a>
+                  <span className="text-sm text-stone-400">這一區現在已接上真實影片，不再只是展示框</span>
+                </div>
+              </motion.div>
+
+              <div className="grid gap-5">
+                {videos.map((video, index) => (
+                  <motion.a
+                    key={video.title}
+                    {...sectionReveal}
+                    transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
+                    href={video.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-5 transition hover:border-amber-300/20 hover:bg-white/[0.06]"
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-300">
+                        <Video className="h-3.5 w-3.5 text-amber-300" />
+                        {video.tag}
+                      </div>
+                      <span className="text-sm text-stone-400">{video.duration}</span>
+                    </div>
+                    <h3 className="mt-4 font-display text-2xl font-semibold text-stone-50">{video.title}</h3>
+                    <p className="mt-3 leading-7 text-stone-300/76">{video.description}</p>
+                    <div className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-amber-200">
+                      查看影片位置
+                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="syllabus" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="Syllabus"
+              title="課程大綱"
+              description="保留銷售頁該有的說服結構，讓來自影片與社群的人，能進一步理解課程內容與學習成果。"
+            />
+
+            <div className="mt-14 grid gap-5 lg:grid-cols-2">
+              {syllabus.map((item, index) => (
+                <motion.article
+                  key={item.label}
+                  {...sectionReveal}
+                  transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
+                  className="group rounded-[1.9rem] border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-7"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm uppercase tracking-[0.26em] text-amber-200/72">{item.label}</p>
+                      <h3 className="mt-3 font-display text-2xl font-semibold text-stone-50">{item.title}</h3>
+                    </div>
+                    <div className="rounded-2xl border border-white/8 bg-white/5 p-3 text-stone-200 transition group-hover:border-amber-300/20 group-hover:text-amber-200">
+                      <ArrowRight className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <p className="mt-5 max-w-xl leading-7 text-stone-300/80">{item.summary}</p>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="instructor" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="Instructor"
+              title="講師介紹"
+              description="講師區現在保留了個人品牌型版位，適合放你的經歷、授課主題、合作單位與代表案例。"
+            />
+
+            <div className="mt-14 grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
+              <motion.div {...sectionReveal} className="rounded-[2rem] border border-white/10 bg-[#1a1510] p-8">
+                <div className="flex aspect-[4/5] items-end rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(251,191,36,0.22),rgba(190,24,93,0.18)),linear-gradient(135deg,#3b2a17,#17120d)] p-7">
+                  <div>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
+                      <Star className="h-3.5 w-3.5 text-amber-300" />
+                      Lead Instructor
+                    </div>
+                    <h3 className="mt-4 font-display text-4xl font-semibold text-stone-50">你的名字 / 品牌名稱</h3>
+                    <p className="mt-3 max-w-sm leading-7 text-stone-200/76">
+                      這裡適合放你最核心的定位，例如 AI 教學講師、顧問、內容創作者，或你希望市場記住的身分。
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div {...sectionReveal} className="grid gap-6">
+                <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-8">
+                  <h3 className="font-display text-2xl font-semibold text-stone-50">建議放進來的講師資訊</h3>
+                  <div className="mt-6 grid gap-4">
+                    {[
+                      '授課年資、企業內訓、公開演講或校園合作經歷',
+                      '你最擅長的教學主題，例如 AI 教學應用、內容工作流、自動化流程',
+                      '具代表性的授課成果、學員回饋或實作案例',
+                    ].map((item) => (
+                      <div key={item} className="flex gap-4 rounded-2xl border border-white/8 bg-stone-950/35 p-4">
+                        <div className="mt-0.5 text-amber-200">
+                          <Check className="h-5 w-5" />
+                        </div>
+                        <p className="leading-7 text-stone-200/84">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid gap-6 sm:grid-cols-3">
+                  {[
+                    ['專業可信', '讓訪客快速知道你為什麼值得被聽見'],
+                    ['教學可感', '和影片、照片區搭配後，會更有真實感'],
+                    ['品牌一致', '個人風格、內容主題與招生動線會更完整'],
+                  ].map(([title, text]) => (
+                    <div key={title} className="rounded-[1.6rem] border border-white/10 bg-[#17130f] p-6">
+                      <div className="text-lg font-semibold text-stone-50">{title}</div>
+                      <p className="mt-3 text-sm leading-6 text-stone-300/72">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <section id="gallery" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="Gallery"
+              title="講課照片"
+              description="這一區專門補足現場感。現在先用展示框排版，你之後只要把每格換成真實照片，就能快速成為高完成度品牌頁。"
+            />
+
+            <div className="mt-14 grid auto-rows-fr gap-5 lg:grid-cols-3">
+              {photos.map((photo, index) => (
+                <motion.div
+                  key={photo.title}
+                  {...sectionReveal}
+                  transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
+                  className={`rounded-[1.9rem] border border-white/10 bg-[#19140f] p-5 overflow-hidden ${photo.size}`}
+                >
+                  <div className="relative h-full min-h-[180px] rounded-[1.5rem] overflow-hidden group">
+                    <img
+                      src={photo.src}
+                      alt={photo.title}
+                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/40 to-transparent" />
+                    <div className="absolute inset-0 flex flex-col justify-between p-6">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-amber-200 backdrop-blur-sm">
+                        <ImageIcon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="font-display text-2xl font-semibold text-stone-50">{photo.title}</h3>
+                        <p className="mt-3 max-w-md leading-7 text-stone-300/78">{photo.caption}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="Who It's For"
+              title="這門課適合誰"
+              description="課程內容仍然維持清楚的目標對象設定，讓不同來源的訪客能快速判斷這是不是適合自己的課。"
+            />
+
+            <div className="mt-14 grid gap-6 lg:grid-cols-3">
+              {audience.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  {...sectionReveal}
+                  transition={{ ...sectionReveal.transition, delay: index * 0.06 }}
+                  className="rounded-[1.9rem] border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-7"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-300/12 text-amber-200">
+                    {item.icon}
+                  </div>
+                  <h3 className="mt-5 font-display text-2xl font-semibold text-stone-50">{item.title}</h3>
+                  <p className="mt-3 leading-7 text-stone-300/78">{item.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="community" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-7xl">
+            <SectionTitle
+              eyebrow="Community"
+              title="FB 社團承接"
+              description="對還在觀望的人，不一定要立刻成交。把他先帶進社團，你就多了一個後續持續接觸、建立熟悉感與轉化的場域。"
+            />
+
+            <motion.div
+              {...sectionReveal}
+              className="mt-14 overflow-hidden rounded-[2.25rem] border border-white/10 bg-[linear-gradient(135deg,rgba(24,119,242,0.18),rgba(18,15,11,0.12),rgba(255,255,255,0.04))] p-8 md:p-12"
+            >
+              <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
+                    <Facebook className="h-3.5 w-3.5 text-[#6da8ff]" />
+                    Facebook Group
+                  </div>
+                  <h3 className="mt-5 font-display text-3xl font-semibold tracking-tight text-stone-50 md:text-5xl">
+                    把網站流量
+                    <span className="block text-stone-300/86">自然接到你的社群裡</span>
+                  </h3>
+                  <p className="mt-5 max-w-2xl text-base leading-7 text-stone-200/82 md:text-lg">
+                    這裡已先接上你原本頁面裡出現過的 Facebook 社團連結。之後如果你要改成粉專、Line 社群或報名頁，也可以直接換掉。
+                  </p>
+                  <div className="mt-8">
+                    <a
+                      href={facebookGroupUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-[#1877F2] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1667d8]"
+                    >
+                      <Facebook className="h-4 w-4" />
+                      前往 Facebook 社團
+                    </a>
+                  </div>
+                </div>
+
+                <div className="grid gap-4">
+                  {[
+                    '放社團價值主張，例如：教學資源、直播通知、案例分享、講義下載。',
+                    '放社團數據，例如成員數、互動率、每週固定內容節奏。',
+                    '放一兩張社團截圖或活動照片，承接會更自然。',
+                  ].map((item) => (
+                    <div key={item} className="rounded-[1.5rem] border border-white/10 bg-[#120f0b]/45 p-5 text-stone-200/84">
+                      <div className="flex gap-3">
+                        <div className="mt-0.5 text-amber-200">
+                          <Check className="h-4 w-4" />
+                        </div>
+                        <p className="leading-7">{item}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
+          </div>
+        </section>
 
-const Contact = () => (
-  <section id="contact" className="py-32 relative overflow-hidden">
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/10 rounded-full blur-[100px] pointer-events-none" />
-    
-    <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-      <motion.h2 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-4xl md:text-6xl font-bold tracking-tight mb-8"
-      >
-        準備好升級您的企業系統了嗎？
-      </motion.h2>
-      <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1 }}
-        className="text-xl text-zinc-400 mb-12"
-      >
-        立即導入 AI 自動化，釋放團隊潛力，專注於更高價值的業務。
-      </motion.p>
-      
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.2 }}
-        className="flex flex-col sm:flex-row items-center justify-center gap-6"
-      >
-        <a 
-          href="https://line.me/ti/p/kdhrBKYuFZ" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#06C755] hover:bg-[#05b34c] text-white font-medium text-lg transition-colors flex items-center justify-center gap-3 shadow-lg shadow-[#06C755]/20"
-        >
-          <MessageCircle className="w-6 h-6" /> LINE 免費諮詢
-        </a>
-        <a 
-          href="mailto:castion2293@yahoo.com.tw" 
-          className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 text-white font-medium text-lg transition-colors flex items-center justify-center gap-3"
-        >
-          <Mail className="w-6 h-6" /> Email 聯絡
-        </a>
-      </motion.div>
-    </div>
-  </section>
-);
+        <section id="faq" className="px-6 py-20 md:py-24">
+          <div className="mx-auto max-w-5xl">
+            <SectionTitle
+              eyebrow="Q&A"
+              title="常見問題"
+              description="最後保留 FAQ，處理觀望者的疑問，讓整個銷售頁的收斂段更完整。"
+            />
 
-const Footer = () => (
-  <footer className="py-8 border-t border-white/5 text-center text-zinc-500 text-sm">
-    <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div className="flex items-center gap-2">
-        <LobsterLogo className="w-7 h-7 text-red-500" />
-        <span className="font-semibold text-zinc-300">AI Automation</span>
-      </div>
-      <p>© {new Date().getFullYear()} AI Automation. All rights reserved.</p>
-    </div>
-  </footer>
-);
+            <div className="mt-12 space-y-4">
+              {faqs.map((item, index) => {
+                const isOpen = openFaq === index;
+                return (
+                  <motion.div
+                    key={item.question}
+                    {...sectionReveal}
+                    transition={{ ...sectionReveal.transition, delay: index * 0.04 }}
+                    className="overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/[0.045]"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                      className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-300/12 text-amber-200">
+                          <HelpCircle className="h-5 w-5" />
+                        </div>
+                        <span className="text-lg font-medium text-stone-100">{item.question}</span>
+                      </div>
+                      <ChevronDown
+                        className={`h-5 w-5 shrink-0 text-stone-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="border-t border-white/8 px-6 pb-6 pt-5 text-base leading-7 text-stone-300/80">
+                        {item.answer}
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
 
-export default function App() {
-  return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-red-500/30">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <UseCases />
-        <TechStack />
-        <CaseStudies />
-        <Tutorials />
-        <DemoVideo />
-        <FAQ />
-        <Contact />
+        <section id="enroll" className="px-6 pb-24 pt-10">
+          <div className="mx-auto max-w-6xl">
+            <motion.div
+              {...sectionReveal}
+              className="overflow-hidden rounded-[2.25rem] border border-white/10 bg-[linear-gradient(135deg,rgba(251,191,36,0.15),rgba(244,114,182,0.12),rgba(255,255,255,0.04))] p-8 md:p-12"
+            >
+              <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
+                    <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+                    Ready to Customize
+                  </div>
+                  <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-stone-50 md:text-5xl">
+                    這頁現在已經適合拿來換成你的真實內容
+                  </h2>
+                  <p className="mt-5 max-w-2xl text-base leading-7 text-stone-200/82 md:text-lg">
+                    我已經把長頁式課程銷售邏輯重構成偏個人品牌版本，並接上了現有可用的 YouTube、LINE 與 Email 資訊。現在最值得補上的就是你的講課照片與真實講師資料。
+                  </p>
+                  <div className="mt-8 flex flex-wrap gap-4">
+                    <a
+                      href={lineUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-stone-100"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      LINE 詢問
+                    </a>
+                    <a
+                      href={emailUrl}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-5 py-3 text-sm font-semibold text-stone-100 transition hover:bg-white/10"
+                    >
+                      <Mail className="h-4 w-4" />
+                      Email 聯絡
+                    </a>
+                  </div>
+                </div>
+
+                <div className="rounded-[1.75rem] border border-white/12 bg-[#120f0b]/55 p-6">
+                  <div className="text-sm uppercase tracking-[0.24em] text-stone-400">接下來建議補這些</div>
+                  <div className="mt-5 space-y-3">
+                    {[
+                      '補上真正的 Facebook 社團或粉專連結，如果你要以社群承接流量',
+                      '3 到 6 張高品質講課照片或活動現場照',
+                      '講師姓名、頭銜、合作單位、學員回饋與報名連結',
+                    ].map((item) => (
+                      <div key={item} className="flex gap-3 text-stone-200/84">
+                        <div className="mt-0.5 text-amber-200">
+                          <Check className="h-4 w-4" />
+                        </div>
+                        <span className="leading-7">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
       </main>
-      <Footer />
     </div>
   );
 }
+
+export default App;
