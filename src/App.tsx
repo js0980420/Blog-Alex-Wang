@@ -20,7 +20,7 @@ import {
   Users,
   Video,
 } from 'lucide-react';
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 
 type SyllabusItem = {
   label: string;
@@ -51,42 +51,55 @@ const emailUrl = 'mailto:castion2293@yahoo.com.tw';
 const syllabus: SyllabusItem[] = [
   {
     label: 'Module 01',
-    title: 'Claude Code / Codex 安裝與 AI 工作流起手式',
-    summary: '從桌面版 Claude Code、Codex 安裝開始，帶到 Meta 三大 API 串接、自動發文，以及用 skill 組出可重複使用的工作流。',
+    title: '為什麼一定要先用 Claude Code / Codex 桌面版',
+    summary:
+      '先解說為什麼要用 Claude Code / Codex 桌面版，而不是 n8n、網頁版或其他 Agent；同時帶你把需要的套件與環境設定一次裝好。新手只要先訂閱 20 美元的 ChatGPT / Claude 額度即可開始，我也會分享怎麼節省額度。',
   },
   {
     label: 'Module 02',
-    title: 'Prompt 結構與任務拆解',
-    summary: '把新手最容易卡住的需求拆清楚，讓 AI 回答更穩定，也更容易串進日常工作。',
+    title: 'Meta 三大 API 申請邏輯與帳號準備',
+    summary:
+      '三大 API 其實只要先學一個就夠，因為另外兩個申請流程大同小異；重點是你要先有 Facebook 帳號登入 Meta 開發者後台，並確認要串接的帳號都綁在這個 FB 底下。',
   },
   {
     label: 'Module 03',
-    title: '教材、簡報與內容快速生成',
-    summary: '用 AI 快速產出講義、投影片、社群貼文與教學素材，降低備課與內容製作時間。',
+    title: '測試自動發文與 Meta 權限設定',
+    summary:
+      '實際測試自動發文流程，並解說自動發文的權限該怎麼設定，哪些操作容易出問題，以及怎麼避免被 Meta 判定異常而封鎖。',
   },
   {
     label: 'Module 04',
-    title: '自動化流程與資料整理',
-    summary: '把筆記、文件、表單與社群內容串起來，從手動操作進階到可重複執行的流程。',
-  },
-  {
-    label: 'Module 05',
-    title: 'AI Agent 與 Skill 實作',
-    summary: '學會把常做的事情包成 skill，讓 AI 不只是聊天工具，而是真正能接手任務的助手。',
-  },
-  {
-    label: 'Module 06',
-    title: '實戰專題與成果輸出',
-    summary: '把前面學到的 API、發文流程與 skill 整合成一套能展示、能交付、也能實際使用的成果。',
+    title: '用 Skill 隨時修改文案與排程',
+    summary:
+      '把發文文案與排程整理進 Skill，讓 AI 可以記住你的發文習慣，之後要改內容、改時間、改流程都能快速調整；Skill 也可以理解成強化 AI 的記憶，避免關掉對話框之後 AI 失憶。',
   },
 ];
 
 const outcomes = [
-  '從零開始完成 Claude Code / Codex 的安裝與基本操作，不再卡在環境設定。',
-  '學會串接 Meta 三大 API，理解 AI 如何接進真實社群工作流。',
-  '做出自動發文流程，讓 AI 從對話工具升級成可執行助手。',
+  '從零開始完成桌面版 Claude Code / Codex 的安裝與基本操作，解決工具權限問題，不再只是網頁版 Chat 模式，而是真正能執行任務的 Agent。',
+  '學會串接 Meta 三大 API，讓AI可跟真實社群互動',
+  '做出自動發文流程，並可設定發布排程',
   '學會寫 skill，把常用任務整理成你自己的可重用工作流。',
 ];
+
+const outcomeDemos = [
+  {
+    title: '桌面版 Agent',
+    text: 'Claude Code / Codex 安裝與權限設定',
+  },
+  {
+    title: 'Meta API 串接',
+    text: '讓 AI 真正接上社群平台',
+  },
+  {
+    title: '自動發文排程',
+    text: '建立可重複執行的發布流程',
+  },
+  {
+    title: 'Skill 工作流',
+    text: '把常用任務封裝成可重用技能',
+  },
+] as const;
 
 const audience = [
   {
@@ -135,7 +148,7 @@ const videos: VideoItem[] = [
 
 const photos: PhotoItem[] = [
   {
-    title: '教學-珊珊',
+    title: '一對一實體課紀錄',
     caption: '一對一實體教學現場。',
     size: 'lg:col-span-1 min-h-[240px]',
     src: '/images/教學-珊珊.jpg',
@@ -150,24 +163,24 @@ const photos: PhotoItem[] = [
 
 const faqs = [
   {
+    question: '課前須要準備什麼？',
+    answer:
+      '除了教學費用，還需要付費訂閱 AI。初學者只要先準備一個月 20 美元的額度就夠了，另外也要確認你有可用的 Facebook 帳號，能拿來登入 Meta 開發者後台並綁定其他要串接的帳號。',
+  },
+  {
     question: '沒有技術背景可以上嗎？',
     answer:
-      '可以。這門課重點是讓你把 AI 用進真實工作，不是要求你具備工程背景。整體內容會從思路、操作到應用逐步帶入。',
+      '可以。這門課用意在於把原本複雜的技術門檻，優化成只要對話就能完成的工作流，任何人只要會操作電腦就能上。',
   },
   {
-    question: '如果我已經用過 ChatGPT，還適合嗎？',
+    question: '為什麼不用網頁版或免費 AI？',
     answer:
-      '適合。這門課不是只教基本操作，而是幫你把零散使用經驗整理成能長期重複使用的工作方法。',
+      '因為網頁版沒有 Agent 權限，也沒辦法做環境設定、填入申請完的 Meta API Key，更不能直接寫自動發文腳本，基本上只適合拿來問問題。免費 AI 的穩定度和能力也通常不如 Claude 或 Codex，很容易一直出錯，花掉的時間可能遠超過 20 美元。要把免費 AI 用好，往往需要已經很熟 Prompt 的資深工程師，並不適合新手。',
   },
   {
-    question: '這門課偏理論還是偏實作？',
+    question: '可以約線上教學嗎？',
     answer:
-      '偏實作。每個模組都會搭配情境案例、模板和應用設計，最後會收斂成實戰成果。',
-  },
-  {
-    question: '上完之後能帶走什麼？',
-    answer:
-      '你會帶走一套 AI 工作流、可重用的指令模板，以及至少一個能直接應用在教學或工作中的成果。',
+      '可以，可以用 Google Meet 或 Discord，只要能分享螢幕畫面，就可以約線上教學。',
   },
 ];
 
@@ -188,13 +201,15 @@ function SectionTitle({
   eyebrow,
   title,
   description,
+  fullWidth = false,
 }: {
   eyebrow: string;
   title: string;
-  description: string;
+  description: ReactNode;
+  fullWidth?: boolean;
 }) {
   return (
-    <motion.div {...sectionReveal} className="max-w-3xl">
+    <motion.div {...sectionReveal} className={fullWidth ? 'max-w-7xl' : 'max-w-3xl'}>
       <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-amber-200">
         <Sparkles className="h-3.5 w-3.5" />
         {eyebrow}
@@ -202,10 +217,194 @@ function SectionTitle({
       <h2 className="font-display text-3xl font-semibold tracking-tight text-stone-50 md:text-5xl">
         {title}
       </h2>
-      <p className="mt-5 max-w-2xl text-base leading-7 text-stone-300/80 md:text-lg">
+      <div className={`mt-5 text-base leading-7 text-stone-300/80 md:text-lg ${fullWidth ? 'max-w-7xl' : 'max-w-2xl'}`}>
         {description}
-      </p>
+      </div>
     </motion.div>
+  );
+}
+
+function OutcomeDemoSvg({ index }: { index: number }) {
+  if (index === 0) {
+    return (
+      <svg viewBox="0 0 320 190" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="18" y="24" width="284" height="142" rx="18" fill="#15100C" stroke="rgba(255,255,255,0.12)" />
+        <rect x="34" y="40" width="118" height="88" rx="12" fill="#23180F" stroke="rgba(251,191,36,0.28)" />
+        <rect x="48" y="56" width="54" height="10" rx="5" fill="#FBBF24" fillOpacity="0.9" />
+        <rect x="48" y="76" width="90" height="8" rx="4" fill="#FFFFFF" fillOpacity="0.16" />
+        <rect x="48" y="90" width="78" height="8" rx="4" fill="#FFFFFF" fillOpacity="0.12" />
+        <rect x="172" y="52" width="112" height="20" rx="10" fill="#0D1F12" stroke="#06C755" strokeOpacity="0.45" />
+        <circle cx="188" cy="62" r="5" fill="#06C755" />
+        <path d="M203 62H255" stroke="#E7FBEF" strokeOpacity="0.78" strokeWidth="8" strokeLinecap="round" />
+        <rect x="172" y="86" width="112" height="20" rx="10" fill="#1E1711" />
+        <path d="M188 96H234" stroke="#FFFFFF" strokeOpacity="0.14" strokeWidth="8" strokeLinecap="round" />
+        <path d="M118 134C146 118 171 110 200 110" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="6 8" />
+        <circle cx="204" cy="110" r="6" fill="#F59E0B" />
+      </svg>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <svg viewBox="0 0 320 190" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="18" y="24" width="284" height="142" rx="18" fill="#15100C" stroke="rgba(255,255,255,0.12)" />
+        <circle cx="80" cy="94" r="24" fill="#1877F2" fillOpacity="0.2" stroke="#1877F2" strokeOpacity="0.6" />
+        <path d="M76 78H86V86H82V94H86V102H82V118H72V102H68V94H72V88C72 81.5 75.5 78 82 78H76Z" fill="#8FC0FF" />
+        <circle cx="160" cy="64" r="18" fill="#F97316" fillOpacity="0.18" stroke="#FB923C" strokeOpacity="0.55" />
+        <circle cx="160" cy="64" r="7" fill="#FDBA74" />
+        <circle cx="238" cy="112" r="22" fill="#06C755" fillOpacity="0.14" stroke="#06C755" strokeOpacity="0.5" />
+        <path d="M226 112H250" stroke="#C8F7D8" strokeWidth="6" strokeLinecap="round" />
+        <path d="M238 100V124" stroke="#C8F7D8" strokeWidth="6" strokeLinecap="round" />
+        <path d="M102 90C119 81 132 74 143 69" stroke="#FBBF24" strokeWidth="3.5" strokeLinecap="round" />
+        <path d="M177 73C195 83 210 93 219 102" stroke="#FBBF24" strokeWidth="3.5" strokeLinecap="round" />
+        <circle cx="144" cy="69" r="4.5" fill="#FBBF24" />
+        <circle cx="219" cy="102" r="4.5" fill="#FBBF24" />
+      </svg>
+    );
+  }
+
+  if (index === 2) {
+    return (
+      <svg viewBox="0 0 320 190" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="18" y="24" width="284" height="142" rx="18" fill="#15100C" stroke="rgba(255,255,255,0.12)" />
+        <rect x="42" y="48" width="86" height="78" rx="14" fill="#221811" stroke="rgba(255,255,255,0.08)" />
+        <rect x="58" y="66" width="54" height="10" rx="5" fill="#FBBF24" />
+        <rect x="58" y="84" width="32" height="24" rx="8" fill="#FFFFFF" fillOpacity="0.1" />
+        <rect x="94" y="84" width="18" height="24" rx="8" fill="#FFFFFF" fillOpacity="0.18" />
+        <rect x="150" y="56" width="128" height="24" rx="12" fill="#0D1F12" stroke="#06C755" strokeOpacity="0.4" />
+        <path d="M168 68H220" stroke="#E7FBEF" strokeWidth="8" strokeLinecap="round" />
+        <circle cx="246" cy="68" r="8" fill="#06C755" />
+        <rect x="150" y="94" width="128" height="24" rx="12" fill="#23180F" stroke="rgba(251,191,36,0.28)" />
+        <path d="M168 106H236" stroke="#FFFFFF" strokeOpacity="0.14" strokeWidth="8" strokeLinecap="round" />
+        <path d="M112 120C142 132 166 134 190 126" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="7 7" />
+        <path d="M190 126L181 120" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" />
+        <path d="M190 126L183 135" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 320 190" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="18" y="24" width="284" height="142" rx="18" fill="#15100C" stroke="rgba(255,255,255,0.12)" />
+      <rect x="40" y="52" width="104" height="86" rx="14" fill="#23180F" stroke="rgba(251,191,36,0.28)" />
+      <path d="M58 78H126" stroke="#FBBF24" strokeWidth="8" strokeLinecap="round" />
+      <path d="M58 98H110" stroke="#FFFFFF" strokeOpacity="0.16" strokeWidth="8" strokeLinecap="round" />
+      <path d="M58 118H96" stroke="#FFFFFF" strokeOpacity="0.12" strokeWidth="8" strokeLinecap="round" />
+      <rect x="174" y="54" width="102" height="22" rx="11" fill="#0D1F12" stroke="#06C755" strokeOpacity="0.35" />
+      <path d="M192 65H244" stroke="#E7FBEF" strokeWidth="8" strokeLinecap="round" />
+      <rect x="174" y="87" width="102" height="22" rx="11" fill="#1B1410" />
+      <path d="M192 98H228" stroke="#FFFFFF" strokeOpacity="0.14" strokeWidth="8" strokeLinecap="round" />
+      <rect x="174" y="120" width="102" height="22" rx="11" fill="#1B1410" />
+      <path d="M192 131H252" stroke="#FFFFFF" strokeOpacity="0.14" strokeWidth="8" strokeLinecap="round" />
+      <path d="M144 95H170" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="6 7" />
+      <path d="M144 116H170" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="6 7" />
+    </svg>
+  );
+}
+
+function OutcomeDemoVisual({ index }: { index: number }) {
+  if (index === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center gap-5 px-6 py-7">
+        <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-2 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
+          <img
+            src="/images/claude code logo.png"
+            alt="Claude Code"
+            className="h-10 w-10 object-contain"
+          />
+        </div>
+        <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-2 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
+          <img
+            src="/images/codex.png"
+            alt="Codex"
+            className="h-10 w-10 object-contain"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <div className="flex h-full w-full items-center justify-center gap-5 px-6 py-7">
+        <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-3 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
+          <img
+            src="/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Primary Logo/Facebook_Logo_Primary.png"
+            alt="Facebook"
+            className="h-10 w-10 object-contain"
+          />
+        </div>
+        <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-white p-3 shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
+          <img
+            src="/images/IG_brand_asset_pack_2023/01 Static Glyph/01 Gradient Glyph/Instagram_Glyph_Gradient.svg"
+            alt="Instagram"
+            className="h-10 w-10 object-contain"
+          />
+        </div>
+        <div className="flex h-16 w-16 items-center justify-center rounded-[1.1rem] bg-[#111] shadow-[0_10px_25px_rgba(0,0,0,0.2)]">
+          <div className="h-10 w-10 overflow-hidden rounded-[0.9rem]">
+            <img
+              src="/images/threads.png"
+              alt="Threads"
+              className="h-full w-full scale-[1.9] object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <OutcomeDemoSvg index={index} />;
+}
+
+function InstructorDemoSvg({ index }: { index: number }) {
+  if (index === 0) {
+    return (
+      <svg viewBox="0 0 320 190" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="18" y="24" width="284" height="142" rx="18" fill="#15100C" stroke="rgba(255,255,255,0.12)" />
+        <rect x="44" y="48" width="104" height="78" rx="16" fill="#23180F" stroke="rgba(251,191,36,0.28)" />
+        <path d="M66 72H126" stroke="#FBBF24" strokeWidth="8" strokeLinecap="round" />
+        <path d="M66 92H114" stroke="#FFFFFF" strokeOpacity="0.16" strokeWidth="8" strokeLinecap="round" />
+        <path d="M66 112H100" stroke="#FFFFFF" strokeOpacity="0.12" strokeWidth="8" strokeLinecap="round" />
+        <rect x="176" y="52" width="104" height="26" rx="13" fill="#0F1822" stroke="#60A5FA" strokeOpacity="0.4" />
+        <path d="M194 65H246" stroke="#DBEAFE" strokeWidth="8" strokeLinecap="round" />
+        <rect x="176" y="90" width="104" height="26" rx="13" fill="#0D1F12" stroke="#06C755" strokeOpacity="0.38" />
+        <path d="M194 103H232" stroke="#DCFCE7" strokeWidth="8" strokeLinecap="round" />
+        <path d="M148 88H176" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="6 7" />
+        <path d="M148 101H176" stroke="#F59E0B" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="6 7" />
+      </svg>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <svg viewBox="0 0 320 190" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="18" y="24" width="284" height="142" rx="18" fill="#15100C" stroke="rgba(255,255,255,0.12)" />
+        <circle cx="90" cy="94" r="32" fill="#1D4ED8" fillOpacity="0.18" stroke="#3B82F6" strokeOpacity="0.5" />
+        <circle cx="90" cy="84" r="12" fill="#BFDBFE" />
+        <path d="M68 116C74 103 83 98 90 98C97 98 106 103 112 116" stroke="#BFDBFE" strokeWidth="7" strokeLinecap="round" />
+        <rect x="156" y="52" width="120" height="26" rx="13" fill="#1E1711" />
+        <path d="M176 65H250" stroke="#FFFFFF" strokeOpacity="0.18" strokeWidth="8" strokeLinecap="round" />
+        <rect x="156" y="90" width="120" height="26" rx="13" fill="#0D1F12" stroke="#06C755" strokeOpacity="0.38" />
+        <path d="M176 103H224" stroke="#DCFCE7" strokeWidth="8" strokeLinecap="round" />
+        <circle cx="252" cy="103" r="8" fill="#06C755" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 320 190" className="h-full w-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="18" y="24" width="284" height="142" rx="18" fill="#15100C" stroke="rgba(255,255,255,0.12)" />
+      <rect x="40" y="50" width="92" height="92" rx="20" fill="#221811" stroke="rgba(251,191,36,0.28)" />
+      <path d="M64 77H108" stroke="#FBBF24" strokeWidth="8" strokeLinecap="round" />
+      <path d="M64 97H96" stroke="#FFFFFF" strokeOpacity="0.14" strokeWidth="8" strokeLinecap="round" />
+      <path d="M64 117H108" stroke="#FFFFFF" strokeOpacity="0.1" strokeWidth="8" strokeLinecap="round" />
+      <circle cx="216" cy="72" r="20" fill="#F97316" fillOpacity="0.16" stroke="#FB923C" strokeOpacity="0.45" />
+      <path d="M206 72H226" stroke="#FDBA74" strokeWidth="6" strokeLinecap="round" />
+      <path d="M216 62V82" stroke="#FDBA74" strokeWidth="6" strokeLinecap="round" />
+      <rect x="172" y="102" width="88" height="24" rx="12" fill="#0F1822" stroke="#60A5FA" strokeOpacity="0.38" />
+      <path d="M188 114H244" stroke="#DBEAFE" strokeWidth="8" strokeLinecap="round" />
+    </svg>
   );
 }
 
@@ -254,12 +453,40 @@ function App() {
       </div>
 
       <main id="top">
+        <section className="px-6 pt-28 md:pt-32">
+          <div className="mx-auto max-w-7xl">
+            <motion.div
+              {...sectionReveal}
+              className="overflow-hidden rounded-[2.4rem] border border-white/10 bg-white"
+            >
+              <div className="relative">
+                <img
+                  src="/images/新手學AI橫幅.png"
+                  alt="新手學AI課程第一堂"
+                  className="block h-auto w-full"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
 <section id="overview" className="px-6 py-20 md:py-24">
           <div className="mx-auto max-w-7xl">
             <SectionTitle
               eyebrow="Course Overview"
               title="課程介紹"
-              description="參考長頁式銷售頁邏輯，先說明定位與成果，再用影片、照片與社群承接，把網站變成一個真正能持續招生的入口。"
+              fullWidth
+              description={
+                <>
+                  <p>
+                    這是學習一切 AI 自動化的基礎。無論你後續要學 AI 客服、AI 自動拍片、AI
+                    爬蟲，都需要先安裝桌面版 AI，取得 Agent 的工具權限，而不只是停留在網頁版對話；也要先設定好環境變數，讓 AI 可以跟第三方平台互動。
+                  </p>
+                  <p className="mt-4">
+                    如果你不想花錢，可以先跳到教學影片看免費教學；但因為還是很多人會卡關，所以我也提供手把手的一對一教學，可以約雙北咖啡廳上實體課。
+                  </p>
+                </>
+              }
             />
 
             <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_1.1fr]">
@@ -281,31 +508,10 @@ function App() {
               </motion.div>
 
               <motion.div {...sectionReveal} className="grid gap-6 sm:grid-cols-2">
-                {[
-                  {
-                    icon: <Video className="h-6 w-6" />,
-                    title: '用影片建立信任',
-                    text: '先讓訪客看到你的講課風格與專業節奏，比單靠文字更容易轉化。',
-                  },
-                  {
-                    icon: <ImageIcon className="h-6 w-6" />,
-                    title: '用照片補現場感',
-                    text: '講課照片能快速補足真實感，讓網站不只像簡介，而像一個品牌現場。',
-                  },
-                  {
-                    icon: <Facebook className="h-6 w-6" />,
-                    title: '把流量導入社群',
-                    text: '對還沒準備報名的人，先導到社團，後續才有機會長期互動與轉化。',
-                  },
-                  {
-                    icon: <Target className="h-6 w-6" />,
-                    title: '保留銷售頁節奏',
-                    text: '仍然維持課程介紹、課綱、講師、FAQ 的說服順序，不會失焦。',
-                  },
-                ].map((item) => (
-                  <div key={item.title} className="rounded-[1.75rem] border border-white/10 bg-[#1a1611] p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-300/12 text-amber-200">
-                      {item.icon}
+                {outcomeDemos.map((item, index) => (
+                  <div key={item.title} className="rounded-[1.75rem] border border-white/10 bg-[#1a1611] p-5">
+                    <div className="overflow-hidden rounded-[1.25rem] border border-white/8 bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.12),transparent_42%),linear-gradient(180deg,#1f1812,#120f0b)]">
+                      <OutcomeDemoVisual index={index} />
                     </div>
                     <h3 className="mt-5 font-display text-2xl font-semibold text-stone-50">{item.title}</h3>
                     <p className="mt-3 leading-7 text-stone-300/78">{item.text}</p>
@@ -358,21 +564,21 @@ function App() {
 
             <div className="mt-14 grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
               <motion.div {...sectionReveal} className="rounded-[2rem] border border-white/10 bg-[#1a1510] p-8">
-                <div className="relative flex aspect-[4/5] items-end rounded-[1.5rem] overflow-hidden bg-stone-950/50">
+                <div className="relative flex aspect-[4/5] items-end overflow-hidden rounded-[1.5rem] bg-stone-950/50">
                   <img
-                    src="/images/新手學AI課程第一堂.png"
-                    alt="新手學AI課程第一堂"
-                    className="absolute inset-0 h-full w-full object-contain"
+                    src="/images/半身白襯衫.jpg"
+                    alt="講師形象照"
+                    className="absolute inset-0 h-full w-full object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/95 via-stone-950/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-stone-950/95 via-stone-950/38 to-transparent" />
                   <div className="relative z-10 p-7">
                     <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.24em] text-stone-200">
                       <Star className="h-3.5 w-3.5 text-amber-300" />
                       Lead Instructor
                     </div>
-                    <h3 className="mt-4 font-display text-4xl font-semibold text-stone-50">你的名字 / 品牌名稱</h3>
+                    <h3 className="mt-4 font-display text-4xl font-semibold text-stone-50">Alex</h3>
                     <p className="mt-3 max-w-sm leading-7 text-stone-200/76">
-                      這裡適合放你最核心的定位，例如 AI 教學講師、顧問、內容創作者，或你希望市場記住的身分。
+                      全職接案工程師、20 萬人 OpenClaw 中文社群版主，專注在 AI 自動化、工作流整合與實戰落地教學。
                     </p>
                   </div>
                 </div>
@@ -380,12 +586,12 @@ function App() {
 
               <motion.div {...sectionReveal} className="grid gap-6">
                 <div className="rounded-[2rem] border border-white/10 bg-white/[0.045] p-8">
-                  <h3 className="font-display text-2xl font-semibold text-stone-50">建議放進來的講師資訊</h3>
+                  <h3 className="font-display text-2xl font-semibold text-stone-50">講師經歷與合作內容</h3>
                   <div className="mt-6 grid gap-4">
                     {[
-                      '授課年資、企業內訓、公開演講或校園合作經歷',
-                      '你最擅長的教學主題，例如 AI 教學應用、內容工作流、自動化流程',
-                      '具代表性的授課成果、學員回饋或實作案例',
+                      '接案作品包括 Line LIFF 網頁、AI 客服、CRM 後台管理系統等實際商業專案。',
+                      '一鍵拍片開源專案 HyperFrames 的協作者，打造從腳本、剪輯、字幕、真人配音、音樂、封面圖、多平台自動發佈都能透過對話完成，大幅降低拍片的時間成本和技術門檻。',
+                      'Zeabur 的合作夥伴，並提供 OpenClaw、Hermes 的救援服務。',
                     ].map((item) => (
                       <div key={item} className="flex gap-4 rounded-2xl border border-white/8 bg-stone-950/35 p-4">
                         <div className="mt-0.5 text-amber-200">
@@ -399,17 +605,57 @@ function App() {
 
                 <div className="grid gap-6 sm:grid-cols-3">
                   {[
-                    ['專業可信', '讓訪客快速知道你為什麼值得被聽見'],
-                    ['教學可感', '和影片、照片區搭配後，會更有真實感'],
-                    ['品牌一致', '個人風格、內容主題與招生動線會更完整'],
-                  ].map(([title, text]) => (
+                    ['全職接案工程師', ''],
+                    ['自動拍片 AI 教學', ''],
+                    ['OpenClaw / Hermes 救援', ''],
+                  ].map(([title, text], index) => (
                     <div key={title} className="rounded-[1.6rem] border border-white/10 bg-[#17130f] p-6">
-                      <div className="text-lg font-semibold text-stone-50">{title}</div>
-                      <p className="mt-3 text-sm leading-6 text-stone-300/72">{text}</p>
+                      <div className="overflow-hidden rounded-[1.2rem] border border-white/8 bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.12),transparent_42%),linear-gradient(180deg,#1f1812,#120f0b)]">
+                        <InstructorDemoSvg index={index} />
+                      </div>
+                      <div className="mt-5 text-lg font-semibold text-stone-50">{title}</div>
+                      {text ? <p className="mt-3 text-sm leading-6 text-stone-300/72">{text}</p> : null}
                     </div>
                   ))}
                 </div>
               </motion.div>
+            </div>
+
+            <div className="mt-10">
+              <SectionTitle
+                eyebrow="Records"
+                title="講課紀錄"
+                description="平常有接一對一實體教學、線上教學，也會參與講座授課。"
+              />
+
+              <div className="mt-10 grid auto-rows-fr gap-5 lg:grid-cols-3">
+                {photos.map((photo, index) => (
+                  <motion.div
+                    key={photo.title}
+                    {...sectionReveal}
+                    transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
+                    className={`rounded-[1.9rem] border border-white/10 bg-[#19140f] p-5 overflow-hidden ${photo.size}`}
+                  >
+                    <div className="relative h-full min-h-[180px] rounded-[1.5rem] overflow-hidden group bg-stone-950/50 flex items-center justify-center">
+                      <img
+                        src={photo.src}
+                        alt={photo.title}
+                        className="h-full w-full object-contain"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/30 to-transparent" />
+                      <div className="absolute inset-0 flex flex-col justify-between p-6">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-amber-200 backdrop-blur-sm">
+                          <ImageIcon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-display text-2xl font-semibold text-stone-50">{photo.title}</h3>
+                          <p className="mt-3 max-w-md leading-7 text-stone-300/78">{photo.caption}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -419,7 +665,7 @@ function App() {
             <SectionTitle
               eyebrow="Teaching Content"
               title="教學影片"
-              description="三支教學影片都直接放上預覽，讓訪客一進來就能看內容。主打教學影片固定放在最左邊。"
+              description="如果你不想花錢，可在此看免費教學，或是課後用來複習。"
             />
 
             <div className="mt-14 grid gap-6 lg:grid-cols-3">
@@ -478,45 +724,6 @@ function App() {
           </div>
         </section>
 
-<section id="gallery" className="px-6 py-20 md:py-24">
-          <div className="mx-auto max-w-7xl">
-            <SectionTitle
-              eyebrow="Gallery"
-              title="講課照片"
-              description="這一區專門補足現場感。現在先用展示框排版，你之後只要把每格換成真實照片，就能快速成為高完成度品牌頁。"
-            />
-
-            <div className="mt-14 grid auto-rows-fr gap-5 lg:grid-cols-3">
-              {photos.map((photo, index) => (
-                <motion.div
-                  key={photo.title}
-                  {...sectionReveal}
-                  transition={{ ...sectionReveal.transition, delay: index * 0.05 }}
-                  className={`rounded-[1.9rem] border border-white/10 bg-[#19140f] p-5 overflow-hidden ${photo.size}`}
-                >
-                  <div className="relative h-full min-h-[180px] rounded-[1.5rem] overflow-hidden group bg-stone-950/50 flex items-center justify-center">
-                    <img
-                      src={photo.src}
-                      alt={photo.title}
-                      className="h-full w-full object-contain"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/30 to-transparent" />
-                    <div className="absolute inset-0 flex flex-col justify-between p-6">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-amber-200 backdrop-blur-sm">
-                        <ImageIcon className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <h3 className="font-display text-2xl font-semibold text-stone-50">{photo.title}</h3>
-                        <p className="mt-3 max-w-md leading-7 text-stone-300/78">{photo.caption}</p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
 <section id="faq" className="px-6 py-20 md:py-24">
           <div className="mx-auto max-w-5xl">
             <SectionTitle
@@ -562,7 +769,8 @@ function App() {
           </div>
         </section>
 
-<section id="enroll" className="px-6 pb-24 pt-10">
+        {/*
+        <section id="enroll" className="px-6 pb-24 pt-10">
           <div className="mx-auto max-w-6xl">
             <motion.div
               {...sectionReveal}
@@ -621,6 +829,7 @@ function App() {
             </motion.div>
           </div>
         </section>
+        */}
 
 </main>
     </div>
