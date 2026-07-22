@@ -26,6 +26,7 @@
 - [社群圖文一定要花錢外包嗎？跟 AI 自製的成本結構比較](https://aixwang.dev/blog/social-design-cost/)
 - [我的免費資源：AI 教學影片與開源工具 Tooka](https://aixwang.dev/blog/free-resources/)
 - [我如何從打工仔轉職成全職接案工程師：沒進過軟體業的自學路](https://aixwang.dev/blog/from-part-time-to-freelance/)
+- [Threads API 申請教學：從申請、拿 Token 到發出第一篇貼文](https://aixwang.dev/blog/threads-api-tutorial/)
 
 ## 開源專案
 
