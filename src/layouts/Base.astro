@@ -80,6 +80,10 @@ const jsonLd = {
         var href = a.href || '';
         if (href.indexOf('line.me') !== -1) {
           gtag('event', 'line_click', { link_url: href, page_path: location.pathname });
+        } else if (href.indexOf('/services/one-on-one') !== -1) {
+          gtag('event', 'one_on_one_click', { link_url: href, page_path: location.pathname });
+        } else if (href.indexOf('/services/speaking') !== -1) {
+          gtag('event', 'speaking_click', { link_url: href, page_path: location.pathname });
         } else if (href.indexOf('tooka') !== -1) {
           gtag('event', 'tooka_click', { link_url: href, page_path: location.pathname });
         } else if (href.indexOf('youtube.com') !== -1 || href.indexOf('youtu.be') !== -1) {
