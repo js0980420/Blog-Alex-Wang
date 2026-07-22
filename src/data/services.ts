@@ -1,4 +1,4 @@
-// 服務頁文案：一對一私教與演講邀約
+// 服務頁文案：一對一教學與演講邀約
 import type { ImageMetadata } from 'astro';
 import chatgptLogo from '../assets/chatgpt-logo.png';
 import claudeCodeLogo from '../assets/claude-code-logo.png';
@@ -28,7 +28,7 @@ export const CLASS_FORMATS = [
   },
 ];
 
-// 可教學工具：一對一私教與演講頁共用
+// 可教學工具：一對一教學與演講頁共用
 export const TEACHING_TOOLS: {
   name: string;
   note?: string;
