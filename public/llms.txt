@@ -29,6 +29,7 @@
 - [Threads API 申請教學：從拿 Token、發出第一篇貼文到 Token 自動永久延期](https://aixwang.dev/blog/threads-api-tutorial/)
 - [Instagram API 申請教學：可透過企業管理後台取得永久 Token](https://aixwang.dev/blog/instagram-api-tutorial/)
 - [新手學架部落格：如何只靠跟 AI 對話就完成？](https://aixwang.dev/blog/build-blog-with-ai/)
+- [新手學 AI 的第一堂課：從桌面版 Agent 安裝到社群自動發文的四步課綱](https://aixwang.dev/blog/first-ai-lesson/)
 
 ## 開源專案
 

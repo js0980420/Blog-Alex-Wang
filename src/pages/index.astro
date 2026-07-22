@@ -2,19 +2,19 @@
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import bannerImage from '../assets/banner.png';
-import mixerboxTalkImage from '../assets/mixerbox-talk.jpeg';
-import oneOnOneTeachingImage from '../assets/teaching-one-on-one.jpg';
 import Card from '../components/Card.astro';
-import CheckItem from '../components/CheckItem.astro';
 import Cta from '../components/Cta.astro';
 import FaqList from '../components/FaqList.astro';
 import PillButton from '../components/PillButton.astro';
-import PostCard from '../components/PostCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { AUTHOR, LINKS, SITE } from '../consts';
 import { HOME_FAQS } from '../data/faqs';
-import { AUDIENCE, OUTCOMES, SYLLABUS } from '../data/home';
-import { FEATURED_EXPERIENCE } from '../data/instructor';
+import { SYLLABUS, VIDEOS } from '../data/home';
+import {
+  SPEAKING_ENGAGEMENTS,
+  TEACHING_CASES,
+  TEACHING_CONTENT,
+} from '../data/services';
 import Base from '../layouts/Base.astro';
 
 const allPosts = (await getCollection('blog')).sort(
@@ -22,7 +22,6 @@ const allPosts = (await getCollection('blog')).sort(
     b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
     (b.data.cmsId ?? 0) - (a.data.cmsId ?? 0),
 );
-const posts = allPosts.slice(0, 4);
 
 // 精選文章的顯示順序（與部落格列表一致）
 const FEATURED_ORDER = [
@@ -65,120 +64,152 @@ const schema = [
   description={SITE.description}
   schema={schema}
 >
-  <!-- Hero -->
+  <!-- 區塊一：加 LINE 描述需求（免費優先） -->
   <section class="px-6 pt-8 md:pt-12">
     <div class="mx-auto max-w-6xl">
       <div class="overflow-hidden rounded-[2rem] border border-sky-200/80 bg-white shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
         <Image src={bannerImage} alt="AI新手教學課程橫幅" class="h-auto w-full" loading="eager" />
       </div>
       <div class="mx-auto mt-12 max-w-3xl text-center">
-        <h1 class="text-3xl font-semibold tracking-tight text-stone-50 md:text-5xl">
-          零基礎也能做出自己的 AI 自動化系統
+        <h1 class="text-3xl font-semibold tracking-tight text-slate-900 md:text-5xl">
+          有 AI 問題？先加 LINE 描述你的需求
         </h1>
-        <p class="mt-6 text-lg leading-8 text-stone-300/85">
-          我是 {AUTHOR.name}，台灣的 AI 應用講師。我教零基礎新手使用 Claude Code、Codex
-          等 AI Agent 工具，從安裝、Meta API 串接到社群自動發文，一步一步做出真正能執行的作品。提供
-          <a href="/services/one-on-one/" class="text-amber-300 underline underline-offset-4">付費一對一私人教學</a>（雙北實體／線上）與
-          <a href="/services/speaking/" class="text-amber-300 underline underline-offset-4">企業、社群演講</a>。
+        <p class="mt-6 text-lg leading-8 text-slate-700">
+          如果是我的<a href="/blog/free-resources/" class="text-[#1688e8] underline underline-offset-4">免費文章、影片</a>已經有提到的內容，<strong>完全免費</strong>；甚至只是簡單的需求、想詢問適合的
+          AI 工具，<strong>也免費</strong>。只有你看了免費教學還是想有人手把手帶著學，才需要考慮約<a href="/services/one-on-one/" class="text-[#1688e8] underline underline-offset-4">實體課程或線上教學</a>。
         </p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
           <PillButton href={LINKS.line} variant="line" external>LINE 免費諮詢</PillButton>
-          <PillButton href="/blog/">看部落格文章</PillButton>
+          <PillButton href="/blog/free-resources/">先看免費資源</PillButton>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 課程介紹 -->
-  <section id="overview" class="px-6 py-20">
+  <!-- 區塊二：我的免費資源 -->
+  <section id="free-resources" class="px-6 py-20">
     <div class="mx-auto max-w-6xl">
-      <SectionHeading>課程介紹</SectionHeading>
-      <div class="mt-5 max-w-3xl leading-8 text-stone-300/85">
-        <p>
-          這是學習一切 AI 自動化的基礎。無論你後續要學 AI 客服、AI 自動拍片、AI
-          爬蟲，都需要先安裝桌面版 AI，取得 Agent 的工具權限，而不只是停留在網頁版對話；也要先設定好環境變數，讓 AI 可以跟第三方平台互動。
-        </p>
-        <p class="mt-4">
-          如果你不想花錢，可以先看我整理的<a href="/blog/free-resources/" class="text-amber-300 underline underline-offset-4">免費資源（教學影片＋開源工具）</a>；但因為還是很多人會卡關，所以我也提供手把手的一對一教學，可以約雙北咖啡廳上實體課，或用 Google Meet / Discord 線上上課。
-        </p>
+      <div class="flex items-end justify-between gap-4">
+        <SectionHeading>我的免費資源</SectionHeading>
+        <a href="/blog/free-resources/" class="text-sm font-semibold text-[#1688e8]">全部免費資源 →</a>
       </div>
-
-      <div class="mt-12 grid gap-4 md:grid-cols-2">
-        {OUTCOMES.map((item) => (
-          <CheckItem as="div" iconClass="text-emerald-300">{item}</CheckItem>
+      <p class="mt-4 max-w-3xl leading-8 text-slate-700">
+        教學影片照著做就能跑通；開源工具 Tooka 做社群圖文＋一鍵發佈。卡關了再來找我就好。
+      </p>
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        {VIDEOS.map((video) => (
+          <Card as="article" padded={false} class="overflow-hidden">
+            <div class="aspect-video w-full bg-black">
+              {video.embedId ? (
+                <iframe
+                  class="h-full w-full"
+                  src={`https://www.youtube-nocookie.com/embed/${video.embedId}`}
+                  title={video.title}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                />
+              ) : (
+                <video class="h-full w-full" src={video.src} controls preload="metadata" playsinline />
+              )}
+            </div>
+            <div class="p-6">
+              <span class="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs uppercase tracking-wide text-slate-600">{video.tag}</span>
+              <h3 class="mt-4 text-xl font-semibold text-slate-900">{video.title}</h3>
+              <p class="mt-3 leading-7 text-slate-600">{video.description}</p>
+            </div>
+          </Card>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 課程大綱 -->
-  <section id="syllabus" class="px-6 py-16">
+  <!-- 區塊三：私教經歷 -->
+  <section id="teaching-cases" class="px-6 py-16">
     <div class="mx-auto max-w-6xl">
-      <SectionHeading>課程大綱</SectionHeading>
-      <p class="mt-4 max-w-3xl leading-8 text-stone-300/85">
-        從桌面版 AI 安裝、Meta API 串接、發文權限設定，到 Skill 工作流建立，帶你一步一步做出真正能執行的 AI 自動化流程。每個模組都有對應的部落格文章可以先讀。
+      <div class="flex items-end justify-between gap-4">
+        <SectionHeading>私教經歷</SectionHeading>
+        <a href="/services/one-on-one/" class="text-sm font-semibold text-[#1688e8]">一對一教學詳情 →</a>
+      </div>
+      <p class="mt-4 max-w-3xl leading-8 text-slate-700">
+        實際帶過的一對一教學案例——從工程師到完全非技術背景的學員都有。
       </p>
       <div class="mt-10 grid gap-5 md:grid-cols-2">
-        {SYLLABUS.map((item) => (
-          <Card as="a" href={item.href} class="group transition hover:border-amber-300/25">
-            <p class="text-xs uppercase tracking-[0.26em] text-amber-200/80">{item.label}</p>
-            <h3 class="mt-3 text-xl font-semibold text-stone-50 md:text-2xl">{item.title}</h3>
-            <p class="mt-4 leading-7 text-stone-300/80">{item.summary}</p>
-            <span class="mt-4 inline-block text-sm font-semibold text-amber-300">閱讀對應文章 →</span>
-          </Card>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- 適合對象 -->
-  <section class="px-6 py-16">
-    <div class="mx-auto max-w-6xl">
-      <SectionHeading>適合誰來學？</SectionHeading>
-      <div class="mt-10 grid gap-5 md:grid-cols-3">
-        {AUDIENCE.map((item) => (
+        {TEACHING_CASES.map((item) => (
           <Card>
-            <h3 class="text-xl font-semibold text-stone-50">{item.title}</h3>
-            <p class="mt-3 leading-7 text-stone-300/80">{item.description}</p>
+            <div class="flex items-center gap-3">
+              <Image src={item.image} alt={item.imageAlt} class="h-10 w-10 rounded-xl object-contain" />
+              <p class="text-xs uppercase tracking-[0.26em] text-sky-700">{item.student}</p>
+            </div>
+            <h3 class="mt-3 text-lg font-semibold text-slate-900">{item.topic}</h3>
+            <p class="mt-3 leading-7 text-slate-600">{item.description}</p>
           </Card>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 講師介紹 -->
-  <section id="instructor" class="px-6 py-16">
+  <!-- 區塊四：公眾演講經歷 -->
+  <section id="speaking" class="px-6 py-16">
     <div class="mx-auto max-w-6xl">
-      <SectionHeading>講師介紹</SectionHeading>
-      <div class="mt-10 grid gap-8 lg:grid-cols-2">
-        <div>
-          <h3 class="text-2xl font-semibold text-stone-50">{AUTHOR.name}</h3>
-          <p class="mt-2 text-amber-200">{AUTHOR.jobTitle}</p>
-          <p class="mt-4 leading-8 text-stone-300/85">{AUTHOR.description}</p>
-          <ul class="mt-6 grid gap-3 sm:grid-cols-2">
-            {FEATURED_EXPERIENCE.map((item) => <CheckItem>{item.text}</CheckItem>)}
-          </ul>
-          <a href="/about/" class="mt-6 inline-block text-sm font-semibold text-amber-300">完整講師介紹 →</a>
-        </div>
-        <div class="grid gap-5">
-          <figure class="overflow-hidden rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
-            <Image src={oneOnOneTeachingImage} alt="一對一實體教學現場" class="h-64 w-full object-cover" />
-            <figcaption class="border-t border-sky-100 bg-white px-5 py-3 text-sm text-stone-300">一對一實體教學現場</figcaption>
-          </figure>
-          <figure class="overflow-hidden rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
-            <Image src={mixerboxTalkImage} alt="Mixerbox 講座授課紀錄" class="h-64 w-full object-cover" />
-            <figcaption class="border-t border-sky-100 bg-white px-5 py-3 text-sm text-stone-300">Mixerbox 講座合作紀錄</figcaption>
-          </figure>
-        </div>
+      <div class="flex items-end justify-between gap-4">
+        <SectionHeading>公眾演講經歷</SectionHeading>
+        <a href="/services/speaking/" class="text-sm font-semibold text-[#1688e8]">演講邀約詳情 →</a>
+      </div>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {SPEAKING_ENGAGEMENTS.map((item) => (
+          <Card padded={false} class="overflow-hidden">
+            <Image src={item.image} alt={item.imageAlt} class="h-48 w-full object-cover" />
+            <div class="p-6">
+              <p class="text-xs uppercase tracking-[0.26em] text-sky-700">{item.host}</p>
+              <h3 class="mt-3 text-lg font-semibold text-slate-900">{item.topic}</h3>
+              <p class="mt-3 leading-7 text-slate-600">{item.description}</p>
+              {item.link && (
+                <a href={item.link} target="_blank" rel="noreferrer" class="mt-4 inline-block text-sm font-semibold text-[#1688e8]">
+                  {item.linkLabel}
+                </a>
+              )}
+            </div>
+          </Card>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- 精選文章 -->
+  <!-- 區塊五：我主要的教學內容 -->
+  <section id="teaching-content" class="px-6 py-16">
+    <div class="mx-auto max-w-6xl">
+      <SectionHeading>我主要的教學內容</SectionHeading>
+      <p class="mt-4 max-w-3xl leading-8 text-slate-700">
+        想系統性學完整流程，可以看<a href="/blog/first-ai-lesson/" class="text-[#1688e8] underline underline-offset-4">新手學 AI 的第一堂課（完整課綱）</a>。
+      </p>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {TEACHING_CONTENT.map((item) => (
+          <Card>
+            <h3 class="text-xl font-semibold text-slate-900">{item.category}</h3>
+            <p class="mt-3 leading-7 text-slate-600">{item.detail}</p>
+            {item.logos && (
+              <div class="mt-4 flex items-center gap-3">
+                {item.logos.map((logo) => (
+                  <Image src={logo.image} alt={logo.alt} class="h-8 w-8 rounded-lg object-contain" />
+                ))}
+              </div>
+            )}
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 區塊六：精選文章 -->
   <section id="featured" class="px-6 py-16">
     <div class="mx-auto max-w-6xl">
-      <SectionHeading>精選文章</SectionHeading>
-      <p class="mt-4 max-w-3xl leading-8 text-stone-300/85">從零基礎入門路線、免費資源到我的轉職故事——先從這幾篇開始讀。</p>
+      <div class="flex items-end justify-between gap-4">
+        <SectionHeading>精選文章</SectionHeading>
+        <a href="/blog/" class="text-sm font-semibold text-[#1688e8]">所有文章 →</a>
+      </div>
+      <p class="mt-4 max-w-3xl leading-8 text-slate-700">從零基礎入門路線、免費資源到我的轉職故事——先從這幾篇開始讀。</p>
       <div class="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
         {featured.map((post) => (
           <a
@@ -190,19 +221,6 @@ const schema = [
             <span class="mt-4 text-xs font-semibold text-[#1688e8]">閱讀全文 →</span>
           </a>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- 最新文章 -->
-  <section class="px-6 py-16">
-    <div class="mx-auto max-w-6xl">
-      <div class="flex items-end justify-between gap-4">
-        <SectionHeading>最新文章</SectionHeading>
-        <a href="/blog/" class="text-sm font-semibold text-amber-300">所有文章 →</a>
-      </div>
-      <div class="mt-10 grid gap-5 md:grid-cols-2">
-        {posts.map((post) => <PostCard post={post} />)}
       </div>
     </div>
   </section>
