@@ -30,6 +30,7 @@ export const AUTHOR = {
 export const LINKS = {
   facebookGroup: 'https://www.facebook.com/groups/3238547836318385',
   threads: 'https://www.threads.com/@alex_wang.ai',
+  youtube: 'https://www.youtube.com/channel/UCQUY_h3ic_oPmuoRJrLvE3g',
   line: 'https://line.me/ti/p/jejH4FkQn-',
   email: 'mailto:castion2293@yahoo.com.tw',
 };
@@ -55,5 +56,5 @@ export const PERSON_SCHEMA = {
   email: AUTHOR.email,
   url: `${SITE.url}/about/`,
   image: new URL(instructorImage.src, SITE.url).href,
-  sameAs: [LINKS.facebookGroup, LINKS.threads],
+  sameAs: [LINKS.facebookGroup, LINKS.threads, LINKS.youtube],
 };
