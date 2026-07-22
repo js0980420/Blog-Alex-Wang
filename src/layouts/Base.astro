@@ -63,6 +63,16 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <!-- Google Analytics（GA4）流量統計 -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-91Z2F673C0"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-91Z2F673C0');
+    </script>
   </head>
   <body
     class="min-h-screen bg-[#f7fbff] font-display text-slate-900 antialiased"
