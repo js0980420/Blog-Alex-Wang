@@ -52,6 +52,7 @@ export const HOME_FAQS: Faq[] = [
   noTechBackground,
   whyNotFreeAi,
   onlineClass,
+  booking,
   claudeOrCodex,
   metaTokenDiff,
 ];
