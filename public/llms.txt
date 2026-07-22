@@ -28,6 +28,7 @@
 - [我如何從打工仔轉職成全職接案工程師：沒進過軟體業的自學路](https://aixwang.dev/blog/from-part-time-to-freelance/)
 - [Threads API 申請教學：從拿 Token、發出第一篇貼文到 Token 自動永久延期](https://aixwang.dev/blog/threads-api-tutorial/)
 - [Instagram API 申請教學：可透過企業管理後台取得永久 Token](https://aixwang.dev/blog/instagram-api-tutorial/)
+- [新手學架部落格：如何只靠跟 AI 對話就完成？](https://aixwang.dev/blog/build-blog-with-ai/)
 
 ## 開源專案
 
