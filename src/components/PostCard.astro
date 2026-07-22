@@ -13,12 +13,12 @@ const date = post.data.pubDate.toLocaleDateString('zh-TW', {
 });
 ---
 
-<article class="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 transition hover:border-amber-300/25 hover:bg-white/[0.06]">
+<article class="rounded-[1.75rem] border border-sky-200/80 bg-white/80 p-7 shadow-[0_8px_30px_rgba(30,64,175,0.05)] transition hover:border-sky-400 hover:bg-white">
   <a href={`/blog/${post.id}/`} class="block">
     <div class="flex flex-wrap items-center gap-3 text-xs text-stone-400">
       <time datetime={post.data.pubDate.toISOString()}>{date}</time>
       {post.data.tags.map((tag) => (
-        <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 uppercase tracking-wide">{tag}</span>
+        <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 uppercase tracking-wide">{tag}</span>
       ))}
     </div>
     <h2 class="mt-4 text-2xl font-semibold text-stone-50">{post.data.title}</h2>

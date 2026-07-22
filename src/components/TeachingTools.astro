@@ -6,7 +6,7 @@ import { TEACHING_TOOLS } from '../data/services';
 
 <ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
   {TEACHING_TOOLS.map((tool) => (
-    <li class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3">
+    <li class="flex items-center gap-3 rounded-2xl border border-sky-200/80 bg-white/80 px-4 py-3 shadow-[0_6px_20px_rgba(30,64,175,0.04)]">
       <Image src={tool.image} alt={tool.imageAlt} width={96} class="h-9 w-9 shrink-0 rounded-lg object-cover" />
       <span class="text-stone-200/90">
         {tool.name}

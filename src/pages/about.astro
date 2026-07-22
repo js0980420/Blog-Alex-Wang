@@ -22,7 +22,7 @@ import Base from '../layouts/Base.astro';
       {AUTHOR.name} 是 AI 講師，也是全職接案工程師與 20 萬人 OpenClaw 中文社群的版主。我教 AI Agent 工具使用、做自動發文、AI 生圖模板、對話式拍片——把工作流程簡化成對話就能完成，只需第一次使用前的安裝、串接成本，一次性教學，受用好幾次。目前提供<strong class="text-amber-200">付費一對一私人教學</strong>（雙北實體或線上）與<strong class="text-amber-200">企業、學校、社群的公開演講</strong>。我沒進過軟體業，是靠 AI 一步一步自學到全職接案的——完整過程寫在<a href="/blog/from-part-time-to-freelance/" class="text-amber-300 underline underline-offset-4 hover:text-amber-200">我的轉職故事</a>。
     </p>
 
-    <figure class="mt-10 overflow-hidden rounded-[1.75rem] border border-white/10">
+    <figure class="mt-10 overflow-hidden rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
       <Image
         src={taichungLectureImage}
         alt={`AI 講師 ${AUTHOR.name} 台中場「AI 製作社群貼文」講座授課現場`}
@@ -31,7 +31,7 @@ import Base from '../layouts/Base.astro';
     </figure>
 
     <SectionHeading size="md" class="mt-14">代表作品：Tooka</SectionHeading>
-    <div class="mt-6 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045]">
+    <div class="mt-6 overflow-hidden rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
       <a href="https://github.com/js0980420/tooka" target="_blank" rel="noreferrer">
         <Image src={tookaCoverImage} alt="Tooka 開源社群圖文模板框架封面" class="w-full object-cover" />
       </a>
@@ -46,7 +46,7 @@ import Base from '../layouts/Base.astro';
           controls
           preload="metadata"
           playsinline
-          class="mt-5 w-full rounded-2xl border border-white/10"
+          class="mt-5 w-full rounded-2xl border border-sky-200/80"
         ></video>
         <a
           href="https://github.com/js0980420/tooka"
@@ -67,7 +67,7 @@ import Base from '../layouts/Base.astro';
     <SectionHeading size="md" class="mt-14">教學主題</SectionHeading>
     <ul class="mt-6 grid gap-3 sm:grid-cols-2">
       {AUTHOR.knowsAbout.map((topic) => (
-        <li class="rounded-2xl border border-white/10 bg-white/[0.045] px-5 py-3 text-stone-200/90">{topic}</li>
+        <li class="rounded-2xl border border-sky-200/80 bg-white/80 px-5 py-3 text-slate-700 shadow-[0_6px_20px_rgba(30,64,175,0.04)]">{topic}</li>
       ))}
     </ul>
 
