@@ -1,5 +1,5 @@
 ---
-title: Claude 和 Codex 預算只夠訂一個，新手該選哪個？
+title: Claude 和 Codex 預算只夠訂閱一個，新手該選哪個？
 description: 預算只夠訂一個的話，我推薦 Codex。ChatGPT 5.5 更新後 Codex 的額度比 Claude 多很多，也能拿來餵 OpenClaw（龍蝦）或 Hermes 等工具，比較不用擔心封號問題。
 pubDate: 2026-07-12
 tags: [Claude Code, Codex, 預算]

@@ -1,29 +1,15 @@
 ---
 import { Image } from 'astro:assets';
-import oneOnOneTeachingImage from '../../assets/teaching-one-on-one.jpg';
+import Card from '../../components/Card.astro';
+import Cta from '../../components/Cta.astro';
 import FaqList from '../../components/FaqList.astro';
+import PillButton from '../../components/PillButton.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import TeachingTools from '../../components/TeachingTools.astro';
 import { AUTHOR, LINKS, SITE } from '../../consts';
+import { ONE_ON_ONE_FAQS } from '../../data/faqs';
+import { CLASS_FORMATS, TEACHING_CASES, TEACHING_CONTENT, TEACHING_TOOLS } from '../../data/services';
 import Base from '../../layouts/Base.astro';
-
-const faqs = [
-  {
-    question: '一對一教學可以線上上課嗎？',
-    answer: '可以，用 Google Meet 或 Discord，只要能分享螢幕畫面就可以上課；實體課則約雙北的咖啡廳。',
-  },
-  {
-    question: '課前需要準備什麼？',
-    answer:
-      '除了教學費用，還需要付費訂閱 AI（初學者一個月 20 美元的額度就夠），並確認你有可用的 Facebook 帳號，能登入 Meta 開發者後台並綁定要串接的帳號。',
-  },
-  {
-    question: '沒有技術背景可以上嗎？',
-    answer: '可以。課程把原本複雜的技術門檻，優化成只要對話就能完成的工作流，任何會操作電腦的人都能上。',
-  },
-  {
-    question: '怎麼預約或詢問費用？',
-    answer: '直接加 LINE 免費諮詢，說明你的目標（例如想自動發文、想學 AI 拍片），我會建議適合的堂數與報價。',
-  },
-];
 
 const schema = [
   {
@@ -32,7 +18,7 @@ const schema = [
     name: 'AI 一對一私人教學',
     serviceType: 'AI 教學 / 一對一家教',
     description:
-      '付費一對一 AI 私人教學：手把手帶零基礎學員完成桌面版 Claude Code / Codex 安裝、Meta API 串接與社群自動發文系統。雙北咖啡廳實體課或 Google Meet / Discord 線上課。',
+      '付費一對一 AI 私人教學：手把手帶零基礎學員完成桌面版 Claude Code / Codex、OpenClaw（龍蝦）、Hermes（愛馬仕）安裝、Meta API 串接與社群自動發文系統。雙北咖啡廳實體課或 Google Meet / Discord 線上課。',
     provider: { '@id': AUTHOR.id },
     areaServed: ['台北市', '新北市', '線上（台灣與海外皆可）'],
     availableChannel: [
@@ -41,8 +27,31 @@ const schema = [
     ],
   },
   {
+    '@type': 'ItemList',
+    '@id': `${SITE.url}/services/one-on-one/#cases`,
+    name: '一對一教學實際案例',
+    itemListElement: TEACHING_CASES.map((c, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: `${c.topic}｜學員背景：${c.student}`,
+      description: c.description,
+      image: new URL(c.image.src, SITE.url).href,
+    })),
+  },
+  {
+    '@type': 'ItemList',
+    '@id': `${SITE.url}/services/one-on-one/#tools`,
+    name: '可教學工具',
+    itemListElement: TEACHING_TOOLS.map((t, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: t.note ? `${t.name}（${t.note}）` : t.name,
+      image: new URL(t.image.src, SITE.url).href,
+    })),
+  },
+  {
     '@type': 'FAQPage',
-    mainEntity: faqs.map((f) => ({
+    mainEntity: ONE_ON_ONE_FAQS.map((f) => ({
       '@type': 'Question',
       name: f.question,
       acceptedAnswer: { '@type': 'Answer', text: f.answer },
@@ -53,7 +62,7 @@ const schema = [
 
 <Base
   title="AI 一對一私人教學｜雙北實體、線上皆可的付費私教"
-  description="Alex 提供付費一對一 AI 私人教學：手把手帶你完成 Claude Code / Codex 安裝、Meta API 串接與自動發文系統。雙北咖啡廳實體課，或 Google Meet / Discord 線上課。"
+  description="Alex 提供付費一對一 AI 私人教學：手把手帶你完成 Claude Code / Codex、OpenClaw（龍蝦）、Hermes（愛馬仕）安裝、Meta API 串接與自動發文系統。雙北咖啡廳實體課，或 Google Meet / Discord 線上課。"
   schema={schema}
 >
   <div class="mx-auto max-w-4xl px-6 py-12">
@@ -61,60 +70,70 @@ const schema = [
 
     <p class="mt-8 text-lg leading-9 text-stone-200/90">
       這是付費的一對一 AI 私人教學服務：由我（<a href="/about/" class="text-amber-300 underline underline-offset-4">{AUTHOR.name}</a>）手把手帶你，在<strong class="text-amber-200">你自己的電腦、你自己的帳號</strong>上，把
-      AI 自動化流程真正跑通一次——從桌面版 Claude Code / Codex 安裝、Meta API 申請，到做出可排程的社群自動發文系統。
+      AI 自動化流程真正跑通一次——從桌面版 Claude Code / Codex、OpenClaw（龍蝦）、Hermes（愛馬仕）安裝、Meta API 申請，到做出可排程的社群自動發文系統。
     </p>
 
-    <figure class="mt-10 overflow-hidden rounded-[1.75rem] border border-white/10">
-      <Image src={oneOnOneTeachingImage} alt="AI 一對一實體教學現場" class="h-72 w-full object-cover" />
-      <figcaption class="bg-white/[0.045] px-5 py-3 text-sm text-stone-300">一對一實體教學現場</figcaption>
-    </figure>
-
-    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">上課形式</h2>
+    <SectionHeading size="md" class="mt-14">上課形式</SectionHeading>
     <div class="mt-6 grid gap-5 sm:grid-cols-2">
-      <div class="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7">
-        <h3 class="text-xl font-semibold text-stone-50">實體課</h3>
-        <p class="mt-3 leading-7 text-stone-300/85">
-          雙北地區，約在交通方便的咖啡廳。適合對電腦操作較不熟、希望有人在旁邊直接指導的學員。帶筆電來即可。
-        </p>
-      </div>
-      <div class="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7">
-        <h3 class="text-xl font-semibold text-stone-50">線上課</h3>
-        <p class="mt-3 leading-7 text-stone-300/85">
-          使用 Google Meet 或 Discord，你分享螢幕、我一步一步帶你操作。台灣各地與海外學員皆可預約。
-        </p>
-      </div>
-    </div>
-
-    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">教學內容</h2>
-    <ul class="mt-6 space-y-4">
-      {[
-        '桌面版 Claude Code / Codex 安裝、工具權限與環境設定',
-        'Meta 三大 API（Facebook / Instagram / Threads）申請與帳號綁定',
-        '自動發文流程實作、權限設定與排程',
-        '用 Skill 讓 AI 記住你的文案風格與工作流',
-        '也可依你的需求客製主題：AI 客服、AI 自動拍片、AI 爬蟲等',
-      ].map((item) => (
-        <li class="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-5 leading-7 text-stone-200/90">
-          <span class="text-amber-200">✓</span>
-          {item}
-        </li>
+      {CLASS_FORMATS.map((format) => (
+        <Card>
+          <h3 class="text-xl font-semibold text-stone-50">{format.title}</h3>
+          <p class="mt-3 leading-7 text-stone-300/85">{format.description}</p>
+        </Card>
       ))}
-    </ul>
+    </div>
 
-    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">常見問題</h2>
+    <SectionHeading size="md" class="mt-14">教學內容</SectionHeading>
+    <div class="mt-6 grid gap-5 sm:grid-cols-2">
+      {TEACHING_CONTENT.map((item) => (
+        <Card>
+          <h3 class="text-xl font-semibold text-stone-50">{item.category}</h3>
+          {item.logos && (
+            <div class="mt-4 flex gap-2.5">
+              {item.logos.map((logo) => (
+                <Image src={logo.image} alt={logo.alt} width={96} class="h-9 w-9 rounded-lg object-cover" />
+              ))}
+            </div>
+          )}
+          <p class="mt-3 leading-7 text-stone-300/85">{item.detail}</p>
+        </Card>
+      ))}
+    </div>
+
+    <SectionHeading size="md" class="mt-14">可教學工具</SectionHeading>
+    <TeachingTools />
+
+    <SectionHeading size="md" class="mt-14">實際教學案例</SectionHeading>
+    <p class="mt-4 leading-7 text-stone-300/85">
+      以下是四個實際的一對一教學案例，涵蓋不同背景的學員與客製化主題：
+    </p>
+    <div class="mt-6 grid gap-5 sm:grid-cols-2">
+      {TEACHING_CASES.map((item) => (
+        <Card>
+          <div class="flex items-center gap-3">
+            <Image src={item.image} alt={item.imageAlt} width={96} class="h-10 w-10 shrink-0 rounded-xl object-contain" />
+            <h3 class="text-lg font-semibold leading-snug text-stone-50">{item.topic}</h3>
+          </div>
+          <p class="mt-3 text-sm text-amber-200/80">學員背景：{item.student}</p>
+          <p class="mt-3 leading-7 text-stone-300/85">{item.description}</p>
+        </Card>
+      ))}
+    </div>
+
+    <SectionHeading size="md" class="mt-14">常見問題</SectionHeading>
     <div class="mt-6">
-      <FaqList faqs={faqs} />
+      <FaqList faqs={ONE_ON_ONE_FAQS} />
     </div>
 
-    <div class="mt-14 rounded-[1.75rem] border border-amber-300/20 bg-[linear-gradient(135deg,rgba(251,191,36,0.12),rgba(244,114,182,0.08),rgba(255,255,255,0.03))] p-8 text-center">
-      <h2 class="text-2xl font-semibold text-stone-50">想預約或先問問題？</h2>
-      <p class="mx-auto mt-3 max-w-xl leading-7 text-stone-200/85">
-        加 LINE 告訴我你的目標和目前程度，我會建議適合的上課方式與堂數。
-      </p>
-      <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a href={LINKS.line} target="_blank" rel="noreferrer" class="rounded-full bg-[#06c755] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#05b84d]">LINE 免費諮詢</a>
-        <a href={LINKS.email} class="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-stone-100 transition hover:bg-white/10">Email 聯絡</a>
-      </div>
-    </div>
+    <Cta
+      centered
+      title="想預約或先問問題？"
+      text="加 LINE 告訴我你的目標和目前程度，我會建議適合的上課方式與堂數。"
+    >
+      <Fragment slot="actions">
+        <PillButton href={LINKS.line} variant="line" external>LINE 免費諮詢</PillButton>
+        <PillButton href={LINKS.email}>Email 聯絡</PillButton>
+      </Fragment>
+    </Cta>
   </div>
 </Base>

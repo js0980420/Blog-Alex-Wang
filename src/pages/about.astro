@@ -3,8 +3,11 @@ import { Image } from 'astro:assets';
 import instructorImage from '../assets/instructor-shirt.jpg';
 import mixerboxTalkImage from '../assets/mixerbox-talk.jpeg';
 import oneOnOneTeachingImage from '../assets/teaching-one-on-one.jpg';
+import CheckItem from '../components/CheckItem.astro';
 import Cta from '../components/Cta.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import { AUTHOR } from '../consts';
+import { EXPERIENCE } from '../data/instructor';
 import Base from '../layouts/Base.astro';
 ---
 
@@ -36,23 +39,12 @@ import Base from '../layouts/Base.astro';
       </div>
     </div>
 
-    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">經歷與代表作品</h2>
+    <SectionHeading size="md" class="mt-14">經歷與代表作品</SectionHeading>
     <ul class="mt-6 space-y-4">
-      {[
-        '全職接案工程師：作品包括 Line LIFF 網頁、AI 客服、CRM 後台管理系統等實際商業專案。',
-        '一鍵拍片開源專案 HyperFrames 協作者：從腳本、剪輯、字幕、真人配音、音樂、封面圖到多平台自動發佈，都能透過對話完成，大幅降低拍片的時間成本與技術門檻。',
-        'Zeabur 合作夥伴，並提供 OpenClaw、Hermes 的救援服務。',
-        '20 萬人 OpenClaw 中文社群版主。',
-        'Mixerbox 等單位講座授課經驗。',
-      ].map((item) => (
-        <li class="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-5 leading-7 text-stone-200/90">
-          <span class="text-amber-200">✓</span>
-          {item}
-        </li>
-      ))}
+      {EXPERIENCE.map((item) => <CheckItem>{item.text}</CheckItem>)}
     </ul>
 
-    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">教學主題</h2>
+    <SectionHeading size="md" class="mt-14">教學主題</SectionHeading>
     <ul class="mt-6 grid gap-3 sm:grid-cols-2">
       {AUTHOR.knowsAbout.map((topic) => (
         <li class="rounded-2xl border border-white/10 bg-white/[0.045] px-5 py-3 text-stone-200/90">{topic}</li>

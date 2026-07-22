@@ -1,40 +1,33 @@
 ---
 import { LINKS } from '../consts';
+import PillButton from './PillButton.astro';
 
 interface Props {
   title?: string;
   text?: string;
+  centered?: boolean;
 }
 
 const {
   title = '想更快上手？可以直接找我一對一',
   text = '我提供付費一對一 AI 私人教學（雙北咖啡廳實體課或 Google Meet／Discord 線上課），也接受企業與社群的 AI 演講邀約。',
+  centered = false,
 } = Astro.props;
 ---
 
-<aside class="mt-14 rounded-[1.75rem] border border-amber-300/20 bg-[linear-gradient(135deg,rgba(251,191,36,0.12),rgba(244,114,182,0.08),rgba(255,255,255,0.03))] p-8">
+<aside
+  class:list={[
+    'mt-14 rounded-[1.75rem] border border-amber-300/20 bg-[linear-gradient(135deg,rgba(251,191,36,0.12),rgba(244,114,182,0.08),rgba(255,255,255,0.03))] p-8',
+    centered && 'text-center',
+  ]}
+>
   <h2 class="text-2xl font-semibold text-stone-50">{title}</h2>
-  <p class="mt-3 max-w-2xl leading-7 text-stone-200/85">{text}</p>
-  <div class="mt-6 flex flex-wrap gap-3">
-    <a
-      href={LINKS.line}
-      target="_blank"
-      rel="noreferrer"
-      class="rounded-full bg-[#06c755] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05b84d]"
-    >
-      LINE 免費諮詢
-    </a>
-    <a
-      href="/services/one-on-one/"
-      class="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-semibold text-stone-100 transition hover:bg-white/10"
-    >
-      了解一對一私教
-    </a>
-    <a
-      href="/services/speaking/"
-      class="rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-semibold text-stone-100 transition hover:bg-white/10"
-    >
-      演講邀約
-    </a>
+  <p class:list={['mt-3 max-w-2xl leading-7 text-stone-200/85', centered && 'mx-auto']}>{text}</p>
+  <div class:list={['mt-6 flex flex-wrap gap-3', centered && 'justify-center']}>
+    <slot name="actions">
+      <PillButton href={LINKS.line} variant="line" size="md" external>LINE 免費諮詢</PillButton>
+      <PillButton href="/services/one-on-one/" size="md">了解一對一私教</PillButton>
+      <PillButton href="/services/speaking/" size="md">演講邀約</PillButton>
+    </slot>
   </div>
 </aside>

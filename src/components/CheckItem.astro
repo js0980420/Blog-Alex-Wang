@@ -1,0 +1,14 @@
+---
+// 打勾清單項；首頁學習成果用 emerald 勾勾，其餘頁面用預設 amber
+interface Props {
+  as?: 'li' | 'div';
+  iconClass?: string;
+}
+
+const { as: Tag = 'li', iconClass = 'text-amber-200' } = Astro.props;
+---
+
+<Tag class="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-5 leading-7 text-stone-200/90">
+  <span class={iconClass}>✓</span>
+  <slot />
+</Tag>

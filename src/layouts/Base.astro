@@ -1,4 +1,5 @@
 ---
+import PillButton from '../components/PillButton.astro';
 import { NAV, LINKS, SITE, PERSON_SCHEMA } from '../consts';
 import '../styles/global.css';
 
@@ -66,14 +67,7 @@ const jsonLd = {
             <a href={item.href} class="transition hover:text-white">{item.label}</a>
           ))}
         </nav>
-        <a
-          href={LINKS.line}
-          target="_blank"
-          rel="noreferrer"
-          class="rounded-full bg-[#06c755] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#05b84d]"
-        >
-          免費諮詢
-        </a>
+        <PillButton href={LINKS.line} variant="line" size="sm" external>免費諮詢</PillButton>
       </div>
       <nav class="flex gap-4 overflow-x-auto border-t border-white/5 px-6 py-2 text-sm text-stone-300 lg:hidden">
         {NAV.map((item) => (

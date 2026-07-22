@@ -1,0 +1,19 @@
+---
+// 全站共用卡片外框；hover 效果或間距調整由呼叫端用 class 傳入
+interface Props {
+  as?: 'div' | 'a' | 'article';
+  href?: string;
+  class?: string;
+  /** 需要滿版內容（如影片嵌入）時設為 false，自行控制內距 */
+  padded?: boolean;
+}
+
+const { as: Tag = 'div', href, class: className, padded = true } = Astro.props;
+---
+
+<Tag
+  href={href}
+  class:list={['rounded-[1.75rem] border border-white/10 bg-white/[0.045]', padded && 'p-7', className]}
+>
+  <slot />
+</Tag>

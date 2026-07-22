@@ -41,6 +41,8 @@ export const NAV = [
   { href: '/about/', label: '關於講師' },
 ];
 
+import instructorImage from './assets/instructor-shirt.jpg';
+
 // 全站 Person 實體：所有頁面的 JSON-LD 都引用同一個 @id，讓 AI 把內容歸到同一個人身上
 export const PERSON_SCHEMA = {
   '@type': 'Person',
@@ -51,5 +53,6 @@ export const PERSON_SCHEMA = {
   knowsAbout: AUTHOR.knowsAbout,
   email: AUTHOR.email,
   url: `${SITE.url}/about/`,
+  image: new URL(instructorImage.src, SITE.url).href,
   sameAs: [LINKS.facebookGroup],
 };

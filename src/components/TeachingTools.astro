@@ -1,0 +1,17 @@
+---
+// 可教學工具清單：一對一私教與演講頁共用；logo 一律滿版顯示
+import { Image } from 'astro:assets';
+import { TEACHING_TOOLS } from '../data/services';
+---
+
+<ul class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+  {TEACHING_TOOLS.map((tool) => (
+    <li class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3">
+      <Image src={tool.image} alt={tool.imageAlt} width={96} class="h-9 w-9 shrink-0 rounded-lg object-cover" />
+      <span class="text-stone-200/90">
+        {tool.name}
+        {tool.note && <span class="text-stone-400">（{tool.note}）</span>}
+      </span>
+    </li>
+  ))}
+</ul>

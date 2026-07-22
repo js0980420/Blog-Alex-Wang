@@ -1,0 +1,31 @@
+---
+// 全站共用圓角按鈕連結：line = LINE 綠色主按鈕，ghost = 白色描邊次要按鈕
+interface Props {
+  href: string;
+  variant?: 'line' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  external?: boolean;
+}
+
+const { href, variant = 'ghost', size = 'lg', external = false } = Astro.props;
+
+const sizeClasses = {
+  sm: 'px-4 py-2',
+  md: 'px-5 py-2.5',
+  lg: 'px-6 py-3',
+};
+
+const variantClasses = {
+  line: 'bg-[#06c755] text-white hover:bg-[#05b84d]',
+  ghost: 'border border-white/15 bg-white/5 text-stone-100 hover:bg-white/10',
+};
+---
+
+<a
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noreferrer' : undefined}
+  class:list={['rounded-full text-sm font-semibold transition', sizeClasses[size], variantClasses[variant]]}
+>
+  <slot />
+</a>

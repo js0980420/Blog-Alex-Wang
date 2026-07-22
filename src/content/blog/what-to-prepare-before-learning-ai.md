@@ -16,7 +16,7 @@ faqs:
 
 ## 為什麼一定要付費訂閱 AI？
 
-因為自動化需要的是有 Agent 權限的桌面版工具（Claude Code 或 Codex），而不是免費網頁版聊天。免費 AI 穩定度差、錯誤率高，新手用起來反而更花時間。詳細比較我寫在[這篇](/blog/why-desktop-claude-code-codex/)，如果預算只夠訂一個，[我會推薦 Codex](/blog/claude-or-codex-budget/)。
+因為自動化需要的是有 Agent 權限的桌面版工具（Claude Code 或 Codex），而不是免費網頁版聊天。免費 AI 穩定度差、錯誤率高，新手用起來反而更花時間。詳細比較我寫在[這篇](/blog/why-desktop-claude-code-codex/)，如果預算只夠訂閱一個，[我會推薦 Codex](/blog/claude-or-codex-budget/)。
 
 ## Facebook 帳號要注意什麼？
 

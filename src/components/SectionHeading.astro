@@ -1,0 +1,19 @@
+---
+// 章節標題：lg 用於首頁大區塊，md 用於子頁面小節
+interface Props {
+  size?: 'lg' | 'md';
+  class?: string;
+}
+
+const { size = 'lg', class: className } = Astro.props;
+---
+
+<h2
+  class:list={[
+    'font-semibold text-stone-50',
+    size === 'lg' ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl',
+    className,
+  ]}
+>
+  <slot />
+</h2>
