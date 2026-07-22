@@ -2,7 +2,7 @@
 export const SITE = {
   title: 'AI新手教學',
   titleEn: 'AI Beginner Blog',
-  url: 'https://ai-beginner-course.zeabur.app',
+  url: 'https://aixwang.dev',
   description:
     'Alex 是台灣的 AI 應用講師，專注教零基礎新手使用 Claude Code、Codex 等 AI Agent 工具，提供付費一對一私人教學（雙北實體／線上）與企業、社群公開演講。',
   locale: 'zh-TW',
@@ -29,6 +29,7 @@ export const AUTHOR = {
 
 export const LINKS = {
   facebookGroup: 'https://www.facebook.com/groups/3238547836318385',
+  threads: 'https://www.threads.com/@alex_wang.ai',
   line: 'https://line.me/ti/p/jejH4FkQn-',
   email: 'mailto:castion2293@yahoo.com.tw',
 };
@@ -54,5 +55,5 @@ export const PERSON_SCHEMA = {
   email: AUTHOR.email,
   url: `${SITE.url}/about/`,
   image: new URL(instructorImage.src, SITE.url).href,
-  sameAs: [LINKS.facebookGroup],
+  sameAs: [LINKS.facebookGroup, LINKS.threads],
 };
