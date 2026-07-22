@@ -167,16 +167,20 @@ const jsonLd = {
           <span class="hidden sm:block">
             <PillButton href={LINKS.line} variant="line" size="sm" external>免費諮詢</PillButton>
           </span>
-          <button id="menu-toggle" type="button" aria-label="開啟選單" class="text-slate-600 transition hover:text-[#1688e8] lg:hidden">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-6 w-6" aria-hidden="true">
+          <button id="menu-toggle" type="button" aria-label="開啟選單" aria-expanded="false" class="text-slate-600 transition-transform duration-300 hover:text-[#1688e8] lg:hidden">
+            <svg id="icon-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-6 w-6" aria-hidden="true">
               <line x1="4" y1="6" x2="20" y2="6" />
               <line x1="4" y1="12" x2="20" y2="12" />
               <line x1="4" y1="18" x2="20" y2="18" />
             </svg>
+            <svg id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden h-6 w-6" aria-hidden="true">
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="18" y1="6" x2="6" y2="18" />
+            </svg>
           </button>
         </div>
       </div>
-      <div id="mobile-menu" class="hidden border-t border-slate-200 bg-white/95 px-6 py-4 lg:hidden">
+      <div id="mobile-menu" class="max-h-0 overflow-hidden bg-white/95 px-6 opacity-0 transition-[max-height,opacity,padding] duration-300 ease-in-out lg:hidden">
         <nav class="flex flex-col gap-1 text-slate-700">
           {NAV.map((item) => (
             <a href={item.href} class="rounded-xl px-3 py-2 transition hover:bg-sky-50 hover:text-[#1688e8]">{item.label}</a>
@@ -209,12 +213,28 @@ const jsonLd = {
 
     <script is:inline>
       (function () {
-        // 漢堡選單
+        // 漢堡選單（滑順展開收合）
         var btn = document.getElementById('menu-toggle');
         var menu = document.getElementById('mobile-menu');
+        var iconBurger = document.getElementById('icon-burger');
+        var iconClose = document.getElementById('icon-close');
         if (btn && menu) {
           btn.addEventListener('click', function () {
-            menu.classList.toggle('hidden');
+            var open = btn.getAttribute('aria-expanded') === 'true';
+            if (open) {
+              menu.style.maxHeight = '0';
+              menu.classList.add('opacity-0');
+              menu.classList.remove('border-t', 'border-slate-200', 'py-4');
+            } else {
+              menu.classList.add('border-t', 'border-slate-200', 'py-4');
+              menu.classList.remove('opacity-0');
+              menu.style.maxHeight = menu.scrollHeight + 40 + 'px';
+            }
+            btn.setAttribute('aria-expanded', String(!open));
+            btn.setAttribute('aria-label', open ? '開啟選單' : '關閉選單');
+            iconBurger.classList.toggle('hidden', !open);
+            iconClose.classList.toggle('hidden', open);
+            btn.style.transform = open ? '' : 'rotate(90deg)';
           });
         }
 
