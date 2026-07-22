@@ -1,6 +1,6 @@
 ---
 title: 上 AI 入門課程前要準備什麼？零基礎的課前清單
-description: 只需要三樣東西：一台電腦、每月 20 美元的 ChatGPT 或 Claude 訂閱，以及一個可以登入 Meta 開發者後台的 Facebook 帳號。不需要任何程式背景。
+description: 基本上只需要兩樣東西：一台電腦、每月 20 美元的 ChatGPT 或 Claude 訂閱。想學自動發文或留言、私訊的人，才需要再準備一個可以登入 Meta 開發者後台的 Facebook 帳號。不需要任何程式背景。
 pubDate: 2026-07-08
 tags: [新手入門, 課前準備]
 faqs:
@@ -8,17 +8,17 @@ faqs:
     answer: 不需要。課程的用意就是把原本複雜的技術門檻，優化成只要對話就能完成的工作流，任何會操作電腦的人都能上。
   - question: 除了學費還有什麼花費？
     answer: 需要付費訂閱 AI，初學者準備一個月 20 美元的額度就夠了。
-  - question: 為什麼需要 Facebook 帳號？
-    answer: 因為申請 Meta 三大 API（Facebook、Instagram、Threads）都要先用 Facebook 帳號登入 Meta 開發者後台，而且要串接的帳號都必須綁在這個 FB 帳號底下。
+  - question: 一定要有 Facebook 帳號嗎？
+    answer: 不一定，只有要做自動發文或留言、私訊的人才需要——因為申請 Meta 三大 API（Facebook、Instagram、Threads）都要先用 Facebook 帳號登入 Meta 開發者後台，而且要串接的帳號都必須綁在這個 FB 帳號底下。學生圖、拍片等其他主題不需要。
 ---
 
-**直接回答：課前只需要準備三樣東西——(1) 一台可以安裝軟體的電腦，(2) 每月 20 美元的 ChatGPT 或 Claude 付費訂閱，(3) 一個可用的 Facebook 帳號**（用來登入 Meta 開發者後台，並綁定你要串接的 IG／Threads 帳號）。不需要程式背景，也不需要事先自學任何工具。
+**直接回答：課前基本上只要準備兩樣東西——(1) 一台可以安裝軟體的電腦，(2) 每月 20 美元的 ChatGPT 或 Claude 付費訂閱。** 如果你要學的是**自動發文或留言、私訊**，才需要再準備 (3) 一個可用的 Facebook 帳號（用來登入 Meta 開發者後台，並綁定你要串接的 IG／Threads 帳號）。不需要程式背景，也不需要事先自學任何工具。
 
 ## 為什麼一定要付費訂閱 AI？
 
 因為自動化需要的是有 Agent 權限的桌面版工具（Claude Code 或 Codex），而不是免費網頁版聊天。免費 AI 穩定度差、錯誤率高，新手用起來反而更花時間。詳細比較我寫在[這篇](/blog/why-desktop-claude-code-codex/)，如果預算只夠訂閱一個，[我會推薦訂 ChatGPT](/blog/claude-or-codex-budget/)。
 
-## Facebook 帳號要注意什麼？
+## Facebook 帳號要注意什麼？（做自動發文、留言、私訊的人才需要）
 
 - 必須是**能正常登入、非新註冊的帳號**（太新的帳號容易被 Meta 判定異常）
 - 你要自動發文的 Facebook 粉專、Instagram、Threads 帳號，都要**綁在這個 FB 帳號底下**

@@ -49,7 +49,13 @@ export const AUDIENCE = [
   },
 ];
 
-export const VIDEOS = [
+export const VIDEOS: {
+  title: string;
+  description: string;
+  tag: string;
+  embedId?: string;
+  src?: string;
+}[] = [
   {
     title: 'Threads API 申請教學',
     description: '聚焦自動發文、留言回覆與 token 申請流程的實戰教學代表作。',
@@ -57,15 +63,15 @@ export const VIDEOS = [
     embedId: 'nTYrG7EuFHA',
   },
   {
-    title: 'Zeabur Agent Skills 完整指南',
-    description: '把 Coding Agent、伺服器管理與技能應用串在一起的完整指南。',
-    tag: 'Agent 實戰',
-    embedId: 'GfU8e5-JURM',
+    title: 'Instagram API 申請教學：從 Meta 開發者後台到自動發文第一步',
+    description: 'Instagram API 的申請流程實戰：從 Meta 開發者後台設定，一路做到自動發文的第一步。',
+    tag: 'API 教學',
+    embedId: 'O1qfeDIZRkQ',
   },
   {
-    title: '【只靠對話就能拍片？】Claude 一鍵生成影片',
-    description: '從對話到剪輯的一條龍流程，展示內容創作與 AI 工作流的應用。',
-    tag: '影音創作',
-    embedId: 'lq2M7HjH1mY',
+    title: 'Tooka：AI 生成社群圖文的實際工作流',
+    description: '用中文描述需求，AI Agent 透過我開源的 Tooka 生成 1080×1350 輪播圖文並發佈的完整流程示範。',
+    tag: 'AI 圖文',
+    src: '/videos/tooka-workflow-demo.mp4',
   },
 ];

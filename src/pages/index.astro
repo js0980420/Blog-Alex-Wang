@@ -139,17 +139,17 @@ const schema = [
           <h3 class="text-2xl font-semibold text-stone-50">{AUTHOR.name}</h3>
           <p class="mt-2 text-amber-200">{AUTHOR.jobTitle}</p>
           <p class="mt-4 leading-8 text-stone-300/85">{AUTHOR.description}</p>
-          <ul class="mt-6 space-y-3">
+          <ul class="mt-6 grid gap-3 sm:grid-cols-2">
             {FEATURED_EXPERIENCE.map((item) => <CheckItem>{item.text}</CheckItem>)}
           </ul>
           <a href="/about/" class="mt-6 inline-block text-sm font-semibold text-amber-300">完整講師介紹 →</a>
         </div>
         <div class="grid gap-5">
-          <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
+          <figure class="overflow-hidden rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
             <Image src={oneOnOneTeachingImage} alt="一對一實體教學現場" class="h-64 w-full object-cover" />
             <figcaption class="bg-white/[0.045] px-5 py-3 text-sm text-stone-300">一對一實體教學現場</figcaption>
           </figure>
-          <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
+          <figure class="overflow-hidden rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
             <Image src={mixerboxTalkImage} alt="Mixerbox 講座授課紀錄" class="h-64 w-full object-cover" />
             <figcaption class="bg-white/[0.045] px-5 py-3 text-sm text-stone-300">Mixerbox 講座合作紀錄</figcaption>
           </figure>
@@ -167,15 +167,19 @@ const schema = [
         {VIDEOS.map((video) => (
           <Card as="article" padded={false} class="overflow-hidden">
             <div class="aspect-video w-full bg-black">
-              <iframe
-                class="h-full w-full"
-                src={`https://www.youtube-nocookie.com/embed/${video.embedId}`}
-                title={video.title}
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              />
+              {video.embedId ? (
+                <iframe
+                  class="h-full w-full"
+                  src={`https://www.youtube-nocookie.com/embed/${video.embedId}`}
+                  title={video.title}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                />
+              ) : (
+                <video class="h-full w-full" src={video.src} controls preload="metadata" playsinline />
+              )}
             </div>
             <div class="p-6">
               <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-wide text-stone-300">{video.tag}</span>

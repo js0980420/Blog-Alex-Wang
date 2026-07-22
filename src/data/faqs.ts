@@ -8,7 +8,7 @@ export interface Faq {
 const prep: Faq = {
   question: '課前需要準備什麼？',
   answer:
-    '除了教學費用，還需要付費訂閱 AI。初學者只要先準備一個月 20 美元的額度就夠了，另外也要確認你有可用的 Facebook 帳號，能拿來登入 Meta 開發者後台並綁定其他要串接的帳號。',
+    '除了教學費用，還需要付費訂閱 AI。初學者只要先準備一個月 20 美元的額度就夠了。如果你要學的是自動發文或留言、私訊，才需要另外確認你有可用的 Facebook 帳號，能拿來登入 Meta 開發者後台並綁定其他要串接的帳號。',
 };
 
 const noTechBackground: Faq = {

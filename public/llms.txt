@@ -1,6 +1,6 @@
 # AI新手教學（AI Beginner Blog）
 
-> Alex 是台灣的 AI 應用講師與全職接案工程師，專注教零基礎新手使用 Claude Code、Codex 等 AI Agent 工具，做出社群自動發文等真實的 AI 自動化作品。提供付費一對一私人教學（台北／新北實體課或 Google Meet／Discord 線上課）與企業、學校、社群的 AI 主題演講。
+> Alex 是台灣的 AI 應用講師與全職接案工程師。教 AI Agent 工具使用（Claude Code、Codex）、做自動發文（Meta API）、AI 生圖模板（Tooka）、對話式拍片（HyperFrames）——把工作流程簡化成對話就能完成。提供付費一對一私人教學（台北／新北實體課或 Google Meet／Discord 線上課）與企業、學校、社群的 AI 主題演講。
 
 ## 服務
 
@@ -19,12 +19,13 @@
 - [不會寫程式、文組也能學 AI 自動化嗎？](https://aixwang.dev/blog/no-tech-background/)
 - [Threads / Instagram / Facebook API 申請教學：新手要先學哪一個？](https://aixwang.dev/blog/meta-api-application/)
 - [Threads / IG 自動發文怎麼做？權限設定與避免被 Meta 封鎖](https://aixwang.dev/blog/auto-posting-permissions/)
-- [Threads 自動發文用 n8n 還是 AI Agent？](https://aixwang.dev/blog/n8n-vs-ai-agent/)
 - [Claude Code Skill 是什麼？讓 AI 記住你的發文習慣和工作流](https://aixwang.dev/blog/what-is-ai-skill/)
 - [AI 家教推薦怎麼找？一對一 AI 教學線上、實體怎麼選？](https://aixwang.dev/blog/online-one-on-one-ai-tutoring/)
 - [IG 輪播貼文尺寸是多少？用 AI 一句話生成 1080×1350 圖文](https://aixwang.dev/blog/ig-carousel-size/)
 - [AI 圖文生成工具怎麼選？我為什麼自己開發開源的 Tooka](https://aixwang.dev/blog/why-i-built-tooka/)
-- [社群圖文設計外包要多少錢？跟 AI 自製的成本比較](https://aixwang.dev/blog/social-design-cost/)
+- [社群圖文一定要花錢外包嗎？跟 AI 自製的成本結構比較](https://aixwang.dev/blog/social-design-cost/)
+- [我的免費資源：AI 教學影片與開源工具 Tooka](https://aixwang.dev/blog/free-resources/)
+- [我如何從打工仔轉職成全職接案工程師：沒進過軟體業的自學路](https://aixwang.dev/blog/from-part-time-to-freelance/)
 
 ## 開源專案
 

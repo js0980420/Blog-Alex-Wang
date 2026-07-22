@@ -4,7 +4,7 @@ export const SITE = {
   titleEn: 'AI Beginner Blog',
   url: 'https://aixwang.dev',
   description:
-    'Alex 是台灣的 AI 應用講師，專注教零基礎新手使用 Claude Code、Codex 等 AI Agent 工具，提供付費一對一私人教學（雙北實體／線上）與企業、社群公開演講。',
+    'Alex 是台灣的 AI 應用講師與全職接案工程師。教 AI Agent 工具使用、做自動發文、AI 生圖模板、對話式拍片——把工作流程簡化成對話就能完成。提供付費一對一私人教學（雙北實體／線上）與企業、社群公開演講。',
   locale: 'zh-TW',
 };
 
@@ -13,16 +13,16 @@ export const AUTHOR = {
   name: 'Alex',
   jobTitle: 'AI 應用講師 / 全職接案工程師',
   description:
-    '全職接案工程師、20 萬人 OpenClaw 中文社群版主。專注 AI 自動化、工作流整合與實戰落地教學，提供一對一 AI 私人教學與公開演講。',
+    '全職接案工程師、20 萬人 OpenClaw 中文社群版主。AI Agent 工具使用、做自動發文、AI 生圖模板、對話式拍片教學——盡可能把工作流程簡化成對話就能完成，只需第一次使用前的安裝、串接成本，一次性教學，受用好幾次。',
   knowsAbout: [
-    'AI 教學',
+    'AI Agent 工具',
     'Claude Code',
     'Codex',
-    'AI Agent',
-    'AI 自動化',
+    'AI 生圖模板',
+    'Tooka',
     'Meta API',
-    '自動發文',
-    'AI 工作流',
+    '對話式拍片',
+    'HyperFrames',
   ],
   email: 'castion2293@yahoo.com.tw',
 };

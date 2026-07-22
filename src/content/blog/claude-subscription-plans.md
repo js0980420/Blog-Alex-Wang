@@ -29,7 +29,7 @@ faqs:
 
 1. **想學 AI 自動化 → 至少 Pro。** 免費版沒有 Agent 工具權限，[做不了自動化](/blog/why-desktop-claude-code-codex/)。
 2. **預算只有一份 20 美元** → 先看 [ChatGPT 跟 Claude 的比較](/blog/claude-or-codex-budget/)，我目前推薦從 ChatGPT Plus（附 Codex）開始，額度比較耐用。
-3. **已經確定主力用 Claude Code** → Pro 起步，搭配省額度技巧（課程 Module 01 會教），大多數學員一個月內用不完。
+3. **已經確定主力用 Claude Code** → Pro 起步，搭配省額度技巧（課程 Module 01 會教），新手階段一個月 20 美元的額度就夠開始了。
 
 ## 額度不夠的訊號
 
@@ -41,7 +41,7 @@ faqs:
 ## 省額度的小技巧
 
 - 把常用流程寫成 [Skill](/blog/what-is-ai-skill/)，避免每次重新解釋浪費 token
-- 例行任務交給 OpenClaw（龍蝦）／Hermes 這類常駐 Agent 執行，Claude Code 留給開發和除錯
+- 日常任務改用便宜的模型跑，例如 Claude 的 Haiku 或 GPT 5.5，把高階模型的額度留給開發和除錯
 - 一次把需求講清楚，比來回追問省很多額度
 
 想知道你的使用情境該怎麼配訂閱，歡迎加 [LINE 免費諮詢](https://line.me/ti/p/jejH4FkQn-)，或直接約[一對一教學](/services/one-on-one/)。

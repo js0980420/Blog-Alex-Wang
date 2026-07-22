@@ -13,7 +13,11 @@ const { as: Tag = 'div', href, class: className, padded = true } = Astro.props;
 
 <Tag
   href={href}
-  class:list={['rounded-[1.75rem] border border-white/10 bg-white/[0.045]', padded && 'p-7', className]}
+  class:list={[
+    'rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.06)]',
+    padded && 'p-7',
+    className,
+  ]}
 >
   <slot />
 </Tag>

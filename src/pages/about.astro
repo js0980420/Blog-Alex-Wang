@@ -1,8 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import instructorImage from '../assets/instructor-shirt.jpg';
-import mixerboxTalkImage from '../assets/mixerbox-talk.jpeg';
-import oneOnOneTeachingImage from '../assets/teaching-one-on-one.jpg';
+import taichungLectureImage from '../assets/taichung-lecture.jpg';
+import tookaCoverImage from '../assets/tooka-cover.jpg';
 import CheckItem from '../components/CheckItem.astro';
 import Cta from '../components/Cta.astro';
 import SectionHeading from '../components/SectionHeading.astro';
@@ -20,22 +19,43 @@ import Base from '../layouts/Base.astro';
     <h1 class="text-3xl font-semibold text-stone-50 md:text-5xl">關於講師 {AUTHOR.name}</h1>
 
     <p class="mt-8 text-lg leading-9 text-stone-200/90">
-      {AUTHOR.name} 是台灣的 AI 應用講師與全職接案工程師，也是 20 萬人 OpenClaw
-      中文社群的版主。專注於 AI 自動化、工作流整合與實戰落地教學，教零基礎新手使用
-      Claude Code、Codex 等 AI Agent 工具。目前提供<strong class="text-amber-200">付費一對一私人教學</strong>（雙北實體或線上）與<strong class="text-amber-200">企業、學校、社群的公開演講</strong>。
+      {AUTHOR.name} 是 AI 講師，也是全職接案工程師與 20 萬人 OpenClaw 中文社群的版主。我教 AI Agent 工具使用、做自動發文、AI 生圖模板、對話式拍片——把工作流程簡化成對話就能完成，只需第一次使用前的安裝、串接成本，一次性教學，受用好幾次。目前提供<strong class="text-amber-200">付費一對一私人教學</strong>（雙北實體或線上）與<strong class="text-amber-200">企業、學校、社群的公開演講</strong>。我沒進過軟體業，是靠 AI 一步一步自學到全職接案的——完整過程寫在<a href="/blog/from-part-time-to-freelance/" class="text-amber-300 underline underline-offset-4 hover:text-amber-200">我的轉職故事</a>。
     </p>
 
-    <div class="mt-10 grid gap-5 sm:grid-cols-2">
-      <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
-        <Image src={instructorImage} alt={`AI 講師 ${AUTHOR.name} 形象照`} class="h-80 w-full object-cover object-top" />
-      </figure>
-      <div class="space-y-5">
-        <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
-          <Image src={oneOnOneTeachingImage} alt="一對一實體教學現場" class="h-[9.5rem] w-full object-cover" />
-        </figure>
-        <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
-          <Image src={mixerboxTalkImage} alt="Mixerbox 講座授課紀錄" class="h-[9.5rem] w-full object-cover" />
-        </figure>
+    <figure class="mt-10 overflow-hidden rounded-[1.75rem] border border-white/10">
+      <Image
+        src={taichungLectureImage}
+        alt={`AI 講師 ${AUTHOR.name} 台中場「AI 製作社群貼文」講座授課現場`}
+        class="w-full object-cover"
+      />
+    </figure>
+
+    <SectionHeading size="md" class="mt-14">代表作品：Tooka</SectionHeading>
+    <div class="mt-6 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045]">
+      <a href="https://github.com/js0980420/tooka" target="_blank" rel="noreferrer">
+        <Image src={tookaCoverImage} alt="Tooka 開源社群圖文模板框架封面" class="w-full object-cover" />
+      </a>
+      <div class="p-7">
+        <p class="leading-8 text-stone-300/85">
+          我開源的社群圖文模板框架：用中文描述需求，AI Agent 就能生成整組 1080×1350
+          的 IG 輪播圖文——文字用程式渲染、版型用模板鎖定，不跑版、不失真，還能一鍵發佈到
+          Facebook、Instagram、Threads。
+        </p>
+        <video
+          src="/videos/tooka-workflow-demo.mp4"
+          controls
+          preload="metadata"
+          playsinline
+          class="mt-5 w-full rounded-2xl border border-white/10"
+        ></video>
+        <a
+          href="https://github.com/js0980420/tooka"
+          target="_blank"
+          rel="noreferrer"
+          class="mt-5 inline-block font-semibold text-amber-300 underline underline-offset-4 hover:text-amber-200"
+        >
+          GitHub：js0980420/tooka →
+        </a>
       </div>
     </div>
 

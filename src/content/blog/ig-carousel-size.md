@@ -42,7 +42,9 @@ faqs:
 - 直接輸出 **1080×1350 標準尺寸** 的 PNG，整組風格、字級、間距完全一致
 - 還能一鍵發佈到 Instagram、Facebook、Threads（走 Meta 官方 API）
 
-因為尺寸和版型是程式渲染出來的，**從根本上不存在跑版問題**——這就是「模板 + AI 生成」和手動拖拉的差別。
+因為尺寸和版型是程式渲染出來的，**從根本上不存在跑版問題**——這就是「模板 + AI 生成」和手動拖拉的差別。實際工作流長這樣：
+
+<video src="/videos/tooka-workflow-demo.mp4" controls preload="metadata" playsinline style="width:100%;border-radius:1rem;"></video>
 
 ## 想學這套流程？
 

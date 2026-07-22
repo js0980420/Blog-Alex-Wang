@@ -18,15 +18,17 @@ faqs:
 
 - **Claude Code**（Anthropic）：桌面版 Agent，生態系（Skill、MCP）最成熟，我的主力工具
 - **Codex**（OpenAI，ChatGPT 訂閱附帶）：額度大方，新手練習特別友善
-- **OpenClaw**，暱稱「龍蝦」：開源 Agent，可以常駐在電腦或伺服器上，用 LINE / Telegram 對話操控。很多人搜「AI Agent 龍蝦」找的就是它——我是它 20 萬人中文社群的版主
-- **Hermes**，暱稱「愛馬仕」：同樣是可常駐的 Agent，適合當自動化的執行端
+- **OpenClaw**，暱稱「龍蝦」：開源 Agent，可以常駐在電腦或伺服器上，用 LINE / Telegram 對話操控，我是它 20 萬人中文社群的版主。能應用的層面很廣，但權限太高有資安風險，也很容易對話到一半突然死掉，不太適合新手
+- **Hermes**，暱稱「愛馬仕」：能自我學習的 Agent。如果你的工作流程有一套固定的 SOP，而且不太會改，這是你最適合的 Agent
 
 ## Agent 之間怎麼分工？
 
 我自己的用法，也是我課程教的架構：**Claude Code / Codex 當「大腦」，負責開發和除錯；OpenClaw / Hermes 當「手腳」，常駐執行日常任務**（例如每天自動發文）。訂閱的 AI 額度可以拿來「餵」龍蝦和愛馬仕，一份訂閱多套工具用。
 
-## 為什麼新手該從 AI Agent 學起，而不是 Prompt 技巧？
+## 為什麼新手該從 AI Agent 學起？
 
-因為生產力的差距在「執行」。會問問題的人很多，能讓 AI 實際跑通一條自動化流程（申請 API、設定權限、排程發文）的人很少——而這正是 [AI Agent 桌面版才做得到的事](/blog/why-desktop-claude-code-codex/)。
+因為 Agent 除了[比網頁版多了直接操作你電腦的能力](/blog/why-desktop-claude-code-codex/)，還能把你的需求**結構化**。Prompt 的最大缺點是：單純靠人類語言，AI 無法精準理解你要什麼——在做圖片或影片時，這個缺點特別明顯。
+
+Agent 能幫你把自然語言轉換成 AI 聽得懂的結構，最常見的呈現方式就是**程式**。而程式不是只能拿來做軟體開發——也能拿來[生圖](/blog/why-i-built-tooka/)跟做影片，我的[教學內容](/services/one-on-one/)就會教你怎麼做。
 
 想從零開始，可以照我的[四步學習路線](/blog/how-to-start-learning-ai/)走；想有人手把手帶，歡迎約[一對一教學](/services/one-on-one/)。

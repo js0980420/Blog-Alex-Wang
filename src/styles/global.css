@@ -37,13 +37,13 @@ body {
 
 /* 文章內文排版 */
 .prose-blog {
-  @apply text-stone-300/85 leading-8;
+  @apply text-slate-700 leading-8;
 }
 .prose-blog h2 {
-  @apply mt-12 mb-4 font-display text-2xl font-semibold text-stone-50 md:text-3xl;
+  @apply mt-12 mb-4 font-display text-2xl font-semibold text-slate-900 md:text-3xl;
 }
 .prose-blog h3 {
-  @apply mt-8 mb-3 text-xl font-semibold text-stone-100;
+  @apply mt-8 mb-3 text-xl font-semibold text-slate-900;
 }
 .prose-blog p {
   @apply my-4;
@@ -59,16 +59,16 @@ body {
   @apply list-decimal;
 }
 .prose-blog strong {
-  @apply text-amber-200 font-semibold;
+  @apply text-sky-800 font-semibold;
 }
 .prose-blog a {
-  @apply text-amber-300 underline underline-offset-4 hover:text-amber-200;
+  @apply text-[#1688e8] underline underline-offset-4 hover:text-[#075985];
 }
 .prose-blog blockquote {
-  @apply my-6 border-l-4 border-amber-400/40 bg-white/[0.04] px-5 py-3 rounded-r-xl;
+  @apply my-6 rounded-r-xl border-l-4 border-sky-300 bg-sky-50 px-5 py-3 text-slate-700;
 }
 .prose-blog code {
-  @apply rounded bg-white/10 px-1.5 py-0.5 text-sm text-amber-100;
+  @apply rounded bg-sky-100 px-1.5 py-0.5 text-sm text-sky-900;
 }
 /* 表格：窄表格貼內容寬、寬表格在手機可橫向捲動 */
 .prose-blog table {
@@ -76,11 +76,11 @@ body {
   width: max-content;
 }
 .prose-blog th {
-  @apply border border-white/15 bg-white/[0.07] px-4 py-2.5 text-left font-semibold text-stone-100;
+  @apply border border-sky-200 bg-sky-50 px-4 py-2.5 text-left font-semibold text-slate-900;
 }
 .prose-blog td {
-  @apply border border-white/10 px-4 py-2.5 align-top text-stone-300/85;
+  @apply border border-sky-100 px-4 py-2.5 align-top text-slate-700;
 }
 .prose-blog tbody tr:nth-child(even) {
-  @apply bg-white/[0.03];
+  @apply bg-sky-50/60;
 }
