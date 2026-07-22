@@ -35,12 +35,25 @@ const claudeOrCodex: Faq = {
     '我會推薦 Codex。因為 5.5 更新後，額度比 Claude 多很多，而且也可以拿來當龍蝦或 Hermes 的飼料，不用太擔心被封號。',
 };
 
+const metaTokenDiff: Faq = {
+  question: 'FB、IG、Threads 的 API Token 有什麼不同？',
+  answer:
+    'FB 跟 IG 可以透過企業管理後台（Business Manager）新增資產管理，取得永久權限的 Token；Threads 沒有這條路，只能在開發者後台申請長期 Token，效期 60 天需要延期——我開源的 Tooka 已內建自動延期，第一次手動申請後就不用怕過期。',
+};
+
 const booking: Faq = {
   question: '怎麼預約或詢問費用？',
   answer:
     '直接加 LINE 免費諮詢，說明你的目標（例如想自動發文、想學 AI 拍片），我會建議適合的堂數與報價。',
 };
 
-export const HOME_FAQS: Faq[] = [prep, noTechBackground, whyNotFreeAi, onlineClass, claudeOrCodex];
+export const HOME_FAQS: Faq[] = [
+  prep,
+  noTechBackground,
+  whyNotFreeAi,
+  onlineClass,
+  claudeOrCodex,
+  metaTokenDiff,
+];
 
 export const ONE_ON_ONE_FAQS: Faq[] = [onlineClass, prep, noTechBackground, booking];
