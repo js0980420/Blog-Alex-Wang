@@ -13,7 +13,7 @@ export const AUTHOR = {
   name: 'Alex',
   jobTitle: 'AI 應用講師 / 全職接案工程師',
   description:
-    '全職接案工程師、20 萬人 OpenClaw 中文社群版主。AI Agent 工具使用、做自動發文、AI 生圖模板、對話式拍片教學——盡可能把工作流程簡化成對話就能完成，只需第一次使用前的安裝、串接成本，一次性教學，受用好幾次。',
+    '全職接案工程師、21 萬人 OpenClaw 中文社群版主。AI Agent 工具使用、做自動發文、AI 生圖模板、對話式拍片教學——盡可能把工作流程簡化成對話就能完成，只需第一次使用前的安裝、串接成本，一次性教學，受用好幾次。',
   knowsAbout: [
     'AI Agent 工具',
     'Claude Code',

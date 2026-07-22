@@ -21,7 +21,7 @@ export const EXPERIENCE: ExperienceItem[] = [
     text: '提供 OpenClaw、Hermes 的救援服務。',
     featured: true,
   },
-  { text: '20 萬人 OpenClaw 中文社群版主。' },
+  { text: '21 萬人 OpenClaw 中文社群版主。' },
   { text: 'Mixerbox 等單位講座授課經驗。' },
 ];
 
