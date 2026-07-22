@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import Cta from '../../components/Cta.astro';
+import PostCard from '../../components/PostCard.astro';
+import Base from '../../layouts/Base.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<Base
+  title="部落格｜AI 新手常見問題全解答"
+  description="用問答形式解答新手學 AI 最常見的問題：Claude Code / Codex 怎麼選、Meta API 怎麼申請、自動發文怎麼做、Skill 是什麼。每篇文章直接回答一個你會問 AI 的問題。"
+>
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <h1 class="text-3xl font-semibold text-stone-50 md:text-5xl">部落格</h1>
+    <p class="mt-6 text-lg leading-8 text-stone-300/85">
+      每篇文章回答一個新手學 AI 時最常問的問題——從工具選擇、Meta API 申請到自動發文與
+      Skill 工作流。看完還有問題，歡迎<a href="/services/one-on-one/" class="text-amber-300 underline underline-offset-4">約一對一教學</a>。
+    </p>
+    <div class="mt-12 grid gap-5">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+    <Cta />
+  </div>
+</Base>

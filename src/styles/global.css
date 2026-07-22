@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #120f0b;
+  color: #f5f5f4;
+}
+
+/* 文章內文排版 */
+.prose-blog {
+  @apply text-stone-300/85 leading-8;
+}
+.prose-blog h2 {
+  @apply mt-12 mb-4 font-display text-2xl font-semibold text-stone-50 md:text-3xl;
+}
+.prose-blog h3 {
+  @apply mt-8 mb-3 text-xl font-semibold text-stone-100;
+}
+.prose-blog p {
+  @apply my-4;
+}
+.prose-blog ul,
+.prose-blog ol {
+  @apply my-4 space-y-2 pl-6;
+}
+.prose-blog ul {
+  @apply list-disc;
+}
+.prose-blog ol {
+  @apply list-decimal;
+}
+.prose-blog strong {
+  @apply text-amber-200 font-semibold;
+}
+.prose-blog a {
+  @apply text-amber-300 underline underline-offset-4 hover:text-amber-200;
+}
+.prose-blog blockquote {
+  @apply my-6 border-l-4 border-amber-400/40 bg-white/[0.04] px-5 py-3 rounded-r-xl;
+}
+.prose-blog code {
+  @apply rounded bg-white/10 px-1.5 py-0.5 text-sm text-amber-100;
+}

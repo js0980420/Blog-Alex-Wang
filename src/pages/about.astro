@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import instructorImage from '../assets/instructor-shirt.jpg';
+import mixerboxTalkImage from '../assets/mixerbox-talk.jpeg';
+import oneOnOneTeachingImage from '../assets/teaching-one-on-one.jpg';
+import Cta from '../components/Cta.astro';
+import { AUTHOR } from '../consts';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title={`關於講師 ${AUTHOR.name}｜AI 應用講師、一對一私教與演講`}
+  description={AUTHOR.description}
+  ogType="profile"
+>
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <h1 class="text-3xl font-semibold text-stone-50 md:text-5xl">關於講師 {AUTHOR.name}</h1>
+
+    <p class="mt-8 text-lg leading-9 text-stone-200/90">
+      {AUTHOR.name} 是台灣的 AI 應用講師與全職接案工程師，也是 20 萬人 OpenClaw
+      中文社群的版主。專注於 AI 自動化、工作流整合與實戰落地教學，教零基礎新手使用
+      Claude Code、Codex 等 AI Agent 工具。目前提供<strong class="text-amber-200">付費一對一私人教學</strong>（雙北實體或線上）與<strong class="text-amber-200">企業、學校、社群的公開演講</strong>。
+    </p>
+
+    <div class="mt-10 grid gap-5 sm:grid-cols-2">
+      <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
+        <Image src={instructorImage} alt={`AI 講師 ${AUTHOR.name} 形象照`} class="h-80 w-full object-cover object-top" />
+      </figure>
+      <div class="space-y-5">
+        <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
+          <Image src={oneOnOneTeachingImage} alt="一對一實體教學現場" class="h-[9.5rem] w-full object-cover" />
+        </figure>
+        <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
+          <Image src={mixerboxTalkImage} alt="Mixerbox 講座授課紀錄" class="h-[9.5rem] w-full object-cover" />
+        </figure>
+      </div>
+    </div>
+
+    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">經歷與代表作品</h2>
+    <ul class="mt-6 space-y-4">
+      {[
+        '全職接案工程師：作品包括 Line LIFF 網頁、AI 客服、CRM 後台管理系統等實際商業專案。',
+        '一鍵拍片開源專案 HyperFrames 協作者：從腳本、剪輯、字幕、真人配音、音樂、封面圖到多平台自動發佈，都能透過對話完成，大幅降低拍片的時間成本與技術門檻。',
+        'Zeabur 合作夥伴，並提供 OpenClaw、Hermes 的救援服務。',
+        '20 萬人 OpenClaw 中文社群版主。',
+        'Mixerbox 等單位講座授課經驗。',
+      ].map((item) => (
+        <li class="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-5 leading-7 text-stone-200/90">
+          <span class="text-amber-200">✓</span>
+          {item}
+        </li>
+      ))}
+    </ul>
+
+    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">教學主題</h2>
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+      {AUTHOR.knowsAbout.map((topic) => (
+        <li class="rounded-2xl border border-white/10 bg-white/[0.045] px-5 py-3 text-stone-200/90">{topic}</li>
+      ))}
+    </ul>
+
+    <Cta />
+  </div>
+</Base>

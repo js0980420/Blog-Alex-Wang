@@ -1,0 +1,313 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import bannerImage from '../assets/banner.png';
+import mixerboxTalkImage from '../assets/mixerbox-talk.jpeg';
+import oneOnOneTeachingImage from '../assets/teaching-one-on-one.jpg';
+import Cta from '../components/Cta.astro';
+import FaqList from '../components/FaqList.astro';
+import PostCard from '../components/PostCard.astro';
+import { AUTHOR, LINKS, SITE } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const syllabus = [
+  {
+    label: 'Module 01',
+    title: '為什麼一定要先用 Claude Code / Codex 桌面版',
+    summary:
+      '先解說為什麼要用 Claude Code / Codex 桌面版，而不是 n8n、網頁版或其他 Agent；同時帶你把需要的套件與環境設定一次裝好。新手只要先訂閱 20 美元的 ChatGPT / Claude 額度即可開始，我也會分享怎麼節省額度。',
+    href: '/blog/why-desktop-claude-code-codex/',
+  },
+  {
+    label: 'Module 02',
+    title: 'Meta 三大 API 申請邏輯與帳號準備',
+    summary:
+      '三大 API 其實只要先學一個就夠，因為另外兩個申請流程大同小異；重點是你要先有 Facebook 帳號登入 Meta 開發者後台，並確認要串接的帳號都綁在這個 FB 底下。',
+    href: '/blog/meta-api-application/',
+  },
+  {
+    label: 'Module 03',
+    title: '測試自動發文與 Meta 權限設定',
+    summary:
+      '實際測試自動發文流程，並解說自動發文的權限該怎麼設定，哪些操作容易出問題，以及怎麼避免被 Meta 判定異常而封鎖。',
+    href: '/blog/auto-posting-permissions/',
+  },
+  {
+    label: 'Module 04',
+    title: '用 Skill 隨時修改文案與排程',
+    summary:
+      '把發文文案與排程整理進 Skill，讓 AI 可以記住你的發文習慣，之後要改內容、改時間、改流程都能快速調整；Skill 也可以理解成強化 AI 的記憶，避免關掉對話框之後 AI 失憶。',
+    href: '/blog/what-is-ai-skill/',
+  },
+];
+
+const outcomes = [
+  '從零開始完成桌面版 Claude Code / Codex 的安裝與基本操作，解決工具權限問題，不再只是網頁版 Chat 模式，而是真正能執行任務的 Agent。',
+  '學會串接 Meta 三大 API，讓 AI 可跟真實社群互動。',
+  '做出自動發文流程，並可設定發布排程。',
+  '學會寫 Skill，把常用任務整理成你自己的可重用工作流。',
+];
+
+const audience = [
+  { title: '老師與講師', description: '想提升備課效率、增加互動設計、把 AI 用進實際教學的人。' },
+  { title: '個人品牌經營者', description: '需要大量產出內容、課程說明頁、社群素材與銷售頁的人。' },
+  { title: '想系統學 AI 的實作者', description: '不想再停留在零散技巧，而是想建立完整方法與實戰作品的人。' },
+];
+
+const videos = [
+  {
+    title: 'Threads API 申請教學',
+    description: '聚焦自動發文、留言回覆與 token 申請流程的實戰教學代表作。',
+    tag: 'API 教學',
+    embedId: 'nTYrG7EuFHA',
+  },
+  {
+    title: 'Zeabur Agent Skills 完整指南',
+    description: '把 Coding Agent、伺服器管理與技能應用串在一起的完整指南。',
+    tag: 'Agent 實戰',
+    embedId: 'GfU8e5-JURM',
+  },
+  {
+    title: '【只靠對話就能拍片？】Claude 一鍵生成影片',
+    description: '從對話到剪輯的一條龍流程，展示內容創作與 AI 工作流的應用。',
+    tag: '影音創作',
+    embedId: 'lq2M7HjH1mY',
+  },
+];
+
+const faqs = [
+  {
+    question: '課前需要準備什麼？',
+    answer:
+      '除了教學費用，還需要付費訂閱 AI。初學者只要先準備一個月 20 美元的額度就夠了，另外也要確認你有可用的 Facebook 帳號，能拿來登入 Meta 開發者後台並綁定其他要串接的帳號。',
+  },
+  {
+    question: '沒有技術背景可以上嗎？',
+    answer:
+      '可以。這門課用意在於把原本複雜的技術門檻，優化成只要對話就能完成的工作流，任何人只要會操作電腦就能上。',
+  },
+  {
+    question: '為什麼不用網頁版或免費 AI？',
+    answer:
+      '因為網頁版沒有 Agent 權限，也沒辦法做環境設定、填入申請完的 Meta API Key，更不能直接寫自動發文腳本，基本上只適合拿來問問題。免費 AI 的穩定度和能力也通常不如 Claude 或 Codex，很容易一直出錯，花掉的時間可能遠超過 20 美元。',
+  },
+  {
+    question: '可以約線上教學嗎？',
+    answer: '可以，可以用 Google Meet 或 Discord，只要能分享螢幕畫面，就可以約線上教學。',
+  },
+  {
+    question: 'Claude、Codex 預算只夠選一個的話選哪個？',
+    answer:
+      '我會推薦 Codex。因為 5.5 更新後，額度比 Claude 多很多，而且也可以拿來當龍蝦或 Hermes 的飼料，不用太擔心被封號。',
+  },
+];
+
+const schema = [
+  {
+    '@type': 'Course',
+    '@id': `${SITE.url}/#course`,
+    name: 'AI 新手實戰課：桌面版 Agent 與社群自動發文',
+    description:
+      '從桌面版 Claude Code / Codex 安裝、Meta 三大 API 串接、自動發文權限設定，到 Skill 工作流建立的零基礎 AI 實戰課程。提供一對一實體（雙北）與線上教學。',
+    provider: { '@id': AUTHOR.id },
+    inLanguage: 'zh-TW',
+    courseMode: ['onsite', 'online'],
+    teaches: syllabus.map((s) => s.title),
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  },
+];
+---
+
+<Base
+  title="AI新手教學｜零基礎學 Claude Code / Codex 與社群自動發文"
+  description={SITE.description}
+  schema={schema}
+>
+  <!-- Hero -->
+  <section class="px-6 pt-8 md:pt-12">
+    <div class="mx-auto max-w-6xl">
+      <div class="overflow-hidden rounded-[2rem] border border-white/10 bg-white">
+        <Image src={bannerImage} alt="AI新手教學課程橫幅" class="h-auto w-full" loading="eager" />
+      </div>
+      <div class="mx-auto mt-12 max-w-3xl text-center">
+        <h1 class="text-3xl font-semibold tracking-tight text-stone-50 md:text-5xl">
+          零基礎也能做出自己的 AI 自動化系統
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-stone-300/85">
+          我是 {AUTHOR.name}，台灣的 AI 應用講師。我教零基礎新手使用 Claude Code、Codex
+          等 AI Agent 工具，從安裝、Meta API 串接到社群自動發文，一步一步做出真正能執行的作品。提供
+          <a href="/services/one-on-one/" class="text-amber-300 underline underline-offset-4">付費一對一私人教學</a>（雙北實體／線上）與
+          <a href="/services/speaking/" class="text-amber-300 underline underline-offset-4">企業、社群演講</a>。
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href={LINKS.line} target="_blank" rel="noreferrer" class="rounded-full bg-[#06c755] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#05b84d]">LINE 免費諮詢</a>
+          <a href="/blog/" class="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-stone-100 transition hover:bg-white/10">看部落格文章</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 課程介紹 -->
+  <section id="overview" class="px-6 py-20">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-3xl font-semibold text-stone-50 md:text-4xl">課程介紹</h2>
+      <div class="mt-5 max-w-3xl leading-8 text-stone-300/85">
+        <p>
+          這是學習一切 AI 自動化的基礎。無論你後續要學 AI 客服、AI 自動拍片、AI
+          爬蟲，都需要先安裝桌面版 AI，取得 Agent 的工具權限，而不只是停留在網頁版對話；也要先設定好環境變數，讓 AI 可以跟第三方平台互動。
+        </p>
+        <p class="mt-4">
+          如果你不想花錢，可以先看下方的免費教學影片；但因為還是很多人會卡關，所以我也提供手把手的一對一教學，可以約雙北咖啡廳上實體課，或用 Google Meet / Discord 線上上課。
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-4 md:grid-cols-2">
+        {outcomes.map((item) => (
+          <div class="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+            <span class="mt-0.5 text-emerald-300">✓</span>
+            <p class="leading-7 text-stone-200/90">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 課程大綱 -->
+  <section id="syllabus" class="px-6 py-16">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-3xl font-semibold text-stone-50 md:text-4xl">課程大綱</h2>
+      <p class="mt-4 max-w-3xl leading-8 text-stone-300/85">
+        從桌面版 AI 安裝、Meta API 串接、發文權限設定，到 Skill 工作流建立，帶你一步一步做出真正能執行的 AI 自動化流程。每個模組都有對應的部落格文章可以先讀。
+      </p>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {syllabus.map((item) => (
+          <a href={item.href} class="group rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7 transition hover:border-amber-300/25">
+            <p class="text-xs uppercase tracking-[0.26em] text-amber-200/80">{item.label}</p>
+            <h3 class="mt-3 text-xl font-semibold text-stone-50 md:text-2xl">{item.title}</h3>
+            <p class="mt-4 leading-7 text-stone-300/80">{item.summary}</p>
+            <span class="mt-4 inline-block text-sm font-semibold text-amber-300">閱讀對應文章 →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 適合對象 -->
+  <section class="px-6 py-16">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-3xl font-semibold text-stone-50 md:text-4xl">適合誰來學？</h2>
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        {audience.map((item) => (
+          <div class="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7">
+            <h3 class="text-xl font-semibold text-stone-50">{item.title}</h3>
+            <p class="mt-3 leading-7 text-stone-300/80">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 講師介紹 -->
+  <section id="instructor" class="px-6 py-16">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-3xl font-semibold text-stone-50 md:text-4xl">講師介紹</h2>
+      <div class="mt-10 grid gap-8 lg:grid-cols-2">
+        <div>
+          <h3 class="text-2xl font-semibold text-stone-50">{AUTHOR.name}</h3>
+          <p class="mt-2 text-amber-200">{AUTHOR.jobTitle}</p>
+          <p class="mt-4 leading-8 text-stone-300/85">
+            全職接案工程師、20 萬人 OpenClaw 中文社群版主，專注在 AI 自動化、工作流整合與實戰落地教學。
+          </p>
+          <ul class="mt-6 space-y-3">
+            {[
+              '接案作品包括 Line LIFF 網頁、AI 客服、CRM 後台管理系統等實際商業專案。',
+              '一鍵拍片開源專案 HyperFrames 的協作者，從腳本、剪輯、字幕、配音到多平台自動發佈都能透過對話完成。',
+              'Zeabur 的合作夥伴，並提供 OpenClaw、Hermes 的救援服務。',
+            ].map((item) => (
+              <li class="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-4 leading-7 text-stone-200/90">
+                <span class="text-amber-200">✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <a href="/about/" class="mt-6 inline-block text-sm font-semibold text-amber-300">完整講師介紹 →</a>
+        </div>
+        <div class="grid gap-5">
+          <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
+            <Image src={oneOnOneTeachingImage} alt="一對一實體教學現場" class="h-64 w-full object-cover" />
+            <figcaption class="bg-white/[0.045] px-5 py-3 text-sm text-stone-300">一對一實體教學現場</figcaption>
+          </figure>
+          <figure class="overflow-hidden rounded-[1.75rem] border border-white/10">
+            <Image src={mixerboxTalkImage} alt="Mixerbox 講座授課紀錄" class="h-64 w-full object-cover" />
+            <figcaption class="bg-white/[0.045] px-5 py-3 text-sm text-stone-300">Mixerbox 講座合作紀錄</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 教學影片 -->
+  <section id="videos" class="px-6 py-16">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="text-3xl font-semibold text-stone-50 md:text-4xl">免費教學影片</h2>
+      <p class="mt-4 max-w-3xl leading-8 text-stone-300/85">如果你不想花錢，可在此看免費教學，或是課後用來複習。</p>
+      <div class="mt-10 grid gap-6 lg:grid-cols-3">
+        {videos.map((video) => (
+          <article class="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.045]">
+            <div class="aspect-video w-full bg-black">
+              <iframe
+                class="h-full w-full"
+                src={`https://www.youtube-nocookie.com/embed/${video.embedId}`}
+                title={video.title}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              />
+            </div>
+            <div class="p-6">
+              <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-wide text-stone-300">{video.tag}</span>
+              <h3 class="mt-4 text-xl font-semibold text-stone-50">{video.title}</h3>
+              <p class="mt-3 leading-7 text-stone-300/80">{video.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 最新文章 -->
+  <section class="px-6 py-16">
+    <div class="mx-auto max-w-6xl">
+      <div class="flex items-end justify-between gap-4">
+        <h2 class="text-3xl font-semibold text-stone-50 md:text-4xl">最新文章</h2>
+        <a href="/blog/" class="text-sm font-semibold text-amber-300">所有文章 →</a>
+      </div>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="px-6 py-16">
+    <div class="mx-auto max-w-4xl">
+      <h2 class="text-3xl font-semibold text-stone-50 md:text-4xl">常見問題</h2>
+      <div class="mt-10">
+        <FaqList faqs={faqs} />
+      </div>
+      <Cta />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,97 @@
+---
+import { Image } from 'astro:assets';
+import mixerboxTalkImage from '../../assets/mixerbox-talk.jpeg';
+import { AUTHOR, LINKS, SITE } from '../../consts';
+import Base from '../../layouts/Base.astro';
+
+const schema = [
+  {
+    '@type': 'Service',
+    '@id': `${SITE.url}/services/speaking/#service`,
+    name: 'AI 主題演講與企業內訓',
+    serviceType: '公開演講 / 企業內訓 / 工作坊',
+    description:
+      'Alex 提供 AI 主題的公開演講、企業內訓與實作工作坊：AI Agent 入門、社群自動化、AI 影音內容生產等主題，曾與 Mixerbox、Zeabur 等單位合作。',
+    provider: { '@id': AUTHOR.id },
+    areaServed: '台灣（實體）／線上（不限地區）',
+  },
+];
+
+const topics = [
+  {
+    title: 'AI Agent 入門：從網頁版聊天到能執行任務的 AI',
+    description: '為什麼桌面版 Agent 是 AI 生產力的分水嶺，適合對 AI 有興趣但還停在 ChatGPT 網頁版的聽眾。',
+  },
+  {
+    title: '社群自動化實戰：讓 AI 幫你經營 FB / IG / Threads',
+    description: 'Meta API 串接、自動發文與排程的完整流程演示，適合行銷團隊與個人品牌經營者。',
+  },
+  {
+    title: 'AI 一鍵拍片：對話式影音內容生產',
+    description: '以開源專案 HyperFrames 為例，展示從腳本、剪輯、配音到多平台發佈的對話式工作流。',
+  },
+  {
+    title: 'AI 工作流與 Skill 設計',
+    description: '如何把團隊的重複性工作封裝成 AI 可執行的 Skill，適合想導入 AI 的企業團隊。',
+  },
+];
+---
+
+<Base
+  title="AI 演講邀約｜企業內訓、社群講座與實作工作坊"
+  description="Alex 接受 AI 主題的演講與企業內訓邀約：AI Agent 入門、社群自動化、AI 一鍵拍片、AI 工作流設計。曾與 Mixerbox、Zeabur 等單位合作，實體與線上皆可。"
+  schema={schema}
+>
+  <div class="mx-auto max-w-4xl px-6 py-12">
+    <h1 class="text-3xl font-semibold text-stone-50 md:text-5xl">AI 演講與企業內訓邀約</h1>
+
+    <p class="mt-8 text-lg leading-9 text-stone-200/90">
+      我是 <a href="/about/" class="text-amber-300 underline underline-offset-4">{AUTHOR.name}</a>，接受企業、學校與社群的
+      <strong class="text-amber-200">AI 主題演講、內訓與實作工作坊</strong>邀約。內容以「聽完就能動手」為原則：不談概念空話，現場直接演示
+      AI Agent 如何完成真實任務。曾與 Mixerbox、Zeabur 等單位合作。
+    </p>
+
+    <figure class="mt-10 overflow-hidden rounded-[1.75rem] border border-white/10">
+      <Image src={mixerboxTalkImage} alt="Mixerbox 講座授課現場" class="h-80 w-full object-cover" />
+      <figcaption class="bg-white/[0.045] px-5 py-3 text-sm text-stone-300">Mixerbox 講座合作紀錄</figcaption>
+    </figure>
+
+    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">可邀約的主題</h2>
+    <div class="mt-6 grid gap-5 sm:grid-cols-2">
+      {topics.map((topic) => (
+        <div class="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7">
+          <h3 class="text-lg font-semibold text-stone-50">{topic.title}</h3>
+          <p class="mt-3 leading-7 text-stone-300/85">{topic.description}</p>
+        </div>
+      ))}
+    </div>
+    <p class="mt-6 leading-7 text-stone-300/85">
+      以上主題皆可依聽眾背景（零基礎／行銷／工程）調整深度，也可以合併成半天或一天的實作工作坊。
+    </p>
+
+    <h2 class="mt-14 text-2xl font-semibold text-stone-50 md:text-3xl">形式與地區</h2>
+    <ul class="mt-6 space-y-4">
+      {[
+        '實體演講／工作坊：台灣各地，交通與時間可議',
+        '線上演講：Google Meet、Zoom、Discord 等皆可配合',
+        '時長：45 分鐘演講到整天工作坊皆可規劃',
+      ].map((item) => (
+        <li class="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.045] p-5 leading-7 text-stone-200/90">
+          <span class="text-amber-200">✓</span>
+          {item}
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-14 rounded-[1.75rem] border border-amber-300/20 bg-[linear-gradient(135deg,rgba(251,191,36,0.12),rgba(244,114,182,0.08),rgba(255,255,255,0.03))] p-8 text-center">
+      <h2 class="text-2xl font-semibold text-stone-50">邀約洽談</h2>
+      <p class="mx-auto mt-3 max-w-xl leading-7 text-stone-200/85">
+        請提供活動日期、聽眾輪廓與希望的主題方向，我會盡快回覆可行性與報價。
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href={LINKS.line} target="_blank" rel="noreferrer" class="rounded-full bg-[#06c755] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#05b84d]">LINE 洽談</a>
+        <a href={LINKS.email} class="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-stone-100 transition hover:bg-white/10">Email 聯絡</a>
+      </div>
+    </div>
+  </div>
+</Base>

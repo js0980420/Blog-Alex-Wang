@@ -1,0 +1,99 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import Cta from '../../components/Cta.astro';
+import FaqList from '../../components/FaqList.astro';
+import { AUTHOR, SITE } from '../../consts';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate, faqs } = post.data;
+
+const postUrl = `${SITE.url}/blog/${post.id}/`;
+
+const schema: object[] = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${postUrl}#article`,
+    headline: title,
+    description,
+    inLanguage: 'zh-TW',
+    datePublished: pubDate.toISOString(),
+    dateModified: (updatedDate ?? pubDate).toISOString(),
+    author: { '@id': AUTHOR.id },
+    publisher: { '@id': AUTHOR.id },
+    mainEntityOfPage: postUrl,
+  },
+];
+
+if (faqs.length > 0) {
+  schema.push({
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  });
+}
+
+const dateText = pubDate.toLocaleDateString('zh-TW', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base title={`${title}｜${SITE.title}`} description={description} schema={schema} ogType="article">
+  <article class="mx-auto max-w-3xl px-6 py-12">
+    <nav class="text-sm text-stone-400">
+      <a href="/blog/" class="hover:text-white">← 回部落格列表</a>
+    </nav>
+
+    <header class="mt-8">
+      <h1 class="text-3xl font-semibold leading-snug text-stone-50 md:text-4xl md:leading-snug">{title}</h1>
+      <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-stone-400">
+        <span>作者：<a href="/about/" class="text-stone-300 hover:text-white">{AUTHOR.name}</a></span>
+        <span>·</span>
+        <time datetime={pubDate.toISOString()}>{dateText}</time>
+        {post.data.tags.map((tag) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs">{tag}</span>
+        ))}
+      </div>
+    </header>
+
+    <div class="prose-blog mt-10">
+      <Content />
+    </div>
+
+    {faqs.length > 0 && (
+      <section class="mt-14">
+        <h2 class="mb-6 text-2xl font-semibold text-stone-50">本文常見問題</h2>
+        <FaqList faqs={faqs} />
+      </section>
+    )}
+
+    <section class="mt-14 rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-7">
+      <h2 class="text-lg font-semibold text-stone-50">關於作者</h2>
+      <p class="mt-3 leading-7 text-stone-300/85">
+        {AUTHOR.name}——{AUTHOR.description}
+        <a href="/about/" class="text-amber-300 underline underline-offset-4">完整介紹</a>
+      </p>
+    </section>
+
+    <Cta />
+  </article>
+</Base>

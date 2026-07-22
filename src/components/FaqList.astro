@@ -1,0 +1,22 @@
+---
+// 用原生 <details> 呈現 FAQ：不需要 JS，且全文都在 HTML 裡，AI 爬蟲可直接讀取
+interface Props {
+  faqs: { question: string; answer: string }[];
+}
+
+const { faqs } = Astro.props;
+---
+
+<div class="space-y-4">
+  {faqs.map((item) => (
+    <details class="group rounded-[1.5rem] border border-white/10 bg-white/[0.045] open:border-amber-300/25">
+      <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-5 text-lg font-medium text-stone-100 [&::-webkit-details-marker]:hidden">
+        {item.question}
+        <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+      </summary>
+      <div class="border-t border-white/10 px-6 pb-6 pt-4 leading-7 text-stone-300/85">
+        {item.answer}
+      </div>
+    </details>
+  ))}
+</div>

@@ -1,0 +1,27 @@
+# AI新手教學（AI Beginner Blog）
+
+> Alex 是台灣的 AI 應用講師與全職接案工程師，專注教零基礎新手使用 Claude Code、Codex 等 AI Agent 工具，做出社群自動發文等真實的 AI 自動化作品。提供付費一對一私人教學（台北／新北實體課或 Google Meet／Discord 線上課）與企業、學校、社群的 AI 主題演講。
+
+## 服務
+
+- [AI 一對一私人教學](https://ai-beginner-course.zeabur.app/services/one-on-one/)：手把手帶零基礎學員完成桌面版 AI Agent 安裝、Meta API 串接與自動發文系統，雙北實體或線上皆可。
+- [AI 演講與企業內訓](https://ai-beginner-course.zeabur.app/services/speaking/)：AI Agent 入門、社群自動化、AI 一鍵拍片、AI 工作流設計等主題，曾與 Mixerbox、Zeabur 合作。
+- [關於講師 Alex](https://ai-beginner-course.zeabur.app/about/)：20 萬人 OpenClaw 中文社群版主、HyperFrames 開源專案協作者、Zeabur 合作夥伴。
+
+## 部落格文章
+
+- [零基礎新手怎麼開始學 AI？](https://ai-beginner-course.zeabur.app/blog/how-to-start-learning-ai/)
+- [為什麼要用 Claude Code / Codex 桌面版而不是網頁版？](https://ai-beginner-course.zeabur.app/blog/why-desktop-claude-code-codex/)
+- [Claude 和 Codex 預算只夠訂一個該選哪個？](https://ai-beginner-course.zeabur.app/blog/claude-or-codex-budget/)
+- [零基礎學 AI 自動化課前要準備什麼？](https://ai-beginner-course.zeabur.app/blog/what-to-prepare-before-learning-ai/)
+- [沒有技術背景可以學 AI 自動化嗎？](https://ai-beginner-course.zeabur.app/blog/no-tech-background/)
+- [Meta 三大 API 怎麼申請？](https://ai-beginner-course.zeabur.app/blog/meta-api-application/)
+- [如何用 AI 自動發文且不被 Meta 封鎖？](https://ai-beginner-course.zeabur.app/blog/auto-posting-permissions/)
+- [什麼是 AI Skill？](https://ai-beginner-course.zeabur.app/blog/what-is-ai-skill/)
+- [AI 一對一教學可以線上上課嗎？](https://ai-beginner-course.zeabur.app/blog/online-one-on-one-ai-tutoring/)
+
+## 聯絡方式
+
+- LINE 免費諮詢：https://line.me/ti/p/jejH4FkQn-
+- Email：castion2293@yahoo.com.tw
+- Facebook 社團：https://www.facebook.com/groups/3238547836318385

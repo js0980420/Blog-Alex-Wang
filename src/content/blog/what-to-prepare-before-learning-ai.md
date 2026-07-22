@@ -1,0 +1,31 @@
+---
+title: 零基礎學 AI 自動化，課前要準備什麼？
+description: 只需要三樣東西：一台電腦、每月 20 美元的 ChatGPT 或 Claude 訂閱，以及一個可以登入 Meta 開發者後台的 Facebook 帳號。不需要任何程式背景。
+pubDate: 2026-07-08
+tags: [新手入門, 課前準備]
+faqs:
+  - question: 需要會寫程式嗎？
+    answer: 不需要。課程的用意就是把原本複雜的技術門檻，優化成只要對話就能完成的工作流，任何會操作電腦的人都能上。
+  - question: 除了學費還有什麼花費？
+    answer: 需要付費訂閱 AI，初學者準備一個月 20 美元的額度就夠了。
+  - question: 為什麼需要 Facebook 帳號？
+    answer: 因為申請 Meta 三大 API（Facebook、Instagram、Threads）都要先用 Facebook 帳號登入 Meta 開發者後台，而且要串接的帳號都必須綁在這個 FB 帳號底下。
+---
+
+**直接回答：課前只需要準備三樣東西——(1) 一台可以安裝軟體的電腦，(2) 每月 20 美元的 ChatGPT 或 Claude 付費訂閱，(3) 一個可用的 Facebook 帳號**（用來登入 Meta 開發者後台，並綁定你要串接的 IG／Threads 帳號）。不需要程式背景，也不需要事先自學任何工具。
+
+## 為什麼一定要付費訂閱 AI？
+
+因為自動化需要的是有 Agent 權限的桌面版工具（Claude Code 或 Codex），而不是免費網頁版聊天。免費 AI 穩定度差、錯誤率高，新手用起來反而更花時間。詳細比較我寫在[這篇](/blog/why-desktop-claude-code-codex/)，如果預算只夠訂一個，[我會推薦 Codex](/blog/claude-or-codex-budget/)。
+
+## Facebook 帳號要注意什麼？
+
+- 必須是**能正常登入、非新註冊的帳號**（太新的帳號容易被 Meta 判定異常）
+- 你要自動發文的 Facebook 粉專、Instagram、Threads 帳號，都要**綁在這個 FB 帳號底下**
+- 課程 Module 02 會帶你實際走一次 Meta 開發者後台的申請流程
+
+## 完全零基礎真的可以嗎？
+
+可以。我的課程設計就是把技術門檻壓到「會打字、會對話」就能完成：安裝桌面版 Agent、申請 API、設定權限、寫自動發文腳本，全部都是由 AI 執行，你負責用中文下指令和確認結果。
+
+如果你自己看[免費教學影片](/#videos)會卡關，也可以直接約我的[一對一手把手教學](/services/one-on-one/)，雙北可約咖啡廳實體課，其他地區可以線上上課。
