@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import bannerImage from '../assets/banner.png';
 import Card from '../components/Card.astro';
 import Cta from '../components/Cta.astro';
 import FaqList from '../components/FaqList.astro';
@@ -65,12 +64,9 @@ const schema = [
   schema={schema}
 >
   <!-- 區塊一：加 LINE 描述需求（免費優先） -->
-  <section class="px-6 pt-8 md:pt-12">
+  <section class="px-6 pt-10 md:pt-16">
     <div class="mx-auto max-w-6xl">
-      <div class="overflow-hidden rounded-[2rem] border border-sky-200/80 bg-white shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
-        <Image src={bannerImage} alt="AI新手教學課程橫幅" class="h-auto w-full" loading="eager" />
-      </div>
-      <div class="mx-auto mt-12 max-w-3xl text-center">
+      <div class="mx-auto max-w-3xl text-center">
         <h1 class="text-3xl font-semibold tracking-tight text-slate-900 md:text-5xl">
           有 AI 問題？先加 LINE 描述你的需求
         </h1>
