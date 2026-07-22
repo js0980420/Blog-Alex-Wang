@@ -11,7 +11,7 @@ export const SYLLABUS = [
     label: 'Module 02',
     title: 'Threads API 申請與 Token 設定',
     summary:
-      '三大 API 其實只要先學一個就夠，因為另外兩個申請流程大同小異；重點是你要先有 Facebook 帳號登入 Meta 開發者後台，並確認要串接的帳號都綁在這個 FB 底下。',
+      'Threads 的申請跟 FB / IG 不太一樣：FB 跟 IG 可以透過企業管理後台新增資產管理取得永久權限的 Token，Threads 則要走開發者後台申請、長期 Token 60 天需延期。這個模組帶你完整跑一次 Threads 申請與 Token 設定。',
     href: '/blog/threads-api-tutorial/',
   },
   {
