@@ -13,7 +13,7 @@ faqs:
     answer: 這個概念（Agent Skills）已是各家 Agent 的通用做法，Codex、OpenClaw（龍蝦）、Hermes（愛馬仕）都有對應機制，寫法大同小異，學會一套就能通用。
 ---
 
-**直接回答：Skill 就是把你的工作流程、文案風格、發文習慣，整理成 AI 可以重複使用的指令文件。你可以把它理解成「強化 AI 的記憶」——沒有 Skill，關掉對話框 AI 就失憶了；有了 Skill，每次開新對話 AI 都記得你的規矩。**
+**Skill 就是把你的工作流程、文案風格、發文習慣，整理成 AI 可以重複使用的指令文件。你可以把它理解成「強化 AI 的記憶」——沒有 Skill，關掉對話框 AI 就失憶了；有了 Skill，每次開新對話 AI 都記得你的規矩。**
 
 ## 沒有 Skill 的世界 vs 有 Skill 的世界
 
@@ -34,7 +34,7 @@ faqs:
 
 ## 為什麼 Skill 是課程的最後一塊拼圖？
 
-前面三個模組（[桌面版安裝](/blog/why-desktop-claude-code-codex/)、[Meta API 申請](/blog/meta-api-application/)、[自動發文與權限](/blog/auto-posting-permissions/)）讓流程「能跑」，Skill 讓流程「能長期用」：
+前面三個模組（[桌面版安裝](/blog/why-desktop-claude-code-codex/)、[Meta API 申請](/blog/threads-api-tutorial/)、[自動發文與權限](/blog/auto-posting-permissions/)）讓流程「能跑」，Skill 讓流程「能長期用」：
 
 1. 把常用任務封裝成可重用的工作流
 2. 讓 AI 記住你的發文習慣，不用每次重教

@@ -13,7 +13,7 @@ faqs:
     answer: 可以。模板已經把配色、字體、間距鎖好，你只負責提供內容，AI 負責生成。這正是我開發 Tooka 的原因——在演講現場讓完全不會設計工具的學員也能做出整組輪播。
 ---
 
-**直接回答：不一定。關鍵在成本結構——外包是「按件或包月計費，量越大越貴」（實際行情依需求差異大，建議直接詢價）；AI 自製是「固定成本」：每月 20 美元的 AI 訂閱，模板工具開源免費，做十張和做一百張只有些微的 tokens 差異。** 發文量越大、版型越固定，自製的優勢就越明顯。
+**不一定。關鍵在成本結構——外包是「按件或包月計費，量越大越貴」（實際行情依需求差異大，建議直接詢價）；AI 自製是「固定成本」：每月 20 美元的 AI 訂閱，模板工具開源免費，做十張和做一百張只有些微的 tokens 差異。** 發文量越大、版型越固定，自製的優勢就越明顯。
 
 ## 兩種模式的成本結構
 
@@ -38,6 +38,6 @@ faqs:
 1. 一個 AI Agent 訂閱：[ChatGPT（Codex）或 Claude 擇一](/blog/claude-or-codex-budget/)，每月 20 美元
 2. 安裝桌面版 Agent：[為什麼一定要桌面版](/blog/why-desktop-claude-code-codex/)
 3. 模板工具：[Tooka（開源免費）](https://github.com/js0980420/tooka)
-4. 想發佈到社群，再加 [Meta API 申請](/blog/meta-api-application/)
+4. 想發佈到社群，再加 [Meta API 申請](/blog/threads-api-tutorial/)
 
 想一堂課直接把流程做出來，可以約[一對一教學](/services/one-on-one/)，或[邀請我到貴單位演講實作](/services/speaking/)。

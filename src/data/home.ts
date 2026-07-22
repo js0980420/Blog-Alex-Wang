@@ -9,10 +9,10 @@ export const SYLLABUS = [
   },
   {
     label: 'Module 02',
-    title: 'Meta 三大 API 申請邏輯與帳號準備',
+    title: 'Threads API 申請與 Token 設定',
     summary:
       '三大 API 其實只要先學一個就夠，因為另外兩個申請流程大同小異；重點是你要先有 Facebook 帳號登入 Meta 開發者後台，並確認要串接的帳號都綁在這個 FB 底下。',
-    href: '/blog/meta-api-application/',
+    href: '/blog/threads-api-tutorial/',
   },
   {
     label: 'Module 03',

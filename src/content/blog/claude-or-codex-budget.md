@@ -11,7 +11,7 @@ faqs:
     answer: 不一定。先用 20 美元方案把桌面版 Agent、API 串接、自動發文流程學會，額度不夠用再考慮升級，課程中也會教省額度的技巧。
 ---
 
-**直接回答：預算只夠選一個的話，我推薦訂 ChatGPT Plus（附帶 Codex）。** 原因是 ChatGPT 5.5 更新後，Codex 的使用額度比 Claude 同價位方案多很多；而且 Codex 的額度也可以拿來當 OpenClaw（龍蝦）或 Hermes 這類工具的「飼料」，相較之下比較不用擔心被封號。
+**預算只夠選一個的話，我推薦訂 ChatGPT Plus（附帶 Codex）。** 原因是 ChatGPT 5.5 更新後，Codex 的使用額度比 Claude 同價位方案多很多；而且 Codex 的額度也可以拿來當 OpenClaw（龍蝦）或 Hermes 這類工具的「飼料」，相較之下比較不用擔心被封號。
 
 ## 訂閱方案與費用比較
 

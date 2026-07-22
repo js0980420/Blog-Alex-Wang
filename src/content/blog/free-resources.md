@@ -14,7 +14,7 @@ faqs:
     answer: 可以，歡迎加 LINE 免費諮詢，或到我的 Facebook 社團發問。
 ---
 
-**直接回答：這一頁整理我所有的免費資源——教學影片跟開源工具，全部不用付費就能用。** 建議的用法：先照影片自學，把流程跑一次；卡關了再來[找我一對一](/services/one-on-one/)，把時間花在刀口上。
+**這一頁整理我所有的免費資源——教學影片跟開源工具，全部不用付費就能用。** 建議的用法：先照影片自學，把流程跑一次；卡關了再來[找我一對一](/services/one-on-one/)，把時間花在刀口上。
 
 ## 教學影片
 
@@ -24,7 +24,7 @@ faqs:
 
 <div style="aspect-ratio:16/9;"><iframe style="width:100%;height:100%;border-radius:1rem;" src="https://www.youtube-nocookie.com/embed/nTYrG7EuFHA" title="Threads API 申請教學" loading="lazy" allowfullscreen></iframe></div>
 
-搭配文章：[Meta 三大 API 申請教學](/blog/meta-api-application/)、[自動發文權限設定](/blog/auto-posting-permissions/)
+搭配文章：[Meta 三大 API 申請教學](/blog/threads-api-tutorial/)、[自動發文權限設定](/blog/auto-posting-permissions/)
 
 ### Instagram API 申請教學
 
@@ -41,7 +41,7 @@ faqs:
 會做它，是因為我自己 AI 生圖很常需要微調：經常跑版、[超出 IG 尺寸](/blog/ig-carousel-size/)、人物失真，叫 AI 重新生隨機性太高、而且等很久；用 GPT 連結 Canva 改完還要自己貼回 GPT，不夠省事。我很討厭這種繁瑣的步驟，所以把整個流程都自動化了：
 
 1. **AI 生完圖可以直接拖曳、修改文字**——不用等重新生成，用初階模型也可以
-2. **[Meta 三大 API](/blog/meta-api-application/) 都做好串接面板**——只要[申請好 API](/blog/auto-posting-permissions/) 填進去，就會自動幫你建好 `.env`；填進去的長期權杖（60 天）還會**自動延期**，第一次手動申請後就不用怕過期
+2. **[Meta 三大 API](/blog/threads-api-tutorial/) 都做好串接面板**——只要[申請好 API](/blog/auto-posting-permissions/) 填進去，就會自動幫你建好 `.env`；填進去的長期權杖（60 天）還會**自動延期**，第一次手動申請後就不用怕過期
 3. **每次的圖都可以固定版型**——都是 React 元件，做好一次視覺，之後改內容不改背景
 
 實際工作流示範：

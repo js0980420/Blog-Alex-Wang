@@ -11,7 +11,7 @@ faqs:
     answer: 初學者只要先訂閱一個月 20 美元的 ChatGPT（Codex）或 Claude 方案就夠了，課程中也會教你怎麼節省額度。
 ---
 
-**直接回答：Claude Code 是 Anthropic 推出的「桌面版 AI Agent」——和網頁版聊天不同，它能實際操作你的電腦：讀寫檔案、設定環境變數、填入 API Key、執行自動發文腳本。** Codex 則是 OpenAI（ChatGPT 訂閱附帶）的同類工具。想做 AI 自動化（AI 客服、自動拍片、自動發文、爬蟲），第一步永遠是安裝這兩套其中之一，讓 AI 從「聊天對象」變成「能執行任務的 Agent」。
+**Claude Code 是 Anthropic 推出的「桌面版 AI Agent」——和網頁版聊天不同，它能實際操作你的電腦：讀寫檔案、設定環境變數、填入 API Key、執行自動發文腳本。** Codex 則是 OpenAI（ChatGPT 訂閱附帶）的同類工具。想做 AI 自動化（AI 客服、自動拍片、自動發文、爬蟲），第一步永遠是安裝這兩套其中之一，讓 AI 從「聊天對象」變成「能執行任務的 Agent」。
 
 ## AI Agent 是什麼？
 

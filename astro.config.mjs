@@ -2,23 +2,24 @@ import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import { readFileSync, readdirSync } from 'node:fs';
-import { basename } from 'node:path';
 
-const blogDirectory = new URL('./src/content/blog/', import.meta.url);
+const directusResponse = await fetch(
+  'https://cms.aixwang.dev/items/articles?filter[status][_eq]=published&limit=-1&fields=slug,updated_date,pub_date',
+);
+if (!directusResponse.ok) throw new Error(`Directus Sitemap 日期抓取失敗：HTTP ${directusResponse.status}`);
+const { data: directusArticles } = await directusResponse.json();
 const blogLastModified = new Map(
-  readdirSync(blogDirectory)
-    .filter((file) => file.endsWith('.md'))
-    .map((file) => {
-      const source = readFileSync(new URL(file, blogDirectory), 'utf8');
-      const updatedDate = source.match(/^updatedDate:\s*(\d{4}-\d{2}-\d{2})/m)?.[1];
-      const pubDate = source.match(/^pubDate:\s*(\d{4}-\d{2}-\d{2})/m)?.[1];
-      return [`/blog/${basename(file, '.md')}/`, updatedDate ?? pubDate];
-    }),
+  directusArticles.map((article) => [
+    `/blog/${article.slug}/`,
+    article.updated_date ?? article.pub_date,
+  ]),
 );
 
 export default defineConfig({
   site: 'https://aixwang.dev',
+  redirects: {
+    '/blog/meta-api-application/': '/blog/threads-api-tutorial/',
+  },
   // 預設全站仍是靜態預渲染；adapter 讓之後的 API 路由（如 /api/chat）能跑在 Cloudflare Workers
   adapter: cloudflare(),
   integrations: [

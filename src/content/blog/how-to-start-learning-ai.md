@@ -16,7 +16,7 @@ faqs:
     answer: 挑「上完會留下一個真實作品」的課程，而不是只教觀念或 Prompt 話術的。能不能實際做出自動發文、AI 客服這類看得到的成果，是分辨課程含金量最快的標準。
 ---
 
-**直接回答：三件事——安裝「桌面版 AI Agent」（Claude Code 或 Codex）、取得工具權限，然後動手做出第一個真實作品。** 我推薦的第一個作品是「社群自動發文系統」，因為它會逼你把 AI 自動化的所有基本功走過一遍。
+**三件事——安裝「桌面版 AI Agent」（Claude Code 或 Codex）、取得工具權限，然後動手做出第一個真實作品。** 我推薦的第一個作品是「社群自動發文系統」，因為它會逼你把 AI 自動化的所有基本功走過一遍。
 
 ## 從「零散技巧」到「真實作品」
 
@@ -27,7 +27,7 @@ faqs:
 這也是我的課程大綱，自學者可以照著走：
 
 1. **裝好桌面版 Claude Code / Codex**：安裝、權限設定、環境變數，並訂閱每月 20 美元的方案即可（[Claude 和 ChatGPT 怎麼選](/blog/claude-or-codex-budget/)）
-2. **申請 Meta API**：[三大 API 學一個就通](/blog/meta-api-application/)，重點是 FB 帳號與開發者後台的綁定
+2. **申請 Meta API**：[三大 API 學一個就通](/blog/threads-api-tutorial/)，重點是 FB 帳號與開發者後台的綁定
 3. **跑通自動發文**：[權限設定與實測](/blog/auto-posting-permissions/)，避開被 Meta 判定異常的坑
 4. **把流程寫成 Skill**：[讓 AI 記住你的工作流](/blog/what-is-ai-skill/)，從「玩 AI」升級成「用 AI 工作」
 
