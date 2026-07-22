@@ -38,7 +38,7 @@ export const LINKS = {
 export const NAV = [
   { href: '/', label: '首頁' },
   { href: '/blog/', label: '部落格' },
-  { href: '/services/one-on-one/', label: '一對一私教' },
+  { href: '/services/one-on-one/', label: '一對一教學' },
   { href: '/services/speaking/', label: '演講邀約' },
   { href: '/about/', label: '關於講師' },
 ];
