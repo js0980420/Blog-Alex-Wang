@@ -32,7 +32,7 @@ import Base from '../layouts/Base.astro';
 
     <SectionHeading size="md" class="mt-14">代表作品：Tooka</SectionHeading>
     <div class="mt-6 overflow-hidden rounded-[1.75rem] border border-sky-200/80 bg-white/80 shadow-[0_8px_30px_rgba(30,64,175,0.05)]">
-      <a href="https://github.com/js0980420/tooka" target="_blank" rel="noreferrer">
+      <a href="https://tooka.js0980420.workers.dev/" target="_blank" rel="noreferrer">
         <Image src={tookaCoverImage} alt="Tooka 開源社群圖文模板框架封面" class="w-full object-cover" />
       </a>
       <div class="p-7">
@@ -48,14 +48,24 @@ import Base from '../layouts/Base.astro';
           playsinline
           class="mt-5 w-full rounded-2xl border border-sky-200/80"
         ></video>
-        <a
-          href="https://github.com/js0980420/tooka"
-          target="_blank"
-          rel="noreferrer"
-          class="mt-5 inline-block font-semibold text-amber-300 underline underline-offset-4 hover:text-amber-200"
-        >
-          GitHub：js0980420/tooka →
-        </a>
+        <div class="mt-5 flex flex-wrap gap-4">
+          <a
+            href="https://tooka.js0980420.workers.dev/"
+            target="_blank"
+            rel="noreferrer"
+            class="rounded-full bg-[#1688e8] px-5 py-2.5 font-semibold text-white transition hover:bg-[#0874c9]"
+          >
+            線上直接使用 Tooka →
+          </a>
+          <a
+            href="https://github.com/js0980420/tooka"
+            target="_blank"
+            rel="noreferrer"
+            class="rounded-full border border-sky-200 bg-white px-5 py-2.5 font-semibold text-[#1688e8] transition hover:border-sky-400 hover:bg-sky-50"
+          >
+            查看 GitHub 原始碼 →
+          </a>
+        </div>
       </div>
     </div>
 
