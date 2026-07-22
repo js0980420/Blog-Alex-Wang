@@ -2,6 +2,7 @@
 title: AI 圖文生成工具怎麼選？我為什麼自己開發開源的 Tooka
 description: 市面上的 AI 圖文製作工具分三類：生圖模型直出（會失真跑版）、Canva 類套版（要手動排）、模板框架 + AI Agent（程式渲染、不跑版）。Tooka 屬於第三類，開源免費。
 pubDate: 2026-07-22
+updatedDate: 2026-07-22
 tags: [AI 圖文生成, Tooka, 社群圖文, AI Agent]
 featured: true
 faqs:

@@ -2,6 +2,7 @@
 title: Threads / Instagram / Facebook API 申請教學：新手要先學哪一個？
 description: 三大 API 只要先學會申請一個就夠，因為另外兩個的流程大同小異。關鍵前置作業是：用你的 Facebook 帳號登入 Meta 開發者後台，並確認要串接的帳號都綁在這個 FB 底下。
 pubDate: 2026-07-04
+updatedDate: 2026-07-22
 tags: [Meta API, Threads, 自動發文]
 faqs:
   - question: 三個 API 都要分別申請嗎？

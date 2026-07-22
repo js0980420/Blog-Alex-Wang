@@ -2,6 +2,7 @@
 title: 我的免費資源：AI 教學影片與開源工具 Tooka
 description: 這裡整理我所有免費的 AI 學習資源：Threads / Instagram API 申請教學影片、Agent 實戰影片，以及開源的社群圖文模板框架 Tooka。先用免費資源自學，卡關再來找我。
 pubDate: 2026-07-22
+updatedDate: 2026-07-22
 tags: [免費資源, 教學影片, Tooka, 新手入門]
 featured: true
 faqs:

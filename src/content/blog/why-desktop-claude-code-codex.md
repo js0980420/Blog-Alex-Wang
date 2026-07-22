@@ -2,6 +2,7 @@
 title: Claude Code 是什麼？為什麼要用桌面版 AI Agent 而不是網頁版？
 description: Claude Code 是能實際操作你電腦的桌面版 AI Agent——設定環境變數、填入 API Key、執行自動化腳本都做得到，這些網頁版 AI 都不行。想做 AI 自動化，第一步就是裝它或 Codex。
 pubDate: 2026-07-10
+updatedDate: 2026-07-22
 tags: [Claude Code, Codex, AI Agent]
 faqs:
   - question: 免費 AI 不能用來做自動化嗎？

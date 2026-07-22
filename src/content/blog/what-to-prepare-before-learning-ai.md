@@ -2,6 +2,7 @@
 title: 上 AI 入門課程前要準備什麼？零基礎的課前清單
 description: 基本上只需要兩樣東西：一台電腦、每月 20 美元的 ChatGPT 或 Claude 訂閱。想學自動發文或留言、私訊的人，才需要再準備一個可以登入 Meta 開發者後台的 Facebook 帳號。不需要任何程式背景。
 pubDate: 2026-07-08
+updatedDate: 2026-07-22
 tags: [新手入門, 課前準備]
 faqs:
   - question: 需要會寫程式嗎？

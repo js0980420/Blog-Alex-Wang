@@ -2,6 +2,7 @@
 title: AI Agent 是什麼？為什麼連「龍蝦」都是 AI Agent？
 description: AI Agent 是能代替你實際動手做事的 AI——安裝套件、串接 API、自動發文都能執行，而不是只會回答問題。Claude Code、Codex、OpenClaw（就是大家在搜的「龍蝦」）、Hermes 都屬於這一類。
 pubDate: 2026-07-22
+updatedDate: 2026-07-22
 tags: [AI Agent, 新手入門, OpenClaw]
 faqs:
   - question: AI Agent 和 ChatGPT 差在哪？

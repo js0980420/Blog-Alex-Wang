@@ -2,6 +2,7 @@
 title: 學 AI 要學什麼？零基礎新手的 AI 入門教學路線
 description: 零基礎學 AI，我帶學員走的路線是：安裝桌面版 AI Agent（Claude Code 或 Codex）、取得工具權限，然後做出第一個真實作品——例如社群自動發文系統。四步路線完整拆解。
 pubDate: 2026-07-14
+updatedDate: 2026-07-22
 tags: [新手入門, AI 入門, 學習路線]
 featured: true
 faqs:

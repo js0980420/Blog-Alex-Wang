@@ -2,6 +2,7 @@
 title: ChatGPT 跟 Claude 比較：預算只夠訂閱一個該選哪個？
 description: 預算只夠訂一個的話，我推薦 ChatGPT Plus：附帶的 Codex 額度比 Claude 同價位方案多很多，還能拿來餵 OpenClaw（龍蝦）或 Hermes 等工具，比較不用擔心封號問題。
 pubDate: 2026-07-12
+updatedDate: 2026-07-22
 tags: [Claude Code, ChatGPT, Codex, 預算]
 faqs:
   - question: 一個月要花多少錢才能開始學 AI 自動化？

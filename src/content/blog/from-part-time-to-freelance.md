@@ -2,6 +2,7 @@
 title: 我如何從打工仔轉職成全職接案工程師：沒進過軟體業的自學路
 description: 全職接案一年、做過 CRM、約會配對網站、Line LIFF 網頁等完整專案。這是我從打零工維生、靠 AI 自學，到第一個案子、學會報價簽約、成為全職接案工程師的真實過程。
 pubDate: 2026-07-22
+updatedDate: 2026-07-22
 tags: [轉職心得, 接案, AI 自學, 講師故事]
 featured: true
 faqs:

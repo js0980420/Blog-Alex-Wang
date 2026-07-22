@@ -2,6 +2,7 @@
 title: Threads / IG 自動發文怎麼做？權限設定與避免被 Meta 封鎖
 description: Threads、IG、FB 自動發文走 Meta 官方 API：申請權限、用桌面版 AI Agent 寫發文腳本、實測後再排程。權限範圍設對、發文頻率像真人，就能避免被 Meta 判定異常而封鎖。
 pubDate: 2026-07-02
+updatedDate: 2026-07-22
 tags: [自動發文, Threads, Meta API, 權限設定]
 faqs:
   - question: 自動發文會不會被 Meta 封鎖帳號？

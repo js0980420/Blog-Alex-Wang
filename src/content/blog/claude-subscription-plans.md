@@ -2,6 +2,7 @@
 title: Claude 訂閱方案與費用整理：Pro 和 Max 差在哪？新手該訂哪個？
 description: Claude Pro 月付 20 美元（年付約 17），就包含 Claude Code；Max 分 100 和 200 美元兩級，額度是 Pro 的 5 倍與 20 倍。新手從 Pro 開始就夠，額度不夠再升級。
 pubDate: 2026-07-22
+updatedDate: 2026-07-22
 tags: [Claude Code, 訂閱費用, 新手入門]
 faqs:
   - question: 訂 Claude Pro 就能用 Claude Code 嗎？

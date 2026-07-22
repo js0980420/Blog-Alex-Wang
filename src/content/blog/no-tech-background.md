@@ -2,6 +2,7 @@
 title: 不會寫程式、文組也能學 AI 自動化嗎？
 description: 可以。現在的 AI Agent 已經把複雜的技術門檻，變成只要用中文對話就能完成的工作流。不會寫程式、文組出身，只要會操作電腦，就能學會安裝 Agent、串接 API、做出自動發文流程。
 pubDate: 2026-07-06
+updatedDate: 2026-07-22
 tags: [新手入門, 文組學 AI, 常見問題]
 faqs:
   - question: 老師或講師適合學嗎？

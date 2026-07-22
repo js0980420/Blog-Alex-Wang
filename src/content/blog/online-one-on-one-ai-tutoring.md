@@ -2,6 +2,7 @@
 title: AI 家教推薦怎麼找？一對一 AI 教學線上、實體怎麼選？
 description: 找 AI 家教的重點是「用你自己的帳號實際跑通流程」而不是看老師示範。線上課用 Google Meet 或 Discord 分享螢幕即可進行；實體課可約雙北的咖啡廳，教學內容相同。
 pubDate: 2026-06-28
+updatedDate: 2026-07-22
 tags: [AI 家教, 一對一教學, 線上課程]
 faqs:
   - question: 線上課需要準備什麼設備？

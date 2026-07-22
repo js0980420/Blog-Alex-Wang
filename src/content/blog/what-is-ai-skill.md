@@ -2,6 +2,7 @@
 title: Claude Code Skill 是什麼？讓 AI 記住你的發文習慣和工作流
 description: Skill 是把你的工作流程和偏好寫成 AI 可重複使用的指令文件，等於強化 AI 的記憶——關掉對話框之後 AI 不會失憶，之後改文案、改排程、改流程都能一句話完成。
 pubDate: 2026-06-30
+updatedDate: 2026-07-22
 tags: [Skill, AI 工作流, Claude Code, Codex]
 faqs:
   - question: Skill 和一般的 Prompt 有什麼不同？
