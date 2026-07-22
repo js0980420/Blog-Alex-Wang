@@ -39,6 +39,9 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="icon" type="image/png" sizes="any" href="/favicon.png?v=2" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.png?v=2" />
+    <link rel="apple-touch-icon" href="/aixwang-icon.png" />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content={ogType} />
@@ -54,9 +57,13 @@ const jsonLd = {
     <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#120f0b]/80 backdrop-blur-xl">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a href="/" class="flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-300 via-orange-400 to-rose-500 text-lg">
-            💡
-          </div>
+          <img
+            src="/aixwang-icon.png"
+            alt="aixwang"
+            width="40"
+            height="40"
+            class="h-10 w-10 rounded-2xl object-cover"
+          />
           <div>
             <div class="text-lg font-semibold tracking-tight">{SITE.title}</div>
             <div class="text-[0.65rem] uppercase tracking-[0.18em] text-stone-400">{SITE.titleEn}</div>

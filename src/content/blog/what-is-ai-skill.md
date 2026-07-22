@@ -1,13 +1,15 @@
 ---
-title: 什麼是 AI Skill？如何讓 AI 記住你的發文習慣和工作流？
+title: Claude Code Skill 是什麼？讓 AI 記住你的發文習慣和工作流
 description: Skill 是把你的工作流程和偏好寫成 AI 可重複使用的指令文件，等於強化 AI 的記憶——關掉對話框之後 AI 不會失憶，之後改文案、改排程、改流程都能一句話完成。
 pubDate: 2026-06-30
-tags: [Skill, AI 工作流, Claude Code]
+tags: [Skill, AI 工作流, Claude Code, Codex]
 faqs:
   - question: Skill 和一般的 Prompt 有什麼不同？
     answer: Prompt 是一次性的指令，關掉對話就沒了；Skill 是存在專案裡的文件，每次開新對話 AI 都會照著執行，等於把你的習慣和流程變成 AI 的長期記憶。
   - question: 不會寫程式也能寫 Skill 嗎？
     answer: 可以。Skill 本質上是用中文（或任何語言）寫的說明文件，描述清楚「什麼情況、做什麼、注意什麼」即可，也可以請 AI 幫你把口述的流程整理成 Skill。
+  - question: 只有 Claude Code 有 Skill 嗎？Codex 或其他 Agent 呢？
+    answer: 這個概念（Agent Skills）已是各家 Agent 的通用做法，Codex、OpenClaw（龍蝦）、Hermes（愛馬仕）都有對應機制，寫法大同小異，學會一套就能通用。
 ---
 
 **直接回答：Skill 就是把你的工作流程、文案風格、發文習慣，整理成 AI 可以重複使用的指令文件。你可以把它理解成「強化 AI 的記憶」——沒有 Skill，關掉對話框 AI 就失憶了；有了 Skill，每次開新對話 AI 都記得你的規矩。**

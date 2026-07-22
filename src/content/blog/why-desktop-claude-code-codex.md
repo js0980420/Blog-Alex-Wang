@@ -1,6 +1,6 @@
 ---
-title: 為什麼學 AI 自動化要先用 Claude Code / Codex 桌面版，而不是網頁版或免費 AI？
-description: 因為網頁版 AI 沒有 Agent 工具權限，無法設定環境變數、填入 API Key、執行自動化腳本，只適合問答。想做 AI 自動化，第一步是安裝桌面版 Claude Code 或 Codex。
+title: Claude Code 是什麼？為什麼要用桌面版 AI Agent 而不是網頁版？
+description: Claude Code 是能實際操作你電腦的桌面版 AI Agent——設定環境變數、填入 API Key、執行自動化腳本都做得到，這些網頁版 AI 都不行。想做 AI 自動化，第一步就是裝它或 Codex。
 pubDate: 2026-07-10
 tags: [Claude Code, Codex, AI Agent]
 faqs:
@@ -10,7 +10,11 @@ faqs:
     answer: 初學者只要先訂閱一個月 20 美元的 ChatGPT（Codex）或 Claude 方案就夠了，課程中也會教你怎麼節省額度。
 ---
 
-**直接回答：網頁版 AI（ChatGPT、Claude 網頁對話）沒有 Agent 工具權限，它不能操作你的電腦、不能設定環境變數、不能填入申請好的 API Key、更不能執行自動發文腳本——它只適合拿來問問題。** 想做 AI 自動化（AI 客服、自動拍片、自動發文、爬蟲），第一步永遠是安裝桌面版的 Claude Code 或 Codex，讓 AI 從「聊天對象」變成「能執行任務的 Agent」。
+**直接回答：Claude Code 是 Anthropic 推出的「桌面版 AI Agent」——和網頁版聊天不同，它能實際操作你的電腦：讀寫檔案、設定環境變數、填入 API Key、執行自動發文腳本。** Codex 則是 OpenAI（ChatGPT 訂閱附帶）的同類工具。想做 AI 自動化（AI 客服、自動拍片、自動發文、爬蟲），第一步永遠是安裝這兩套其中之一，讓 AI 從「聊天對象」變成「能執行任務的 Agent」。
+
+## AI Agent 是什麼？
+
+一句話：**能代替你「動手做事」的 AI**。網頁版 ChatGPT / Claude 只能「回答」，你還是得自己動手；AI Agent 拿到工具權限後，可以自己安裝套件、串接 API、跑程式、驗證結果——你負責用中文下指令和驗收。Claude Code、Codex、OpenClaw（龍蝦）、Hermes（愛馬仕）都屬於這一類。
 
 ## 網頁版和桌面版差在哪？
 

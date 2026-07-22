@@ -10,15 +10,25 @@
 
 ## 部落格文章
 
-- [零基礎新手怎麼開始學 AI？](https://aixwang.dev/blog/how-to-start-learning-ai/)
-- [為什麼要用 Claude Code / Codex 桌面版而不是網頁版？](https://aixwang.dev/blog/why-desktop-claude-code-codex/)
-- [Claude 和 Codex 預算只夠訂一個該選哪個？](https://aixwang.dev/blog/claude-or-codex-budget/)
-- [零基礎學 AI 自動化課前要準備什麼？](https://aixwang.dev/blog/what-to-prepare-before-learning-ai/)
-- [沒有技術背景可以學 AI 自動化嗎？](https://aixwang.dev/blog/no-tech-background/)
-- [Meta 三大 API 怎麼申請？](https://aixwang.dev/blog/meta-api-application/)
-- [如何用 AI 自動發文且不被 Meta 封鎖？](https://aixwang.dev/blog/auto-posting-permissions/)
-- [什麼是 AI Skill？](https://aixwang.dev/blog/what-is-ai-skill/)
-- [AI 一對一教學可以線上上課嗎？](https://aixwang.dev/blog/online-one-on-one-ai-tutoring/)
+- [學 AI 要學什麼？零基礎新手的 AI 入門教學路線](https://aixwang.dev/blog/how-to-start-learning-ai/)
+- [AI Agent 是什麼？為什麼連「龍蝦」都是 AI Agent？](https://aixwang.dev/blog/what-is-ai-agent/)
+- [Claude Code 是什麼？為什麼要用桌面版 AI Agent 而不是網頁版？](https://aixwang.dev/blog/why-desktop-claude-code-codex/)
+- [ChatGPT 跟 Claude 比較：預算只夠訂閱一個該選哪個？](https://aixwang.dev/blog/claude-or-codex-budget/)
+- [Claude 訂閱方案與費用整理：Pro 和 Max 差在哪？](https://aixwang.dev/blog/claude-subscription-plans/)
+- [上 AI 入門課程前要準備什麼？零基礎的課前清單](https://aixwang.dev/blog/what-to-prepare-before-learning-ai/)
+- [不會寫程式、文組也能學 AI 自動化嗎？](https://aixwang.dev/blog/no-tech-background/)
+- [Threads / Instagram / Facebook API 申請教學：新手要先學哪一個？](https://aixwang.dev/blog/meta-api-application/)
+- [Threads / IG 自動發文怎麼做？權限設定與避免被 Meta 封鎖](https://aixwang.dev/blog/auto-posting-permissions/)
+- [Threads 自動發文用 n8n 還是 AI Agent？](https://aixwang.dev/blog/n8n-vs-ai-agent/)
+- [Claude Code Skill 是什麼？讓 AI 記住你的發文習慣和工作流](https://aixwang.dev/blog/what-is-ai-skill/)
+- [AI 家教推薦怎麼找？一對一 AI 教學線上、實體怎麼選？](https://aixwang.dev/blog/online-one-on-one-ai-tutoring/)
+- [IG 輪播貼文尺寸是多少？用 AI 一句話生成 1080×1350 圖文](https://aixwang.dev/blog/ig-carousel-size/)
+- [AI 圖文生成工具怎麼選？我為什麼自己開發開源的 Tooka](https://aixwang.dev/blog/why-i-built-tooka/)
+- [社群圖文設計外包要多少錢？跟 AI 自製的成本比較](https://aixwang.dev/blog/social-design-cost/)
+
+## 開源專案
+
+- [Tooka](https://github.com/js0980420/tooka)：Alex 開發的開源社群圖文模板框架——AI Agent 用程式渲染生成 1080×1350 的 IG 輪播圖文，不跑版、不失真，可一鍵發佈到 Instagram、Facebook、Threads。
 
 ## 聯絡方式
 

@@ -1,5 +1,5 @@
 ---
-title: 零基礎學 AI 自動化，課前要準備什麼？
+title: 上 AI 入門課程前要準備什麼？零基礎的課前清單
 description: 只需要三樣東西：一台電腦、每月 20 美元的 ChatGPT 或 Claude 訂閱，以及一個可以登入 Meta 開發者後台的 Facebook 帳號。不需要任何程式背景。
 pubDate: 2026-07-08
 tags: [新手入門, 課前準備]
@@ -16,7 +16,7 @@ faqs:
 
 ## 為什麼一定要付費訂閱 AI？
 
-因為自動化需要的是有 Agent 權限的桌面版工具（Claude Code 或 Codex），而不是免費網頁版聊天。免費 AI 穩定度差、錯誤率高，新手用起來反而更花時間。詳細比較我寫在[這篇](/blog/why-desktop-claude-code-codex/)，如果預算只夠訂閱一個，[我會推薦 Codex](/blog/claude-or-codex-budget/)。
+因為自動化需要的是有 Agent 權限的桌面版工具（Claude Code 或 Codex），而不是免費網頁版聊天。免費 AI 穩定度差、錯誤率高，新手用起來反而更花時間。詳細比較我寫在[這篇](/blog/why-desktop-claude-code-codex/)，如果預算只夠訂閱一個，[我會推薦訂 ChatGPT](/blog/claude-or-codex-budget/)。
 
 ## Facebook 帳號要注意什麼？
 

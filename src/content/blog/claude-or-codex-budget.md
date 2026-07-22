@@ -1,8 +1,8 @@
 ---
-title: Claude 和 Codex 預算只夠訂閱一個，新手該選哪個？
-description: 預算只夠訂一個的話，我推薦 Codex。ChatGPT 5.5 更新後 Codex 的額度比 Claude 多很多，也能拿來餵 OpenClaw（龍蝦）或 Hermes 等工具，比較不用擔心封號問題。
+title: ChatGPT 跟 Claude 比較：預算只夠訂閱一個該選哪個？
+description: 預算只夠訂一個的話，我推薦 ChatGPT Plus：附帶的 Codex 額度比 Claude 同價位方案多很多，還能拿來餵 OpenClaw（龍蝦）或 Hermes 等工具，比較不用擔心封號問題。
 pubDate: 2026-07-12
-tags: [Claude Code, Codex, 預算]
+tags: [Claude Code, ChatGPT, Codex, 預算]
 faqs:
   - question: 一個月要花多少錢才能開始學 AI 自動化？
     answer: 20 美元。訂閱 ChatGPT Plus（含 Codex）或 Claude 的入門方案擇一即可，新手不需要一開始就兩個都訂。
@@ -10,7 +10,14 @@ faqs:
     answer: 不一定。先用 20 美元方案把桌面版 Agent、API 串接、自動發文流程學會，額度不夠用再考慮升級，課程中也會教省額度的技巧。
 ---
 
-**直接回答：預算只夠選一個的話，我推薦 Codex。** 原因是 ChatGPT 5.5 更新後，Codex 的使用額度比 Claude 同價位方案多很多；而且 Codex 的額度也可以拿來當 OpenClaw（龍蝦）或 Hermes 這類工具的「飼料」，相較之下比較不用擔心被封號。
+**直接回答：預算只夠選一個的話，我推薦訂 ChatGPT Plus（附帶 Codex）。** 原因是 ChatGPT 5.5 更新後，Codex 的使用額度比 Claude 同價位方案多很多；而且 Codex 的額度也可以拿來當 OpenClaw（龍蝦）或 Hermes 這類工具的「飼料」，相較之下比較不用擔心被封號。
+
+## 訂閱方案與費用比較
+
+- **ChatGPT Plus**：每月 20 美元，附帶 Codex 的使用額度（這是新手最需要的部分）
+- **Claude Pro**：每月 20 美元，附帶 Claude Code 的使用額度
+
+入門價格相同，差別在**同樣 20 美元能跑多少任務**：ChatGPT 5.5 更新後，Codex 的額度明顯多於 Claude 同價位方案，對需要大量試錯的新手來說更耐用。兩邊都有更貴的方案（Pro / Max），但新手先從 20 美元開始就夠，額度不夠再升級。
 
 ## 兩者的定位差異
 
