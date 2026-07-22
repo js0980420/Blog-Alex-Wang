@@ -9,7 +9,7 @@ const blog = defineCollection({
   loader: {
     name: 'directus-articles',
     load: async ({ store, parseData, generateDigest }) => {
-      const fields = 'slug,title,description,body,pub_date,updated_date,tags,faqs,featured';
+      const fields = 'id,slug,title,description,body,pub_date,updated_date,tags,faqs,featured';
       const res = await fetch(
         `${DIRECTUS_URL}/items/articles?filter[status][_eq]=published&limit=-1&fields=${fields}`,
       );
@@ -21,6 +21,7 @@ const blog = defineCollection({
         const entry = await parseData({
           id: a.slug,
           data: {
+            cmsId: a.id,
             title: a.title,
             description: a.description ?? '',
             pubDate: a.pub_date,
@@ -40,6 +41,8 @@ const blog = defineCollection({
     },
   },
   schema: z.object({
+    // CMS 流水號：同日文章用它當第二排序鍵（越大越新）
+    cmsId: z.number().optional(),
     // 標題直接用「使用者會問 AI 的問題句」
     title: z.string(),
     // 40–80 字直接回答問題：這段就是 AI Overview 最可能抽取的答案

@@ -5,7 +5,9 @@ import PostCard from '../../components/PostCard.astro';
 import Base from '../../layouts/Base.astro';
 
 const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
+    (b.data.cmsId ?? 0) - (a.data.cmsId ?? 0),
 );
 // 精選文章的顯示順序
 const FEATURED_ORDER = [

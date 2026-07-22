@@ -18,7 +18,9 @@ import { FEATURED_EXPERIENCE } from '../data/instructor';
 import Base from '../layouts/Base.astro';
 
 const allPosts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
+    (b.data.cmsId ?? 0) - (a.data.cmsId ?? 0),
 );
 const posts = allPosts.slice(0, 4);
 
