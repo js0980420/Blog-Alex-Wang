@@ -1,4 +1,5 @@
 ---
+import ogBanner from '../assets/banner.png';
 import PillButton from '../components/PillButton.astro';
 import { NAV, LINKS, SITE, PERSON_SCHEMA } from '../consts';
 import '../styles/global.css';
@@ -9,9 +10,17 @@ interface Props {
   /** 頁面專屬的 JSON-LD（Article、Service、FAQPage 等），會與全站 Person 一起輸出 */
   schema?: object[];
   ogType?: string;
+  /** 社群分享預覽圖，預設用全站橫幅 */
+  ogImage?: string;
 }
 
-const { title, description, schema = [], ogType = 'website' } = Astro.props;
+const {
+  title,
+  description,
+  schema = [],
+  ogType = 'website',
+  ogImage = new URL(ogBanner.src, SITE.url).href,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 
 const jsonLd = {
@@ -50,7 +59,9 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="zh_TW" />
     <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body
