@@ -283,7 +283,12 @@ const jsonLd = {
         var input = document.getElementById('site-search');
         var box = document.getElementById('search-results');
         var examples = document.getElementById('search-examples');
-        var idx = null;
+        var pagefind = null;
+        var pagefindPromise = null;
+        var fallbackIndex = null;
+        var debounceTimer = null;
+        var searchSequence = 0;
+        var activeResult = -1;
         function isMobileSearch() {
           return window.matchMedia('(max-width: 1023px)').matches;
         }
@@ -304,34 +309,107 @@ const jsonLd = {
           }
           if (box) box.classList.add('hidden');
         }
-        function load() {
-          if (idx) return Promise.resolve(idx);
+        function loadFallback() {
+          if (fallbackIndex) return Promise.resolve(fallbackIndex);
           return fetch('/search-index.json')
             .then(function (r) { return r.json(); })
-            .then(function (d) { idx = d; return d; });
+            .then(function (d) { fallbackIndex = d; return d; });
+        }
+        function loadPagefind() {
+          if (pagefind) return Promise.resolve(pagefind);
+          if (pagefindPromise) return pagefindPromise;
+          pagefindPromise = new Function('return import("/pagefind/pagefind.js")')()
+            .then(function (module) {
+              pagefind = module;
+              return pagefind.init().then(function () { return pagefind; });
+            })
+            .catch(function () {
+              pagefind = null;
+              pagefindPromise = null;
+              return null;
+            });
+          return pagefindPromise;
+        }
+        function escapeHtml(value) {
+          return String(value || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
         }
         function render(list) {
+          activeResult = list.length ? 0 : -1;
           if (!list.length) {
             box.innerHTML = '<div class="px-3 py-2 text-sm text-slate-400">沒有符合的文章</div>';
           } else {
             box.innerHTML = list
               .slice(0, 8)
-              .map(function (i) {
-                return '<a href="' + i.u + '" class="block rounded-xl px-3 py-2 text-sm leading-6 text-slate-700 hover:bg-sky-50">' + i.t + '</a>';
+              .map(function (item, index) {
+                return '<a href="' + escapeHtml(item.u) + '" data-search-result="' + index + '" class="search-result-item block rounded-xl px-3 py-2 leading-5 text-slate-700 hover:bg-sky-50 ' + (index === 0 ? 'bg-sky-50' : '') + '">' +
+                  '<span class="block text-sm font-medium">' + escapeHtml(item.t) + '</span>' +
+                  (item.d ? '<span class="mt-1 block text-xs leading-5 text-slate-500">' + item.d + '</span>' : '') +
+                  '</a>';
               })
               .join('');
           }
           box.classList.remove('hidden');
         }
-        function searchFor(query) {
+        function renderLoading() {
+          box.innerHTML = '<div class="px-3 py-2 text-sm text-slate-400">搜尋中…</div>';
+          box.classList.remove('hidden');
+        }
+        function updateActiveResult() {
+          box.querySelectorAll('.search-result-item').forEach(function (item, index) {
+            item.classList.toggle('bg-sky-50', index === activeResult);
+          });
+        }
+        function searchFallback(query, sequence) {
+          return loadFallback().then(function (items) {
+            if (sequence !== searchSequence) return;
+            var q = query.toLowerCase();
+            render(items
+              .filter(function (item) {
+                return (item.t + item.d + item.g).toLowerCase().indexOf(q) !== -1;
+              })
+              .map(function (item) {
+                return { u: item.u, t: item.t, d: escapeHtml(item.d) };
+              }));
+          });
+        }
+        function executeSearch(query) {
+          var sequence = ++searchSequence;
+          renderLoading();
+          loadPagefind().then(function (engine) {
+            if (!engine) return searchFallback(query, sequence);
+            return engine.search(query).then(function (search) {
+              return Promise.all(search.results.slice(0, 8).map(function (result) {
+                return result.data();
+              }));
+            }).then(function (results) {
+              if (!results || sequence !== searchSequence) return;
+              render(results.map(function (result) {
+                return {
+                  u: result.url,
+                  t: result.meta && result.meta.title ? result.meta.title : result.url,
+                  d: result.excerpt || '',
+                };
+              }));
+            }).catch(function () {
+              return searchFallback(query, sequence);
+            });
+          });
+        }
+        function searchFor(query, immediate) {
           var q = query.trim().toLowerCase();
           if (examples) examples.classList.toggle('hidden', !!q);
-          if (!q) { box.classList.add('hidden'); return; }
-          load().then(function (d) {
-            render(d.filter(function (i) {
-              return (i.t + i.d + i.g).toLowerCase().indexOf(q) !== -1;
-            }));
-          });
+          window.clearTimeout(debounceTimer);
+          if (!q) {
+            searchSequence++;
+            box.classList.add('hidden');
+            return;
+          }
+          if (immediate) executeSearch(q);
+          else debounceTimer = window.setTimeout(function () { executeSearch(q); }, 200);
         }
         if (toggle) {
           toggle.addEventListener('click', function () {
@@ -341,9 +419,9 @@ const jsonLd = {
           });
         }
         if (input && box) {
-          input.addEventListener('focus', load);
+          input.addEventListener('focus', loadPagefind);
           input.addEventListener('input', function () {
-            searchFor(input.value);
+            searchFor(input.value, false);
           });
           input.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
@@ -351,8 +429,28 @@ const jsonLd = {
               if (toggle) toggle.focus();
               return;
             }
+            var results = box.querySelectorAll('.search-result-item');
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              if (results.length) {
+                activeResult = Math.min(activeResult + 1, results.length - 1);
+                updateActiveResult();
+                results[activeResult].scrollIntoView({ block: 'nearest' });
+              }
+              return;
+            }
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              if (results.length) {
+                activeResult = Math.max(activeResult - 1, 0);
+                updateActiveResult();
+                results[activeResult].scrollIntoView({ block: 'nearest' });
+              }
+              return;
+            }
             if (e.key === 'Enter') {
-              var a = box.querySelector('a');
+              e.preventDefault();
+              var a = results[activeResult] || results[0];
               if (a) location.href = a.getAttribute('href');
             }
           });
@@ -361,18 +459,24 @@ const jsonLd = {
               var button = e.target.closest('[data-search-example]');
               if (!button) return;
               input.value = button.getAttribute('data-search-example') || '';
-              searchFor(button.getAttribute('data-search-query') || input.value);
+              searchFor(button.getAttribute('data-search-query') || input.value, true);
               input.focus();
             });
           }
           document.addEventListener('click', function (e) {
             if (container && !container.contains(e.target)) closeSearch();
           });
+          document.addEventListener('keydown', function (e) {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+              e.preventDefault();
+              openSearch();
+            }
+          });
         }
       })();
     </script>
 
-    <main class="pt-28 lg:pt-20">
+    <main data-pagefind-body class="pt-28 lg:pt-20">
       <slot />
     </main>
 
