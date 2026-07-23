@@ -1,15 +1,22 @@
 ---
-import { AUTHOR, SITE } from '../consts';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { AUTHOR, SITE, breadcrumbSchema } from '../consts';
 import Base from '../layouts/Base.astro';
 
 const UPDATED = '2026年7月23日';
+
+const schema = [
+  breadcrumbSchema([{ name: '首頁', item: `${SITE.url}/` }, { name: '隱私權政策' }]),
+];
 ---
 
 <Base
   title={`隱私權政策｜${SITE.title}`}
   description={`${SITE.title}（aixwang.dev）的隱私權政策：本站使用 Google Analytics 進行流量統計，無會員系統、不主動蒐集個人資料。說明資料蒐集範圍、用途與訪客的選擇。`}
+  schema={schema}
 >
   <div class="mx-auto max-w-3xl px-6 py-12">
+    <Breadcrumbs items={[{ name: '首頁', href: '/' }, { name: '隱私權政策' }]} class="mb-8" />
     <h1 class="text-3xl font-semibold text-slate-900 md:text-4xl">隱私權政策</h1>
     <p class="mt-4 text-sm text-stone-400">最後更新：{UPDATED}</p>
 

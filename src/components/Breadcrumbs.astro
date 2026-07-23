@@ -1,0 +1,27 @@
+---
+// 可見麵包屑導覽；結構化資料請搭配 consts.ts 的 breadcrumbSchema() 傳入 Base 的 schema
+interface Crumb {
+  name: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+---
+
+<nav aria-label="麵包屑" class={`flex flex-wrap items-center gap-2 text-sm text-stone-400 ${className}`}>
+  {items.map((crumb, i) => (
+    <>
+      {i > 0 && <span aria-hidden="true">›</span>}
+      {crumb.href ? (
+        <a href={crumb.href} class="hover:text-[#1688e8]">{crumb.name}</a>
+      ) : (
+        <span class="min-w-0 truncate text-stone-500">{crumb.name}</span>
+      )}
+    </>
+  ))}
+</nav>

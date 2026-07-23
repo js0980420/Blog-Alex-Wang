@@ -44,8 +44,22 @@ export const NAV = [
   { href: '/blog/', label: '部落格' },
   { href: '/services/one-on-one/', label: '一對一教學' },
   { href: '/services/speaking/', label: '演講邀約' },
+  { href: '/faq/', label: '常見問題' },
   { href: '/about/', label: '關於講師' },
 ];
+
+// 產生 BreadcrumbList JSON-LD；最後一項是當前頁、不帶 item
+export function breadcrumbSchema(items: { name: string; item?: string }[]) {
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((crumb, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: crumb.name,
+      ...(crumb.item ? { item: crumb.item } : {}),
+    })),
+  };
+}
 
 import instructorImage from './assets/instructor-shirt.jpg';
 

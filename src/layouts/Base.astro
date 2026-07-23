@@ -53,8 +53,9 @@ const jsonLd = {
 <!doctype html>
 <html lang="zh-TW">
   <head>
-    <!-- Google Analytics（GA4）流量統計 -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-91Z2F673C0"></script>
+    <!-- Google Analytics（GA4）流量統計：gtag.js 延到頁面載入完才注入，避免佔用首次渲染的主執行緒；
+         事件在此之前先排入 dataLayer，載入後照樣送出 -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -62,6 +63,12 @@ const jsonLd = {
       }
       gtag('js', new Date());
       gtag('config', 'G-91Z2F673C0');
+      window.addEventListener('load', function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-91Z2F673C0';
+        document.head.appendChild(s);
+      });
 
       // 自訂事件：追蹤關鍵轉換點擊（LINE 諮詢 / Tooka / YouTube）
       document.addEventListener('click', function (e) {
@@ -104,6 +111,8 @@ const jsonLd = {
     <meta property="og:image:height" content={String(ogImageHeight)} />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -509,6 +518,7 @@ const jsonLd = {
       </div>
       <div class="mx-auto mt-10 flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 border-t border-sky-100 pt-6 text-xs text-stone-500">
         <span>© {new Date().getFullYear()} {SITE.title} — AI 一對一私人教學與公開演講</span>
+        <a href="/editorial-policy/" class="hover:text-[#1688e8]">編輯政策</a>
         <a href="/privacy/" class="hover:text-[#1688e8]">隱私權政策</a>
         <a href="/disclaimer/" class="hover:text-[#1688e8]">免責聲明</a>
       </div>

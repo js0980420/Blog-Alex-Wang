@@ -86,7 +86,8 @@ https://aixwang.dev/images/blog/<slug>.png
 - `src/pages/blog/[...id].astro` 會將 `og:image` 和 `BlogPosting.image` 指向
   `/images/blog/<slug>.png`。
 - 文章頁主圖、列表縮圖與多長寬比 schema 圖使用 WebP 衍生檔（`<slug>.webp`、`<slug>-thumb.webp`、
-  `<slug>-4x3.webp`、`<slug>-1x1.webp`），由 `npm run optimize:banners`
+  `<slug>-16x9.webp`、`<slug>-4x3.webp`、`<slug>-1x1.webp`）。其中 schema 圖完整提供 Google
+  建議的 16:9（1200×675）、4:3（840×630）與 1:1（630×630），由 `npm run optimize:banners`
   （`tools/optimize-blog-banners.mjs`）在 build／dev 前自動從 PNG 生成，不進 git、不需手動製作。
 - RSS feed 位於 `/rss.xml`，會自動列出所有 published 文章與其橫幅。
 - `src/layouts/Base.astro` 保留 `max-image-preview:large`。

@@ -6,12 +6,17 @@ import FaqList from '../../components/FaqList.astro';
 import PillButton from '../../components/PillButton.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import TeachingTools from '../../components/TeachingTools.astro';
-import { AUTHOR, LINKS, SITE } from '../../consts';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { AUTHOR, LINKS, SITE, breadcrumbSchema } from '../../consts';
 import { ONE_ON_ONE_FAQS } from '../../data/faqs';
 import { CLASS_FORMATS, TEACHING_CASES, TEACHING_CONTENT, TEACHING_TOOLS } from '../../data/services';
 import Base from '../../layouts/Base.astro';
 
 const schema = [
+  breadcrumbSchema([
+    { name: '首頁', item: `${SITE.url}/` },
+    { name: 'AI 一對一私人教學' },
+  ]),
   {
     '@type': 'Service',
     '@id': `${SITE.url}/services/one-on-one/#service`,
@@ -66,6 +71,7 @@ const schema = [
   schema={schema}
 >
   <div class="mx-auto max-w-4xl px-6 py-12">
+    <Breadcrumbs items={[{ name: '首頁', href: '/' }, { name: 'AI 一對一私人教學' }]} class="mb-8" />
     <h1 class="text-3xl font-semibold text-stone-50 md:text-5xl">AI 一對一私人教學</h1>
 
     <p class="mt-8 text-lg leading-9 text-stone-200/90">

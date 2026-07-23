@@ -25,10 +25,10 @@ const { title, description, pubDate, updatedDate, faqs } = post.data;
 const postUrl = `${SITE.url}/blog/${post.id}/`;
 // 每篇文章使用已定案的 1200×630 靜態橫幅，檔名與 Directus slug 相同。
 const postImage = new URL(`/images/blog/${post.id}.png`, SITE.url).href;
-// 多長寬比 schema image（Google 文章富摘要建議）與頁面用 WebP，
+// 多長寬比 schema image（Google 文章富摘要建議的 16:9、4:3、1:1）與頁面用 WebP，
 // 皆由 tools/optimize-blog-banners.mjs 從 PNG 自動衍生
 const schemaImages = [
-  postImage,
+  new URL(`/images/blog/${post.id}-16x9.webp`, SITE.url).href,
   new URL(`/images/blog/${post.id}-4x3.webp`, SITE.url).href,
   new URL(`/images/blog/${post.id}-1x1.webp`, SITE.url).href,
 ];
@@ -79,6 +79,11 @@ const dateText = pubDate.toLocaleDateString('zh-TW', {
   month: 'long',
   day: 'numeric',
 });
+// 有更新過才顯示「更新於」：時效訊號對搜尋結果點擊率有幫助
+const updatedText =
+  updatedDate && updatedDate.valueOf() !== pubDate.valueOf()
+    ? updatedDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })
+    : null;
 ---
 
 <Base
@@ -103,6 +108,14 @@ const dateText = pubDate.toLocaleDateString('zh-TW', {
         <span>作者：<a href="/about/" class="text-stone-300 hover:text-white">{AUTHOR.name}</a></span>
         <span>·</span>
         <time datetime={pubDate.toISOString()}>{dateText}</time>
+        {updatedText && (
+          <>
+            <span>·</span>
+            <span>
+              更新於 <time datetime={updatedDate!.toISOString()}>{updatedText}</time>
+            </span>
+          </>
+        )}
         {post.data.tags.map((tag) => (
           <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-xs">{tag}</span>
         ))}

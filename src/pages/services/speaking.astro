@@ -6,7 +6,8 @@ import Cta from '../../components/Cta.astro';
 import PillButton from '../../components/PillButton.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import TeachingTools from '../../components/TeachingTools.astro';
-import { AUTHOR, LINKS, SITE } from '../../consts';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { AUTHOR, LINKS, SITE, breadcrumbSchema } from '../../consts';
 import {
   SPEAKING_ENGAGEMENTS,
   SPEAKING_FORMATS,
@@ -16,6 +17,10 @@ import {
 import Base from '../../layouts/Base.astro';
 
 const schema = [
+  breadcrumbSchema([
+    { name: '首頁', item: `${SITE.url}/` },
+    { name: 'AI 演講與企業內訓' },
+  ]),
   {
     '@type': 'Service',
     '@id': `${SITE.url}/services/speaking/#service`,
@@ -58,6 +63,7 @@ const schema = [
   schema={schema}
 >
   <div class="mx-auto max-w-4xl px-6 py-12">
+    <Breadcrumbs items={[{ name: '首頁', href: '/' }, { name: 'AI 演講與企業內訓' }]} class="mb-8" />
     <h1 class="text-3xl font-semibold text-stone-50 md:text-5xl">AI 演講與企業內訓邀約</h1>
 
     <p class="mt-8 text-lg leading-9 text-stone-200/90">
