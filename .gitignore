@@ -10,6 +10,8 @@ coverage/
 .claude/
 CLAUDE.md
 *.bak
+# 橫幅合成素材只留本機（正式橫幅 public/images/blog/ 必須 commit，雲端建置才抓得到）
+src/assets/blog-banner/
 public/images/Facebook-Brand-Asset-Pack/__MACOSX/
 public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Primary Logo/Facebook_Logo_Primary.ai
 public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Secondary Logo/

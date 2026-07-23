@@ -23,6 +23,8 @@ const { Content } = await render(post);
 const { title, description, pubDate, updatedDate, faqs } = post.data;
 
 const postUrl = `${SITE.url}/blog/${post.id}/`;
+// 每篇文章使用已定案的 1200×630 靜態橫幅，檔名與 Directus slug 相同。
+const postImage = new URL(`/images/blog/${post.id}.png`, SITE.url).href;
 
 const schema: object[] = [
   {
@@ -36,6 +38,7 @@ const schema: object[] = [
     author: { '@id': AUTHOR.id },
     publisher: { '@id': AUTHOR.id },
     mainEntityOfPage: postUrl,
+    image: postImage,
   },
 ];
 
@@ -57,7 +60,13 @@ const dateText = pubDate.toLocaleDateString('zh-TW', {
 });
 ---
 
-<Base title={`${title}｜${SITE.title}`} description={description} schema={schema} ogType="article">
+<Base
+  title={`${title}｜${SITE.title}`}
+  description={description}
+  schema={schema}
+  ogType="article"
+  ogImage={postImage}
+>
   <article class="mx-auto max-w-3xl px-6 py-12">
     <nav class="text-sm text-stone-400">
       <a href="/blog/" class="hover:text-white">← 回部落格列表</a>

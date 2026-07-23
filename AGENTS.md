@@ -38,3 +38,17 @@ S334 講課照片改名「講課紀錄」、移至講師介紹下方、改雙欄
 
 Access 513k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
+
+## 新文章橫幅工作流（必須遵守）
+
+- 新增或發布 Directus 文章時，必須先閱讀並執行 `docs/blog-banner-workflow.md`。
+- 每篇已發布文章都必須有 `public/images/blog/<slug>.png`，尺寸固定為 1200×630。
+- 橫幅使用 `src/assets/blog-banner/background.png` 作為鎖定底圖，人物只能使用
+  `src/assets/blog-banner/instructor-transparent.png` 原圖合成。禁止用生圖模型重畫人物。
+- 生圖模型只能用於無文字、無人物的背景素材；標題、標籤、數字、圖案與卡片必須用程式排版，
+  避免中文錯字、人物失真與尺寸不一致。
+- 版型以 `public/images/blog/threads-api-tutorial.png` 和
+  `public/images/blog/instagram-api-tutorial.png` 為主要參考。
+- `slug`、圖片檔名與文章網址必須完全相同。完成後執行 `npm run check:banners` 和 `npm run build`。
+- 不得恢復 satori/resvg 的 build-time `/og/<slug>.png` 自動生圖設定；正式圖片來源固定為
+  `/images/blog/<slug>.png`。
