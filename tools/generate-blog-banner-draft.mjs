@@ -3,7 +3,7 @@ import path from 'node:path';
 import satori from 'satori';
 import sharp from 'sharp';
 
-// 自動生成文章橫幅「草稿」：遵循 docs/blog-banner-workflow.md 的鎖定版型，
+// 自動生成文章橫幅「草稿」：遵循 docs/blog-banner-workflow.md 的鎖定版型（無卡片、安全區集中），
 // 底圖 + 程式排版文字 + 人物去背原圖合成，輸出 public/images/blog/<slug>.png，
 // 之後由人工修圖定稿（可直接覆蓋同名檔案）。
 //
@@ -89,55 +89,6 @@ function titleFontSize(title, maxWidth = 660) {
 }
 
 function buildLayer(copy, fontData) {
-  const stepCards = (copy.steps ?? []).slice(0, 4).map((label, i) => ({
-    type: 'div',
-    props: {
-      style: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 14,
-        backgroundColor: '#ffffff',
-        border: `2px solid #dbeafe`,
-        borderRadius: 22,
-        padding: '22px 18px',
-        width: 158,
-        boxShadow: '0 8px 24px rgba(30,64,175,0.08)',
-      },
-      children: [
-        {
-          type: 'div',
-          props: {
-            style: {
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 44,
-              height: 44,
-              borderRadius: 999,
-              backgroundColor: BLUE,
-              color: '#ffffff',
-              fontSize: 26,
-            },
-            children: String(i + 1),
-          },
-        },
-        {
-          type: 'div',
-          props: {
-            style: {
-              fontSize: 24,
-              lineHeight: 1.3,
-              color: DARK,
-              textAlign: 'center',
-            },
-            children: label,
-          },
-        },
-      ],
-    },
-  }));
-
   return {
     type: 'div',
     props: {
@@ -149,34 +100,60 @@ function buildLayer(copy, fontData) {
         fontFamily: 'Noto Sans TC',
       },
       children: [
-        // 左欄流式排版：徽章→標題→副標→卡片，依內容高度自動往下排，不會互相重疊
+        // 左欄（垂直置中）：徽章列 → 主標（2~3 行自動縮放）→ 小副標；
+        // 全部集中於中央 4:3 安全區（x=180 起，寬 510，止於人物可見左緣前）
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute',
-              left: 54,
-              top: 40,
-              width: 660,
+              left: 180,
+              top: 0,
+              width: 510,
+              height: HEIGHT,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
-              gap: 24,
+              justifyContent: 'center',
+              gap: 26,
             },
             children: [
               {
                 type: 'div',
                 props: {
-                  style: {
-                    display: 'flex',
-                    backgroundColor: '#ffffff',
-                    border: `3px solid ${BLUE}`,
-                    borderRadius: 999,
-                    padding: '10px 30px',
-                    fontSize: 30,
-                    color: BLUE,
-                  },
-                  children: `新手學 AI｜${copy.badge}`,
+                  style: { display: 'flex', alignItems: 'center', gap: 18 },
+                  children: [
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          display: 'flex',
+                          backgroundColor: '#ffffff',
+                          border: `3px solid ${BLUE}`,
+                          borderRadius: 999,
+                          padding: '10px 28px',
+                          fontSize: 28,
+                          color: BLUE,
+                        },
+                        children: `新手學 AI｜${copy.badge}`,
+                      },
+                    },
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          display: 'flex',
+                          backgroundColor: '#ffffff',
+                          border: '2px solid #c9dcf5',
+                          borderRadius: 16,
+                          padding: '8px 18px',
+                          fontSize: 30,
+                          color: TITLE_BLUE,
+                        },
+                        children: 'AI',
+                      },
+                    },
+                  ],
                 },
               },
               // 主標題：spec 可用 \n 指定斷行；字級自動縮放（優先兩行、最長三行）
@@ -186,8 +163,8 @@ function buildLayer(copy, fontData) {
                   style: {
                     display: 'flex',
                     flexDirection: 'column',
-                    width: 660,
-                    fontSize: titleFontSize(copy.title),
+                    width: 510,
+                    fontSize: titleFontSize(copy.title, 510),
                     lineHeight: 1.22,
                     color: TITLE_BLUE,
                   },
@@ -205,61 +182,32 @@ function buildLayer(copy, fontData) {
                         display: 'flex',
                         backgroundColor: BLUE,
                         borderRadius: 14,
-                        padding: '12px 28px',
-                        fontSize: 38,
+                        padding: '10px 24px',
+                        fontSize: 26,
                         color: '#ffffff',
                       },
                       children: copy.subtitle,
                     },
                   }
                 : null,
-              stepCards.length > 0
-                ? {
-                    type: 'div',
-                    props: {
-                      style: { display: 'flex', gap: 16 },
-                      children: stepCards,
-                    },
-                  }
-                : null,
             ].filter(Boolean),
           },
         },
-        // 右上 AI 小方塊
+        // 講師卡（位置與頁面圖一致；在人物圖層之下）
         {
           type: 'div',
           props: {
             style: {
               position: 'absolute',
-              left: 690,
-              top: 52,
-              display: 'flex',
-              backgroundColor: '#ffffff',
-              border: '2px solid #c9dcf5',
-              borderRadius: 16,
-              padding: '8px 20px',
-              fontSize: 32,
-              color: TITLE_BLUE,
-            },
-            children: 'AI',
-          },
-        },
-        // 講師卡（在人物圖層之下，人物會壓住右緣）
-        {
-          type: 'div',
-          props: {
-            style: {
-              position: 'absolute',
-              left: 596,
-              top: 424,
+              left: 800,
+              top: 296,
               display: 'flex',
               backgroundColor: '#ffffff',
               border: '2px solid #dbeafe',
-              borderRadius: 24,
-              padding: '20px 34px',
-              fontSize: 34,
+              borderRadius: 16,
+              padding: '12px 26px',
+              fontSize: 22,
               color: TITLE_BLUE,
-              boxShadow: '0 8px 24px rgba(30,64,175,0.08)',
             },
             children: '講師：Alex',
           },
@@ -275,7 +223,6 @@ async function generate(article, fontData, background, instructor) {
     badge: copySpec.badge ?? article.tags?.[0] ?? 'AI 新手',
     title: copySpec.title ?? article.title,
     subtitle: copySpec.subtitle ?? deriveSubtitle(article.description),
-    steps: copySpec.steps ?? [],
   };
 
   const svg = await satori(buildLayer(copy, fontData), {
@@ -289,8 +236,9 @@ async function generate(article, fontData, background, instructor) {
 
   await sharp(background)
     .composite([
+      { input: instructor, left: 585, top: 0 },
+      // 文字層疊在人物之上：講師卡與頁面圖一致浮於胸前，左欄文字區不與人物可見範圍重疊
       { input: textLayer, left: 0, top: 0 },
-      { input: instructor, left: WIDTH - 520, top: HEIGHT - 560 },
     ])
     .png()
     .toFile(output);
@@ -317,7 +265,8 @@ const background = await sharp(path.join(ASSET_DIR, 'background.png'))
   .toBuffer();
 // 人物只能等比縮放後直接貼上（防失真），不得重繪
 const instructor = await sharp(path.join(ASSET_DIR, 'instructor-transparent.png'))
-  .resize({ height: 560 })
+  .resize({ height: 700 })
+  .extract({ left: 0, top: 65, width: 615, height: 630 })
   .toBuffer();
 
 const res = await fetch(

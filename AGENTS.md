@@ -55,3 +55,8 @@ Access 513k tokens of past work via get_observations([IDs]) or mem-search skill.
 - `slug`、圖片檔名與文章網址必須完全相同。完成後執行 `npm run check:banners` 和 `npm run build`。
 - 不得恢復 build-time `/og/<slug>.png` 動態生圖路由；正式圖片來源固定為
   `/images/blog/<slug>.png` 靜態檔（satori 只能作為 `generate:banners` 本機草稿工具使用）。
+- 頁面／演講／全站分享圖必須遵守版型安全區與版本號工作流
+  （見 `docs/blog-banner-workflow.md` 的「頁面／演講／全站分享圖」章節）：
+  無卡片、主標單行大字自動縮放、副標小字，全部內容集中中央 4:3（x=180–1020）；
+  人物 x=585 與講師卡 x=800 位置已定案不得調整；
+  改版時 `src/data/banner-version.json` 版本號 +1 再重跑生成器。

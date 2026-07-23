@@ -9,79 +9,69 @@ const instructor = (
   await readFile(new URL('../src/assets/blog-banner/instructor-transparent.png', import.meta.url))
 ).toString('base64');
 
+// 版型（2026-07 定案）：無卡片；主標一句話大字（依長度自動縮放）、副標小字藍條；
+// 徽章、主標、副標、講師臉部、講師卡集中於中央 4:3 安全區（x=180–1020）；
+// 人物固定 x=585 y=-65 w=700、講師卡固定 x=800 y=296，不再調整。
 const pages = [
   {
     file: 'home',
     badge: '官方網站',
-    title: ['AI 新手教學', '從工具到自動化'],
+    title: 'AI 新手教學',
     subtitle: '把複雜工作流程，簡化成對話',
-    cards: ['Agent 安裝', 'API 串接', '自動發文', 'AI 圖文'],
   },
   {
     file: 'about',
     badge: '講師介紹',
-    title: ['關於 AI 講師', 'Alex Wang'],
-    subtitle: '從 AI 自學到全職接案',
-    cards: ['AI 講師', '接案工程師', '社群版主', 'Tooka 作者'],
+    title: '關於 AI 講師',
+    subtitle: 'Alex Wang｜從 AI 自學到全職接案',
   },
   {
     file: 'blog',
     badge: '文章總覽',
-    title: ['AI 新手部落格', '常見問題全解答'],
+    title: 'AI 新手部落格',
     subtitle: '每篇文章，解決一個真實問題',
-    cards: ['工具選擇', 'API 申請', '自動發文', '工作流程'],
   },
   {
     file: 'one-on-one',
     badge: '教學服務',
-    title: ['AI 一對一', '私人教學'],
+    title: 'AI 一對一私人教學',
     subtitle: '在你的電腦上，手把手做成功',
-    cards: ['雙北實體', '線上教學', '手把手做', '客製進度'],
   },
   {
     file: 'faq',
     badge: '問題總整理',
-    title: ['AI 新手', '常見問題總整理'],
+    title: '常見問題總整理',
     subtitle: '從真實社群提問找到答案',
-    cards: ['課程費用', '工具選擇', 'API 申請', '自動發文'],
   },
 ];
 
-const icons = [
-  '<rect x="49" y="54" width="60" height="42" rx="5" fill="none" stroke="#1657c8" stroke-width="4"/><path d="M59 67h40M59 80h27" stroke="#1657c8" stroke-width="4" stroke-linecap="round"/>',
-  '<path d="M52 91v-31l56-18v38M52 91h56M65 91V68h29v23" fill="none" stroke="#1657c8" stroke-width="4" stroke-linejoin="round"/>',
-  '<path d="M50 78l18 18 40-46M50 56h22M50 67h14" fill="none" stroke="#1657c8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>',
-  '<circle cx="79" cy="73" r="28" fill="none" stroke="#1657c8" stroke-width="4"/><path d="M79 45v56M51 73h56M60 54l38 38M98 54L60 92" fill="none" stroke="#1657c8" stroke-width="4" stroke-linecap="round"/>',
-];
-
-function renderCard(label, index) {
-  return `
-    <g transform="translate(${54 + index * 170} 440)">
-      <rect width="158" height="160" rx="18" fill="#fff" fill-opacity=".96" stroke="#75aef4" stroke-width="2"/>
-      <circle cx="79" cy="30" r="18" fill="#1657c8"/>
-      <text x="79" y="38" fill="#fff" font-size="20" text-anchor="middle">${index + 1}</text>
-      ${icons[index]}
-      <text x="79" y="137" fill="#0b1b4d" font-size="20" text-anchor="middle">${label}</text>
-    </g>`;
+// 文字寬度估算：CJK／全形 1、空白 0.3、拉丁字 0.55
+function units(text) {
+  return [...text].reduce((w, ch) => {
+    if (ch === ' ') return w + 0.3;
+    return w + (/[⺀-鿿豈-﫿＀-￯]/.test(ch) ? 1 : 0.55);
+  }, 0);
 }
 
-// 版型安全區：平台會把 1.91:1 分享圖自行裁成 4:3 或 1:1，
-// 因此徽章、完整主標題、講師臉部、講師卡都放進中央 4:3 範圍（x=180–1020）；
-// 四張卡片與人物身體屬次要元素，允許在方形縮圖中被裁掉。
+// 主標可用寬度：x=180 起到人物可見左緣（約 x=705）
+const TITLE_MAX_WIDTH = 525;
+
 function renderBanner(page) {
+  const badgeText = `新手學 AI｜${page.badge}`;
+  const badgeWidth = Math.round(48 + units(badgeText) * 28);
+  const titleSize = Math.min(84, Math.floor(TITLE_MAX_WIDTH / units(page.title)));
+  const subtitleWidth = Math.round(48 + units(page.subtitle) * 24);
   return `
   <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
     <image href="data:image/png;base64,${background}" width="1200" height="630"/>
     <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
-      <rect x="180" y="34" width="315" height="62" rx="18" fill="#fff" fill-opacity=".94" stroke="#1657c8" stroke-width="3"/>
-      <text x="204" y="75" fill="#1657c8" font-size="28">新手學 AI｜${page.badge}</text>
-      <rect x="515" y="31" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
-      <text x="549" y="78" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
-      <text x="180" y="184" fill="#1657c8" font-size="64">${page.title[0]}</text>
-      <text x="180" y="260" fill="#0b1b4d" font-size="64">${page.title[1]}</text>
-      <rect x="180" y="286" width="${48 + page.subtitle.length * 26}" height="58" rx="14" fill="#1657c8"/>
-      <text x="204" y="325" fill="#fff" font-size="26">${page.subtitle}</text>
-      ${page.cards.map(renderCard).join('')}
+      <rect x="180" y="150" width="${badgeWidth}" height="62" rx="18" fill="#fff" fill-opacity=".94" stroke="#1657c8" stroke-width="3"/>
+      <text x="204" y="191" fill="#1657c8" font-size="28">${badgeText}</text>
+      <rect x="${180 + badgeWidth + 20}" y="147" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
+      <text x="${180 + badgeWidth + 54}" y="194" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
+      <text x="180" y="330" fill="#1657c8" font-size="${titleSize}">${page.title}</text>
+      <rect x="180" y="368" width="${subtitleWidth}" height="50" rx="14" fill="#1657c8"/>
+      <text x="204" y="402" fill="#fff" font-size="24">${page.subtitle}</text>
     </g>
     <image href="data:image/png;base64,${instructor}" x="585" y="-65" width="700" height="700"/>
     <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
