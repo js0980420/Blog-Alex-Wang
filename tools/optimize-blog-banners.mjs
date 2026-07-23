@@ -19,9 +19,9 @@ const VARIANTS = [
   { suffix: '-1x1.webp', width: 630, height: 630, position: 'right' },
 ];
 
+let generated = 0;
 await mkdir(BANNER_DIR, { recursive: true });
 const files = (await readdir(BANNER_DIR)).filter((f) => f.endsWith('.png'));
-let generated = 0;
 
 for (const file of files) {
   const slug = file.replace(/\.png$/, '');

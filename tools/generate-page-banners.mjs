@@ -65,25 +65,28 @@ function renderCard(label, index) {
     </g>`;
 }
 
+// 版型安全區：平台會把 1.91:1 分享圖自行裁成 4:3 或 1:1，
+// 因此徽章、完整主標題、講師臉部、講師卡都放進中央 4:3 範圍（x=180–1020）；
+// 四張卡片與人物身體屬次要元素，允許在方形縮圖中被裁掉。
 function renderBanner(page) {
   return `
   <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
     <image href="data:image/png;base64,${background}" width="1200" height="630"/>
     <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
-      <rect x="54" y="34" width="315" height="62" rx="18" fill="#fff" fill-opacity=".94" stroke="#1657c8" stroke-width="3"/>
-      <text x="78" y="75" fill="#1657c8" font-size="28">新手學 AI｜${page.badge}</text>
-      <text x="54" y="184" fill="#1657c8" font-size="64">${page.title[0]}</text>
-      <text x="54" y="260" fill="#0b1b4d" font-size="64">${page.title[1]}</text>
-      <rect x="54" y="286" width="545" height="58" rx="14" fill="#1657c8"/>
-      <text x="78" y="325" fill="#fff" font-size="26">${page.subtitle}</text>
+      <rect x="180" y="34" width="315" height="62" rx="18" fill="#fff" fill-opacity=".94" stroke="#1657c8" stroke-width="3"/>
+      <text x="204" y="75" fill="#1657c8" font-size="28">新手學 AI｜${page.badge}</text>
+      <rect x="515" y="31" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
+      <text x="549" y="78" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
+      <text x="180" y="184" fill="#1657c8" font-size="64">${page.title[0]}</text>
+      <text x="180" y="260" fill="#0b1b4d" font-size="64">${page.title[1]}</text>
+      <rect x="180" y="286" width="545" height="58" rx="14" fill="#1657c8"/>
+      <text x="204" y="325" fill="#fff" font-size="26">${page.subtitle}</text>
       ${page.cards.map(renderCard).join('')}
-      <rect x="1108" y="28" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
-      <text x="1142" y="75" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
     </g>
-    <image href="data:image/png;base64,${instructor}" x="590" y="-65" width="700" height="700"/>
+    <image href="data:image/png;base64,${instructor}" x="520" y="-65" width="700" height="700"/>
     <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
-      <rect x="1022" y="183" width="150" height="52" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
-      <text x="1097" y="217" fill="#1657c8" font-size="21" text-anchor="middle">講師：Alex</text>
+      <rect x="800" y="296" width="150" height="52" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
+      <text x="875" y="330" fill="#1657c8" font-size="21" text-anchor="middle">講師：Alex</text>
     </g>
   </svg>`;
 }

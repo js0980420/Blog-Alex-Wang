@@ -45,24 +45,25 @@ const svg = `
 
     ${cardSvg}
 
-    <rect x="1108" y="28" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
-    <text x="1142" y="75" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
+    <rect x="1074" y="28" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
+    <text x="1108" y="75" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
   </g>
 
-  <image href="data:image/png;base64,${instructor}" x="590" y="-65" width="700" height="700"/>
+  <!-- 人物縮小並往內收，保留 LINE／社群縮圖裁切安全區 -->
+  <image href="data:image/png;base64,${instructor}" x="600" y="10" width="620" height="620"/>
 
   <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
-    <rect x="1022" y="183" width="150" height="52" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
-    <text x="1097" y="217" fill="#1657c8" font-size="21" text-anchor="middle">講師：Alex</text>
+    <rect x="950" y="183" width="180" height="52" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
+    <text x="1040" y="217" fill="#1657c8" font-size="21" text-anchor="middle">講師：Alex</text>
   </g>
 </svg>`;
 
 const output = fileURLToPath(
-  new URL('../public/images/services/speaking.png', import.meta.url),
+  new URL('../public/images/services/speaking-v2.png', import.meta.url),
 );
 await mkdir(fileURLToPath(new URL('../public/images/services/', import.meta.url)), {
   recursive: true,
 });
 await sharp(Buffer.from(svg)).png().toFile(output);
 
-console.log('Generated public/images/services/speaking.png (1200×630)');
+console.log('Generated public/images/services/speaking-v2.png (1200×630)');
