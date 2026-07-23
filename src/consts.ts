@@ -61,8 +61,6 @@ export function breadcrumbSchema(items: { name: string; item?: string }[]) {
   };
 }
 
-import instructorImage from './assets/instructor-shirt.jpg';
-
 // 全站 Person 實體：所有頁面的 JSON-LD 都引用同一個 @id，讓 AI 把內容歸到同一個人身上
 export const PERSON_SCHEMA = {
   '@type': 'Person',
@@ -74,6 +72,10 @@ export const PERSON_SCHEMA = {
   knowsAbout: AUTHOR.knowsAbout,
   email: AUTHOR.email,
   url: `${SITE.url}/about/`,
-  image: new URL(instructorImage.src, SITE.url).href,
+  image: [
+    `${SITE.url}/images/profile/alex-16x9.webp`,
+    `${SITE.url}/images/profile/alex-4x3.webp`,
+    `${SITE.url}/images/profile/alex-1x1.webp`,
+  ],
   sameAs: [LINKS.facebookGroup, LINKS.threads, LINKS.instagram, LINKS.youtube, LINKS.github],
 };

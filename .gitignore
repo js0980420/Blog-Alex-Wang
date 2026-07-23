@@ -14,6 +14,7 @@ CLAUDE.md
 src/assets/blog-banner/
 # WebP 衍生圖由 tools/optimize-blog-banners.mjs 在 build/dev 前自動生成，不進 git
 public/images/blog/*.webp
+public/images/profile/*.webp
 # 草稿生成用中文字型，generate:banners 缺檔時會自動下載
 tools/fonts/
 public/images/Facebook-Brand-Asset-Pack/__MACOSX/

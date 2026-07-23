@@ -23,6 +23,9 @@ const schema = [
   breadcrumbSchema([{ name: '首頁', item: `${SITE.url}/` }, { name: '常見問題' }]),
   {
     '@type': 'FAQPage',
+    '@id': `${SITE.url}/faq/#webpage`,
+    name: 'AI 新手常見問題總整理',
+    url: `${SITE.url}/faq/`,
     mainEntity: allFaqs.map((f) => ({
       '@type': 'Question',
       name: f.question,
@@ -35,6 +38,8 @@ const schema = [
 <Base
   title={`常見問題總整理｜${SITE.title}`}
   description="新手學 AI 最常問的問題總整理：課程與費用、工具選擇（Claude/Codex）、Meta API 申請、自動發文設定。問題大多整理自 Threads 與 YouTube 的真實社群留言。"
+  ogImage={`${SITE.url}/images/pages/faq.png`}
+  ogImageAlt="AI 新手常見問題總整理"
   schema={schema}
 >
   <div class="mx-auto max-w-3xl px-6 py-12">

@@ -12,6 +12,13 @@ import Base from '../layouts/Base.astro';
 
 const schema = [
   breadcrumbSchema([{ name: '首頁', item: `${SITE.url}/` }, { name: '關於講師' }]),
+  {
+    '@type': 'ProfilePage',
+    '@id': `${SITE.url}/about/#webpage`,
+    name: `關於講師 ${AUTHOR.name}`,
+    url: `${SITE.url}/about/`,
+    mainEntity: { '@id': AUTHOR.id },
+  },
 ];
 ---
 
@@ -19,6 +26,8 @@ const schema = [
   title={`關於講師 ${AUTHOR.name}｜AI 應用講師、一對一教學與演講`}
   description={AUTHOR.description}
   ogType="profile"
+  ogImage={`${SITE.url}/images/pages/about.png`}
+  ogImageAlt={`關於 AI 講師 ${AUTHOR.name}`}
   schema={schema}
 >
   <div class="mx-auto max-w-4xl px-6 py-12">
