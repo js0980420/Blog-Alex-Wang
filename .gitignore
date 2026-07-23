@@ -12,6 +12,10 @@ CLAUDE.md
 *.bak
 # 橫幅合成素材只留本機（正式橫幅 public/images/blog/ 必須 commit，雲端建置才抓得到）
 src/assets/blog-banner/
+# WebP 衍生圖由 tools/optimize-blog-banners.mjs 在 build/dev 前自動生成，不進 git
+public/images/blog/*.webp
+# 草稿生成用中文字型，generate:banners 缺檔時會自動下載
+tools/fonts/
 public/images/Facebook-Brand-Asset-Pack/__MACOSX/
 public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Primary Logo/Facebook_Logo_Primary.ai
 public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Secondary Logo/

@@ -25,6 +25,13 @@ const { title, description, pubDate, updatedDate, faqs } = post.data;
 const postUrl = `${SITE.url}/blog/${post.id}/`;
 // 每篇文章使用已定案的 1200×630 靜態橫幅，檔名與 Directus slug 相同。
 const postImage = new URL(`/images/blog/${post.id}.png`, SITE.url).href;
+// 多長寬比 schema image（Google 文章富摘要建議）與頁面用 WebP，
+// 皆由 tools/optimize-blog-banners.mjs 從 PNG 自動衍生
+const schemaImages = [
+  postImage,
+  new URL(`/images/blog/${post.id}-4x3.webp`, SITE.url).href,
+  new URL(`/images/blog/${post.id}-1x1.webp`, SITE.url).href,
+];
 
 const schema: object[] = [
   {
@@ -38,7 +45,7 @@ const schema: object[] = [
     author: { '@id': AUTHOR.id },
     publisher: { '@id': AUTHOR.id },
     mainEntityOfPage: postUrl,
-    image: postImage,
+    image: schemaImages,
   },
 ];
 
@@ -82,6 +89,14 @@ const dateText = pubDate.toLocaleDateString('zh-TW', {
           <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-xs">{tag}</span>
         ))}
       </div>
+      <img
+        src={`/images/blog/${post.id}.webp`}
+        alt={title}
+        width="1200"
+        height="630"
+        fetchpriority="high"
+        class="mt-8 w-full rounded-[1.75rem] border border-sky-100 shadow-[0_8px_30px_rgba(30,64,175,0.06)]"
+      />
     </header>
 
     <div class="prose-blog mt-10">

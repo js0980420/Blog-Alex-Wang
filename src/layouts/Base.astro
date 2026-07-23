@@ -1,5 +1,5 @@
 ---
-import ogBanner from '../assets/banner.png';
+import ogBanner from '../assets/banner-v2.png';
 import PillButton from '../components/PillButton.astro';
 import { NAV, LINKS, SITE, PERSON_SCHEMA } from '../consts';
 import '../styles/global.css';
@@ -12,6 +12,10 @@ interface Props {
   ogType?: string;
   /** 社群分享預覽圖，預設用全站橫幅 */
   ogImage?: string;
+  /** og:image 的像素尺寸與替代文字；自訂 ogImage（文章橫幅固定 1200×630）時沿用預設即可 */
+  ogImageWidth?: number;
+  ogImageHeight?: number;
+  ogImageAlt?: string;
 }
 
 const {
@@ -20,6 +24,9 @@ const {
   schema = [],
   ogType = 'website',
   ogImage: pageOgImage,
+  ogImageWidth = pageOgImage ? 1200 : ogBanner.width,
+  ogImageHeight = pageOgImage ? 630 : ogBanner.height,
+  ogImageAlt = title,
 } = Astro.props;
 const ogImage = pageOgImage ?? new URL(ogBanner.src, SITE.url).href;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -92,8 +99,12 @@ const jsonLd = {
     <meta property="og:locale" content="zh_TW" />
     <meta property="og:site_name" content={SITE.title} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(ogImageWidth)} />
+    <meta property="og:image:height" content={String(ogImageHeight)} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body
@@ -121,18 +132,42 @@ const jsonLd = {
           ))}
         </nav>
         <div class="flex shrink-0 items-center gap-3 sm:gap-4">
-          <div class="relative">
-            <input
-              id="site-search"
-              type="search"
-              placeholder="搜尋文章"
-              autocomplete="off"
-              class="w-28 rounded-full border border-sky-200 bg-white/90 px-3 py-1.5 text-sm text-slate-700 outline-none transition-all focus:w-44 focus:border-sky-400 sm:w-40 sm:focus:w-56"
-            />
+          <div id="search-container" class="relative">
+            <button
+              id="search-toggle"
+              type="button"
+              aria-label="開啟搜尋"
+              aria-expanded="false"
+              aria-controls="search-popover"
+              class="flex h-9 w-9 items-center justify-center rounded-full text-slate-600 transition hover:bg-sky-50 hover:text-[#1688e8] lg:hidden"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="h-5 w-5" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="16.2" y1="16.2" x2="21" y2="21" />
+              </svg>
+            </button>
             <div
-              id="search-results"
-              class="absolute right-0 top-full z-50 mt-2 hidden max-h-80 w-72 overflow-y-auto rounded-2xl border border-sky-100 bg-white p-2 shadow-xl sm:w-80"
-            ></div>
+              id="search-popover"
+              class="absolute right-0 top-full z-50 mt-3 hidden w-72 rounded-2xl border border-sky-100 bg-white p-3 shadow-xl lg:static lg:mt-0 lg:block lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
+            >
+              <input
+                id="site-search"
+                type="search"
+                aria-label="搜尋文章"
+                autocomplete="off"
+                class="w-full rounded-full border border-sky-200 bg-white/90 px-3 py-1.5 text-sm text-slate-700 outline-none transition-all focus:border-sky-400 lg:w-40 lg:focus:w-56"
+              />
+              <div id="search-examples" class="mt-3 lg:hidden">
+                <div class="mb-1 px-2 text-xs text-slate-400">搜尋範例</div>
+                <button type="button" data-search-example="新手要怎麼學 AI" class="block w-full rounded-xl px-2 py-1.5 text-left text-sm text-slate-600 hover:bg-sky-50">新手要怎麼學 AI</button>
+                <button type="button" data-search-example="如何做自動發文" class="block w-full rounded-xl px-2 py-1.5 text-left text-sm text-slate-600 hover:bg-sky-50">如何做自動發文</button>
+                <button type="button" data-search-example="如何自動拍片" class="block w-full rounded-xl px-2 py-1.5 text-left text-sm text-slate-600 hover:bg-sky-50">如何自動拍片</button>
+              </div>
+              <div
+                id="search-results"
+                class="mt-3 hidden max-h-80 w-full overflow-y-auto rounded-2xl border border-sky-100 bg-white p-2 shadow-xl lg:absolute lg:right-0 lg:top-full lg:w-80"
+              ></div>
+            </div>
           </div>
           <a
             href={LINKS.facebookGroup}
@@ -242,9 +277,33 @@ const jsonLd = {
         }
 
         // 全站搜尋
+        var container = document.getElementById('search-container');
+        var toggle = document.getElementById('search-toggle');
+        var popover = document.getElementById('search-popover');
         var input = document.getElementById('site-search');
         var box = document.getElementById('search-results');
+        var examples = document.getElementById('search-examples');
         var idx = null;
+        function isMobileSearch() {
+          return window.matchMedia('(max-width: 1023px)').matches;
+        }
+        function openSearch() {
+          if (!popover) return;
+          popover.classList.remove('hidden');
+          if (toggle) {
+            toggle.setAttribute('aria-expanded', 'true');
+            toggle.setAttribute('aria-label', '關閉搜尋');
+          }
+          window.setTimeout(function () { input && input.focus(); }, 0);
+        }
+        function closeSearch() {
+          if (isMobileSearch() && popover) popover.classList.add('hidden');
+          if (toggle) {
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.setAttribute('aria-label', '開啟搜尋');
+          }
+          if (box) box.classList.add('hidden');
+        }
         function load() {
           if (idx) return Promise.resolve(idx);
           return fetch('/search-index.json')
@@ -264,10 +323,18 @@ const jsonLd = {
           }
           box.classList.remove('hidden');
         }
+        if (toggle) {
+          toggle.addEventListener('click', function () {
+            var open = toggle.getAttribute('aria-expanded') === 'true';
+            if (open) closeSearch();
+            else openSearch();
+          });
+        }
         if (input && box) {
           input.addEventListener('focus', load);
           input.addEventListener('input', function () {
             var q = input.value.trim().toLowerCase();
+            if (examples) examples.classList.toggle('hidden', !!q);
             if (!q) { box.classList.add('hidden'); return; }
             load().then(function (d) {
               render(d.filter(function (i) {
@@ -276,13 +343,27 @@ const jsonLd = {
             });
           });
           input.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+              closeSearch();
+              if (toggle) toggle.focus();
+              return;
+            }
             if (e.key === 'Enter') {
               var a = box.querySelector('a');
               if (a) location.href = a.getAttribute('href');
             }
           });
+          if (examples) {
+            examples.addEventListener('click', function (e) {
+              var button = e.target.closest('[data-search-example]');
+              if (!button) return;
+              input.value = button.getAttribute('data-search-example') || '';
+              input.dispatchEvent(new Event('input'));
+              input.focus();
+            });
+          }
           document.addEventListener('click', function (e) {
-            if (!box.contains(e.target) && e.target !== input) box.classList.add('hidden');
+            if (container && !container.contains(e.target)) closeSearch();
           });
         }
       })();

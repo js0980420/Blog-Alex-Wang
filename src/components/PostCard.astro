@@ -14,15 +14,25 @@ const date = post.data.pubDate.toLocaleDateString('zh-TW', {
 ---
 
 <article class="rounded-[1.75rem] border border-sky-200/80 bg-white/80 p-7 shadow-[0_8px_30px_rgba(30,64,175,0.05)] transition hover:border-sky-400 hover:bg-white">
-  <a href={`/blog/${post.id}/`} class="block">
-    <div class="flex flex-wrap items-center gap-3 text-xs text-stone-400">
-      <time datetime={post.data.pubDate.toISOString()}>{date}</time>
-      {post.data.tags.map((tag) => (
-        <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 uppercase tracking-wide">{tag}</span>
-      ))}
+  <a href={`/blog/${post.id}/`} class="flex flex-col gap-6 md:flex-row">
+    <img
+      src={`/images/blog/${post.id}-thumb.webp`}
+      alt={post.data.title}
+      width="640"
+      height="336"
+      loading="lazy"
+      class="w-full shrink-0 rounded-2xl border border-sky-100 md:w-64 md:self-start"
+    />
+    <div class="min-w-0">
+      <div class="flex flex-wrap items-center gap-3 text-xs text-stone-400">
+        <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+        {post.data.tags.map((tag) => (
+          <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 uppercase tracking-wide">{tag}</span>
+        ))}
+      </div>
+      <h2 class="mt-4 text-2xl font-semibold text-stone-50">{post.data.title}</h2>
+      <p class="mt-3 leading-7 text-stone-300/80">{post.data.description}</p>
+      <span class="mt-5 inline-block text-sm font-semibold text-amber-300">閱讀全文 →</span>
     </div>
-    <h2 class="mt-4 text-2xl font-semibold text-stone-50">{post.data.title}</h2>
-    <p class="mt-3 leading-7 text-stone-300/80">{post.data.description}</p>
-    <span class="mt-5 inline-block text-sm font-semibold text-amber-300">閱讀全文 →</span>
   </a>
 </article>

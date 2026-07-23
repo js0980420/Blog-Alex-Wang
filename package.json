@@ -5,8 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev --port=3000 --host=0.0.0.0",
+    "predev": "node tools/optimize-blog-banners.mjs",
     "check:banners": "node tools/check-blog-banners.mjs",
-    "build": "npm run check:banners && astro build",
+    "optimize:banners": "node tools/optimize-blog-banners.mjs",
+    "generate:banners": "node tools/generate-blog-banner-draft.mjs",
+    "build": "npm run check:banners && npm run optimize:banners && astro build",
     "preview": "astro preview",
     "clean": "rm -rf dist",
     "lint": "astro check",
@@ -14,6 +17,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.13",
+    "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.4.1",
     "@tailwindcss/vite": "^4.1.14",
     "astro": "^5.12.0",
@@ -21,6 +25,7 @@
     "tailwindcss": "^4.1.14"
   },
   "devDependencies": {
+    "satori": "^0.28.2",
     "wrangler": "^4.113.0"
   }
 }
