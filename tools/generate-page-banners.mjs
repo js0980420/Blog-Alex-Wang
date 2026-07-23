@@ -94,9 +94,11 @@ function renderBanner(page) {
 const outputDir = fileURLToPath(new URL('../public/images/pages/', import.meta.url));
 await mkdir(outputDir, { recursive: true });
 
+// 檔名帶版本（-v2）：改版時換新檔名，社群平台的舊圖快取自然失效，
+// 不需要去各平台的偵錯工具手動重新抓取；舊檔保留給已分享的連結。
 for (const page of pages) {
   await sharp(Buffer.from(renderBanner(page)))
     .png()
-    .toFile(`${outputDir}/${page.file}.png`);
-  console.log(`Generated public/images/pages/${page.file}.png (1200×630)`);
+    .toFile(`${outputDir}/${page.file}-v2.png`);
+  console.log(`Generated public/images/pages/${page.file}-v2.png (1200×630)`);
 }
