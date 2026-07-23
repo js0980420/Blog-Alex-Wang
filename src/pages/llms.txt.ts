@@ -1,0 +1,53 @@
+import type { APIRoute } from 'astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../consts';
+
+// llms.txt：給 AI 搜尋（ChatGPT、Perplexity、Claude 等）讀的網站摘要。
+// 文章清單從 Directus collection 自動生成，發布新文章後重新建置即更新，
+// 不會再出現遺漏或已轉址的舊網址。
+export const prerender = true;
+
+export const GET: APIRoute = async () => {
+  const posts = (await getCollection('blog')).sort(
+    (a, b) =>
+      b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
+      (b.data.cmsId ?? 0) - (a.data.cmsId ?? 0),
+  );
+
+  const articleList = posts
+    .map(
+      (post) =>
+        `- [${post.data.title}](${SITE.url}/blog/${post.id}/)：${post.data.description}`,
+    )
+    .join('\n');
+
+  const body = `# AI新手教學（AI Beginner Blog）
+
+> Alex 是台灣的 AI 應用講師與全職接案工程師。教 AI Agent 工具使用（Claude Code、Codex）、做自動發文（Meta API）、AI 生圖模板（Tooka）、對話式拍片（HyperFrames）——把工作流程簡化成對話就能完成。提供付費一對一私人教學（台北／新北實體課或 Google Meet／Discord 線上課）與企業、學校、社群的 AI 主題演講。
+
+## 服務
+
+- [AI 一對一私人教學](${SITE.url}/services/one-on-one/)：手把手帶零基礎學員完成桌面版 AI Agent 安裝、Meta API 串接與自動發文系統，雙北實體或線上皆可。
+- [AI 演講與企業內訓](${SITE.url}/services/speaking/)：AI Agent 入門、社群自動化、AI 一鍵拍片、AI 工作流設計等主題，曾與 Mixerbox、Zeabur 合作。
+- [關於講師 Alex](${SITE.url}/about/)：21 萬人 OpenClaw 中文社群版主、HyperFrames 開源專案協作者、Zeabur 合作夥伴。
+
+## 部落格文章
+
+${articleList}
+
+## 開源專案
+
+- [Tooka 線上版](https://tooka.js0980420.workers.dev/)：免安裝、免 clone repo，可直接在瀏覽器使用 Tooka 製作社群圖文。
+- [Tooka](https://github.com/js0980420/tooka)：Alex 開發的開源社群圖文模板框架——AI Agent 用程式渲染生成 1080×1350 的 IG 輪播圖文，不跑版、不失真，可一鍵發佈到 Instagram、Facebook、Threads。
+
+## 聯絡方式
+
+- LINE 免費諮詢：https://line.me/ti/p/jejH4FkQn-
+- Email：castion2293@yahoo.com.tw
+- Facebook 社團：https://www.facebook.com/groups/3238547836318385
+`;
+
+  return new Response(body, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  });
+};

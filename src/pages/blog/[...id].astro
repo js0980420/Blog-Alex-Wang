@@ -33,7 +33,21 @@ const schemaImages = [
   new URL(`/images/blog/${post.id}-1x1.webp`, SITE.url).href,
 ];
 
+// 文章目錄：從已渲染的 HTML 抽出 h2 錨點（id 由 content.config.ts 的 marked renderer 產生）
+const toc = [...(post.rendered?.html ?? '').matchAll(/<h2 id="([^"]+)">(.*?)<\/h2>/g)].map(
+  (m) => ({ id: m[1], text: m[2].replace(/<[^>]+>/g, '') }),
+);
+
 const schema: object[] = [
+  {
+    '@type': 'BreadcrumbList',
+    '@id': `${postUrl}#breadcrumb`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE.url}/` },
+      { '@type': 'ListItem', position: 2, name: '部落格', item: `${SITE.url}/blog/` },
+      { '@type': 'ListItem', position: 3, name: title },
+    ],
+  },
   {
     '@type': 'BlogPosting',
     '@id': `${postUrl}#article`,
@@ -75,8 +89,12 @@ const dateText = pubDate.toLocaleDateString('zh-TW', {
   ogImage={postImage}
 >
   <article class="mx-auto max-w-3xl px-6 py-12">
-    <nav class="text-sm text-stone-400">
-      <a href="/blog/" class="hover:text-white">← 回部落格列表</a>
+    <nav aria-label="麵包屑" class="flex flex-wrap items-center gap-2 text-sm text-stone-400">
+      <a href="/" class="hover:text-[#1688e8]">首頁</a>
+      <span aria-hidden="true">›</span>
+      <a href="/blog/" class="hover:text-[#1688e8]">部落格</a>
+      <span aria-hidden="true">›</span>
+      <span class="min-w-0 truncate text-stone-500">{title}</span>
     </nav>
 
     <header class="mt-8">
@@ -98,6 +116,23 @@ const dateText = pubDate.toLocaleDateString('zh-TW', {
         class="mt-8 w-full rounded-[1.75rem] border border-sky-100 shadow-[0_8px_30px_rgba(30,64,175,0.06)]"
       />
     </header>
+
+    {toc.length >= 3 && (
+      <nav
+        aria-label="文章目錄"
+        class="mt-10 rounded-[1.75rem] border border-sky-200/80 bg-white/80 p-7 shadow-[0_8px_30px_rgba(30,64,175,0.05)]"
+      >
+        <div class="text-lg font-semibold text-slate-900">目錄</div>
+        <ol class="mt-4 space-y-2 text-[#1688e8]">
+          {toc.map((item, i) => (
+            <li class="flex gap-2 leading-7">
+              <span class="text-stone-400">{i + 1}.</span>
+              <a href={`#${item.id}`} class="underline-offset-4 hover:underline">{item.text}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
 
     <div class="prose-blog mt-10">
       <Content />

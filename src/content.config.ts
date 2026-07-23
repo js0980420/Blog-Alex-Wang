@@ -1,6 +1,26 @@
 import { defineCollection, z } from 'astro:content';
 import { marked } from 'marked';
 
+// 標題加上錨點 id（保留中文），供文章目錄與搜尋結果「跳至某段」使用
+function slugifyHeading(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .trim()
+    .replace(/\s+/g, '-');
+}
+
+marked.use({
+  renderer: {
+    heading({ tokens, depth }) {
+      const text = this.parser.parseInline(tokens);
+      return `<h${depth} id="${slugifyHeading(text)}">${text}</h${depth}>\n`;
+    },
+  },
+});
+
 // 文章來源：Directus CMS（cms.aixwang.dev）
 // 在後台新增/修改文章後，觸發重新建置即可更新網站
 const DIRECTUS_URL = 'https://cms.aixwang.dev';

@@ -40,10 +40,11 @@ body {
   @apply text-slate-700 leading-8;
 }
 .prose-blog h2 {
-  @apply mt-12 mb-4 font-display text-2xl font-semibold text-slate-900 md:text-3xl;
+  /* scroll-mt 讓目錄錨點跳轉時標題不被固定 header 蓋住 */
+  @apply mt-12 mb-4 scroll-mt-28 font-display text-2xl font-semibold text-slate-900 md:text-3xl lg:scroll-mt-24;
 }
 .prose-blog h3 {
-  @apply mt-8 mb-3 text-xl font-semibold text-slate-900;
+  @apply mt-8 mb-3 scroll-mt-28 text-xl font-semibold text-slate-900 lg:scroll-mt-24;
 }
 .prose-blog p {
   @apply my-4;
