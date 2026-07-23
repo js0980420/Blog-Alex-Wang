@@ -79,11 +79,11 @@ function renderBanner(page) {
       <text x="549" y="78" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
       <text x="180" y="184" fill="#1657c8" font-size="64">${page.title[0]}</text>
       <text x="180" y="260" fill="#0b1b4d" font-size="64">${page.title[1]}</text>
-      <rect x="180" y="286" width="545" height="58" rx="14" fill="#1657c8"/>
+      <rect x="180" y="286" width="${48 + page.subtitle.length * 26}" height="58" rx="14" fill="#1657c8"/>
       <text x="204" y="325" fill="#fff" font-size="26">${page.subtitle}</text>
       ${page.cards.map(renderCard).join('')}
     </g>
-    <image href="data:image/png;base64,${instructor}" x="520" y="-65" width="700" height="700"/>
+    <image href="data:image/png;base64,${instructor}" x="585" y="-65" width="700" height="700"/>
     <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
       <rect x="800" y="296" width="150" height="52" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
       <text x="875" y="330" fill="#1657c8" font-size="21" text-anchor="middle">講師：Alex</text>

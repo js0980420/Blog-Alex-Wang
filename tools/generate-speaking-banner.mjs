@@ -33,28 +33,29 @@ const svg = `
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <image href="data:image/png;base64,${background}" width="1200" height="630"/>
 
+  <!-- 版型比照 generate-page-banners.mjs 的安全區規則：
+       徽章、主標題、副標、講師臉部、講師卡集中於中央 4:3 範圍（x=180–1020），
+       卡片與人物身體屬次要元素，允許在方形縮圖中被裁掉。 -->
   <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
-    <rect x="54" y="34" width="320" height="62" rx="18" fill="#fff" fill-opacity=".94" stroke="#1657c8" stroke-width="3"/>
-    <text x="78" y="75" fill="#1657c8" font-size="28">新手學 AI｜演講邀約</text>
+    <rect x="180" y="34" width="320" height="62" rx="18" fill="#fff" fill-opacity=".94" stroke="#1657c8" stroke-width="3"/>
+    <text x="204" y="75" fill="#1657c8" font-size="28">新手學 AI｜演講邀約</text>
+    <rect x="520" y="31" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
+    <text x="554" y="78" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
 
-    <text x="54" y="184" fill="#1657c8" font-size="68">AI 演講與</text>
-    <text x="54" y="260" fill="#0b1b4d" font-size="68">企業內訓</text>
+    <text x="180" y="184" fill="#1657c8" font-size="68">AI 演講與</text>
+    <text x="180" y="260" fill="#0b1b4d" font-size="68">企業內訓</text>
 
-    <rect x="54" y="286" width="520" height="58" rx="14" fill="#1657c8"/>
-    <text x="78" y="325" fill="#fff" font-size="27">從概念到現場實作</text>
+    <rect x="180" y="286" width="256" height="58" rx="14" fill="#1657c8"/>
+    <text x="204" y="325" fill="#fff" font-size="26">從概念到現場實作</text>
 
     ${cardSvg}
-
-    <rect x="1074" y="28" width="68" height="68" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
-    <text x="1108" y="75" fill="#1657c8" font-size="36" text-anchor="middle">AI</text>
   </g>
 
-  <!-- 人物縮小並往內收，保留 LINE／社群縮圖裁切安全區 -->
-  <image href="data:image/png;base64,${instructor}" x="600" y="10" width="620" height="620"/>
+  <image href="data:image/png;base64,${instructor}" x="585" y="-65" width="700" height="700"/>
 
   <g font-family="'WenQuanYi Zen Hei', sans-serif" font-weight="700">
-    <rect x="950" y="183" width="180" height="52" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
-    <text x="1040" y="217" fill="#1657c8" font-size="21" text-anchor="middle">講師：Alex</text>
+    <rect x="800" y="296" width="150" height="52" rx="16" fill="#fff" fill-opacity=".95" stroke="#1657c8" stroke-width="3"/>
+    <text x="875" y="330" fill="#1657c8" font-size="21" text-anchor="middle">講師：Alex</text>
   </g>
 </svg>`;
 
