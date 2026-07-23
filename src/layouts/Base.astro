@@ -38,6 +38,7 @@ const jsonLd = {
       '@type': 'WebSite',
       '@id': `${SITE.url}/#website`,
       name: SITE.title,
+      alternateName: [SITE.titleEn, 'aixwang'],
       url: SITE.url,
       description: SITE.description,
       inLanguage: SITE.locale,
@@ -506,8 +507,10 @@ const jsonLd = {
           </ul>
         </div>
       </div>
-      <div class="mx-auto mt-10 max-w-6xl border-t border-sky-100 pt-6 text-xs text-stone-500">
-        © {new Date().getFullYear()} {SITE.title} — AI 一對一私人教學與公開演講
+      <div class="mx-auto mt-10 flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 border-t border-sky-100 pt-6 text-xs text-stone-500">
+        <span>© {new Date().getFullYear()} {SITE.title} — AI 一對一私人教學與公開演講</span>
+        <a href="/privacy/" class="hover:text-[#1688e8]">隱私權政策</a>
+        <a href="/disclaimer/" class="hover:text-[#1688e8]">免責聲明</a>
       </div>
     </footer>
   </body>

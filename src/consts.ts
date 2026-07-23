@@ -11,6 +11,8 @@ export const SITE = {
 export const AUTHOR = {
   id: `${SITE.url}/about#person`,
   name: 'Alex',
+  // 別名：讓 Google 知識圖譜與 AI 搜尋把不同稱呼認成同一個人
+  alternateName: ['王士麟', 'Alex Wang', '艾克斯王', 'aixwang'],
   jobTitle: 'AI 應用講師 / 全職接案工程師',
   description:
     '全職接案工程師、21 萬人 OpenClaw 中文社群版主。AI Agent 工具使用、做自動發文、AI 生圖模板、對話式拍片教學——盡可能把工作流程簡化成對話就能完成，只需第一次使用前的安裝、串接成本，一次性教學，受用好幾次。',
@@ -30,7 +32,9 @@ export const AUTHOR = {
 export const LINKS = {
   facebookGroup: 'https://www.facebook.com/groups/3238547836318385',
   threads: 'https://www.threads.com/@alex_wang.ai',
+  instagram: 'https://www.instagram.com/alex_wang.ai/',
   youtube: 'https://www.youtube.com/channel/UCQUY_h3ic_oPmuoRJrLvE3g',
+  github: 'https://github.com/js0980420',
   line: 'https://line.me/ti/p/jejH4FkQn-',
   email: 'mailto:castion2293@yahoo.com.tw',
 };
@@ -50,11 +54,12 @@ export const PERSON_SCHEMA = {
   '@type': 'Person',
   '@id': AUTHOR.id,
   name: AUTHOR.name,
+  alternateName: AUTHOR.alternateName,
   jobTitle: AUTHOR.jobTitle,
   description: AUTHOR.description,
   knowsAbout: AUTHOR.knowsAbout,
   email: AUTHOR.email,
   url: `${SITE.url}/about/`,
   image: new URL(instructorImage.src, SITE.url).href,
-  sameAs: [LINKS.facebookGroup, LINKS.threads, LINKS.youtube],
+  sameAs: [LINKS.facebookGroup, LINKS.threads, LINKS.instagram, LINKS.youtube, LINKS.github],
 };

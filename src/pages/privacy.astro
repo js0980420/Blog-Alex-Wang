@@ -1,0 +1,52 @@
+---
+import { AUTHOR, SITE } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const UPDATED = '2026年7月23日';
+---
+
+<Base
+  title={`隱私權政策｜${SITE.title}`}
+  description={`${SITE.title}（aixwang.dev）的隱私權政策：本站使用 Google Analytics 進行流量統計，無會員系統、不主動蒐集個人資料。說明資料蒐集範圍、用途與訪客的選擇。`}
+>
+  <div class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-semibold text-slate-900 md:text-4xl">隱私權政策</h1>
+    <p class="mt-4 text-sm text-stone-400">最後更新：{UPDATED}</p>
+
+    <div class="prose-blog mt-10">
+      <p>
+        本頁說明「{SITE.title}」（{SITE.url}，以下稱「本站」）如何處理訪客資料。本站由 {AUTHOR.name}（王士麟）個人經營，沒有會員系統、不提供帳號註冊，也不會主動要求你填寫任何個人資料。
+      </p>
+
+      <h2>本站蒐集哪些資料</h2>
+      <p>
+        本站使用 <strong>Google Analytics 4</strong>（GA4）進行流量統計，會透過 Cookie 蒐集匿名的瀏覽行為資料，包括：造訪的頁面、停留時間、裝置與瀏覽器類型、大致地理區域（城市層級），以及部分連結的點擊事件（例如點擊 LINE 諮詢、課程頁面、YouTube 連結）。這些資料是匿名的統計數據，無法識別你的個人身分。
+      </p>
+      <p>
+        本站部署於 Cloudflare，Cloudflare 可能基於資安與效能目的記錄標準的伺服器紀錄（如 IP 位址、請求時間）。本站的站內搜尋在你的瀏覽器本機執行，搜尋關鍵字不會傳送到任何伺服器。
+      </p>
+
+      <h2>資料的用途</h2>
+      <p>
+        流量統計資料僅用於了解哪些文章和主題對讀者有幫助、改善網站內容與使用體驗，不會用於廣告投放，也不會出售或轉讓給任何第三方。
+      </p>
+
+      <h2>你的選擇</h2>
+      <p>
+        如果你不希望被 GA4 統計，可以安裝
+        <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noreferrer">Google Analytics 不透露資訊瀏覽器外掛程式</a>，或在瀏覽器中封鎖第三方
+        Cookie／使用無痕模式瀏覽本站，不影響任何功能。
+      </p>
+
+      <h2>透過 LINE、Email 或社群聯絡時</h2>
+      <p>
+        你透過 LINE、Email、Facebook 社團、Threads 或 Instagram 與我聯絡時，你提供的內容（如姓名、聯絡方式、需求描述）只用於回覆你的詢問與安排課程，不會另作他用。這些平台各自的隱私權政策由該平台規範。
+      </p>
+
+      <h2>政策更新與聯絡方式</h2>
+      <p>
+        本政策若有修改會直接更新本頁並標示日期。對本政策有任何疑問，歡迎來信：{AUTHOR.email}。
+      </p>
+    </div>
+  </div>
+</Base>

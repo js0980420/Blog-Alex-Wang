@@ -1,0 +1,45 @@
+---
+import { AUTHOR, SITE } from '../consts';
+import Base from '../layouts/Base.astro';
+
+const UPDATED = '2026年7月23日';
+---
+
+<Base
+  title={`免責聲明｜${SITE.title}`}
+  description={`${SITE.title}（aixwang.dev）的免責聲明：教學內容為個人經驗分享，AI 工具與第三方平台規則變動快速，實際操作請以官方文件為準，並遵守各平台使用條款。`}
+>
+  <div class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="text-3xl font-semibold text-slate-900 md:text-4xl">免責聲明</h1>
+    <p class="mt-4 text-sm text-stone-400">最後更新：{UPDATED}</p>
+
+    <div class="prose-blog mt-10">
+      <h2>內容性質與時效性</h2>
+      <p>
+        本站（{SITE.url}）的文章與教學是 {AUTHOR.name}（王士麟）的個人經驗分享與教學紀錄。AI 工具、訂閱方案、價格與第三方平台（如
+        Meta、Google、Anthropic、OpenAI）的功能與規則變動非常快，文章發布後可能過時。實際操作與付費決策前，請以各平台的官方文件與當下公告為準。
+      </p>
+
+      <h2>操作風險與平台條款</h2>
+      <p>
+        教學中涉及的 API 申請、自動發文、自動化工作流等操作，請務必遵守各平台的使用條款與開發者政策。依本站內容進行的任何設定與操作（包括帳號權限、金鑰保管、發文頻率），其結果由操作者自行負責；如因不當使用（例如過度頻繁的自動發文）導致帳號受限，本站不承擔相關責任。
+      </p>
+
+      <h2>非專業意見</h2>
+      <p>
+        本站內容不構成法律、財務、稅務或投資建議。涉及訂閱花費、接案收入等描述均為個人經驗，不代表對任何結果的保證。
+      </p>
+
+      <h2>外部連結與商標</h2>
+      <p>
+        本站文章可能包含外部網站連結，連結內容由各網站自行負責。文中提及的
+        Claude、ChatGPT、Gemini、Meta、Instagram、Threads 等名稱與商標均屬其所有權人，本站與上述公司無代理或合作關係（文中另有標明合作者除外）。
+      </p>
+
+      <h2>聯絡方式</h2>
+      <p>
+        對本聲明或任何內容有疑問、發現文章資訊已過時，歡迎來信告知：{AUTHOR.email}，我會盡快確認與更新。
+      </p>
+    </div>
+  </div>
+</Base>

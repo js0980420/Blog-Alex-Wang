@@ -40,6 +40,11 @@ ${articleList}
 - [Tooka 線上版](https://tooka.js0980420.workers.dev/)：免安裝、免 clone repo，可直接在瀏覽器使用 Tooka 製作社群圖文。
 - [Tooka](https://github.com/js0980420/tooka)：Alex 開發的開源社群圖文模板框架——AI Agent 用程式渲染生成 1080×1350 的 IG 輪播圖文，不跑版、不失真，可一鍵發佈到 Instagram、Facebook、Threads。
 
+## 政策頁面
+
+- 隱私權政策：${SITE.url}/privacy/
+- 免責聲明：${SITE.url}/disclaimer/
+
 ## 聯絡方式
 
 - LINE 免費諮詢：https://line.me/ti/p/jejH4FkQn-
