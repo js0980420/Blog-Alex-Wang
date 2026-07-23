@@ -91,14 +91,17 @@ function renderBanner(page) {
   </svg>`;
 }
 
+const { pages: VERSION } = JSON.parse(
+  await readFile(new URL('../src/data/banner-version.json', import.meta.url), 'utf8'),
+);
 const outputDir = fileURLToPath(new URL('../public/images/pages/', import.meta.url));
 await mkdir(outputDir, { recursive: true });
 
-// 檔名帶版本（-v2）：改版時換新檔名，社群平台的舊圖快取自然失效，
+// 檔名帶版本（-v<N>，N 讀自 src/data/banner-version.json）：改版時把版本號 +1 再重跑，
 // 不需要去各平台的偵錯工具手動重新抓取；舊檔保留給已分享的連結。
 for (const page of pages) {
   await sharp(Buffer.from(renderBanner(page)))
     .png()
-    .toFile(`${outputDir}/${page.file}-v2.png`);
-  console.log(`Generated public/images/pages/${page.file}-v2.png (1200×630)`);
+    .toFile(`${outputDir}/${page.file}-v${VERSION}.png`);
+  console.log(`Generated public/images/pages/${page.file}-v${VERSION}.png (1200×630)`);
 }

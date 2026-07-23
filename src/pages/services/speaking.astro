@@ -7,7 +7,7 @@ import PillButton from '../../components/PillButton.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import TeachingTools from '../../components/TeachingTools.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { AUTHOR, LINKS, SITE, breadcrumbSchema } from '../../consts';
+import { AUTHOR, LINKS, SITE, breadcrumbSchema, speakingBannerUrl } from '../../consts';
 import {
   SPEAKING_ENGAGEMENTS,
   SPEAKING_FORMATS,
@@ -60,7 +60,7 @@ const schema = [
 <Base
   title="AI 演講邀約｜企業內訓、社群講座與實作工作坊"
   description="Alex 接受 AI 主題的演講與企業內訓邀約：AI Agent 入門、社群自動化、AI 一鍵拍片、AI 工作流設計。曾受 MixerBox、TAIA 台灣人工智慧協會邀請演講。實體以雙北為主，外縣市有提供交通補助也可配合。"
-  ogImage={`${SITE.url}/images/services/speaking-v2.png`}
+  ogImage={speakingBannerUrl()}
   ogImageAlt="AI 演講與企業內訓邀約｜講師 Alex"
   schema={schema}
 >

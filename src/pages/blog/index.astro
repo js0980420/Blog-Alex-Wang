@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Cta from '../../components/Cta.astro';
 import PostCard from '../../components/PostCard.astro';
-import { SITE, breadcrumbSchema } from '../../consts';
+import { SITE, breadcrumbSchema, pageBannerUrl } from '../../consts';
 import Base from '../../layouts/Base.astro';
 
 const schema = [
@@ -39,7 +39,7 @@ const rest = posts.filter((post) => !post.data.featured);
 <Base
   title="部落格｜AI 新手常見問題全解答"
   description="用問答形式解答新手學 AI 最常見的問題：Claude Code / Codex 怎麼選、Meta API 怎麼申請、自動發文怎麼做、Skill 是什麼。每篇文章聚焦解決一個新手最常遇到的問題。"
-  ogImage={`${SITE.url}/images/pages/blog-v2.png`}
+  ogImage={pageBannerUrl('blog')}
   ogImageAlt="AI 新手部落格｜常見問題全解答"
   schema={schema}
 >

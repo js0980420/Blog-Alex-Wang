@@ -6,7 +6,7 @@ import Cta from '../components/Cta.astro';
 import FaqList from '../components/FaqList.astro';
 import PillButton from '../components/PillButton.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { AUTHOR, LINKS, SITE } from '../consts';
+import { AUTHOR, LINKS, SITE, pageBannerUrl } from '../consts';
 import { HOME_FAQS } from '../data/faqs';
 import { SYLLABUS, VIDEOS } from '../data/home';
 import {
@@ -61,7 +61,7 @@ const schema = [
 <Base
   title="AI新手教學｜零基礎學 Claude Code / Codex 與社群自動發文"
   description={SITE.description}
-  ogImage={`${SITE.url}/images/pages/home-v2.png`}
+  ogImage={pageBannerUrl('home')}
   ogImageAlt="AI 新手教學｜從工具到自動化"
   schema={schema}
 >

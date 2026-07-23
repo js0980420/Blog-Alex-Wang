@@ -6,7 +6,7 @@ import CheckItem from '../components/CheckItem.astro';
 import Cta from '../components/Cta.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { AUTHOR, SITE, breadcrumbSchema } from '../consts';
+import { AUTHOR, SITE, breadcrumbSchema, pageBannerUrl } from '../consts';
 import { EXPERIENCE } from '../data/instructor';
 import Base from '../layouts/Base.astro';
 
@@ -26,7 +26,7 @@ const schema = [
   title={`關於講師 ${AUTHOR.name}｜AI 應用講師、一對一教學與演講`}
   description={AUTHOR.description}
   ogType="profile"
-  ogImage={`${SITE.url}/images/pages/about-v2.png`}
+  ogImage={pageBannerUrl('about')}
   ogImageAlt={`關於 AI 講師 ${AUTHOR.name}`}
   schema={schema}
 >

@@ -48,6 +48,18 @@ export const NAV = [
   { href: '/about/', label: '關於講師' },
 ];
 
+import BANNER_VERSION from './data/banner-version.json';
+
+// 頁面分享圖網址（含版本號）：版本來源是 src/data/banner-version.json，
+// 升版改那裡的數字並重跑生成器即可，頁面引用自動跟上
+export function pageBannerUrl(name: string): string {
+  return `${SITE.url}/images/pages/${name}-v${BANNER_VERSION.pages}.png`;
+}
+
+export function speakingBannerUrl(): string {
+  return `${SITE.url}/images/services/speaking-v${BANNER_VERSION.speaking}.png`;
+}
+
 // 產生 BreadcrumbList JSON-LD；最後一項是當前頁、不帶 item
 export function breadcrumbSchema(items: { name: string; item?: string }[]) {
   return {

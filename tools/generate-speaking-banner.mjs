@@ -58,12 +58,15 @@ const svg = `
   </g>
 </svg>`;
 
+const { speaking: VERSION } = JSON.parse(
+  await readFile(new URL('../src/data/banner-version.json', import.meta.url), 'utf8'),
+);
 const output = fileURLToPath(
-  new URL('../public/images/services/speaking-v2.png', import.meta.url),
+  new URL(`../public/images/services/speaking-v${VERSION}.png`, import.meta.url),
 );
 await mkdir(fileURLToPath(new URL('../public/images/services/', import.meta.url)), {
   recursive: true,
 });
 await sharp(Buffer.from(svg)).png().toFile(output);
 
-console.log('Generated public/images/services/speaking-v2.png (1200×630)');
+console.log(`Generated public/images/services/speaking-v${VERSION}.png (1200×630)`);
