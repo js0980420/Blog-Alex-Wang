@@ -26,7 +26,7 @@ export const AUTHOR = {
     '對話式拍片',
     'HyperFrames',
   ],
-  email: 'castion2293@yahoo.com.tw',
+  email: 'js0980420@gmail.com',
 };
 
 export const LINKS = {
@@ -36,7 +36,7 @@ export const LINKS = {
   youtube: 'https://www.youtube.com/channel/UCQUY_h3ic_oPmuoRJrLvE3g',
   github: 'https://github.com/js0980420',
   line: 'https://line.me/ti/p/jejH4FkQn-',
-  email: 'mailto:castion2293@yahoo.com.tw',
+  email: 'mailto:js0980420@gmail.com',
 };
 
 export const NAV = [

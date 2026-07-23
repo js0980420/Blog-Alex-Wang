@@ -1,9 +1,10 @@
 ---
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { AUTHOR, SITE, breadcrumbSchema } from '../consts';
+import PillButton from '../components/PillButton.astro';
+import { AUTHOR, LINKS, SITE, breadcrumbSchema } from '../consts';
 import Base from '../layouts/Base.astro';
 
-const UPDATED = '2026年7月23日';
+const UPDATED = '2026年7月24日';
 
 const schema = [
   breadcrumbSchema([
@@ -55,8 +56,14 @@ const schema = [
 
       <h2>更新與勘誤</h2>
       <p>
-        AI 工具與平台規則變動很快，發現內容過時或有誤時會直接更新文章並修改更新日期。如果你發現任何錯誤或已失效的步驟，歡迎來信告知：{AUTHOR.email}，確認後會盡快修正。
+        AI 工具與平台規則變動很快，發現內容過時或有誤時會直接更新文章並修改更新日期。如果你發現任何錯誤或已失效的步驟，歡迎來信告知：<a
+          href={LINKS.email}>{AUTHOR.email}</a
+        >，確認後會盡快修正。
       </p>
+      <div class="not-prose mt-6 flex flex-wrap gap-3">
+        <PillButton href={LINKS.email}>Email 聯絡</PillButton>
+        <PillButton href={LINKS.line} variant="line" external>LINE 聯絡</PillButton>
+      </div>
     </div>
   </div>
 </Base>

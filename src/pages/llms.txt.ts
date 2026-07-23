@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { SITE } from '../consts';
+import { AUTHOR, LINKS, SITE } from '../consts';
 
 // llms.txt：給 AI 搜尋（ChatGPT、Perplexity、Claude 等）讀的網站摘要。
 // 文章清單從 Directus collection 自動生成，發布新文章後重新建置即更新，
@@ -52,8 +52,8 @@ ${articleList}
 
 ## 聯絡方式
 
-- LINE 免費諮詢：https://line.me/ti/p/jejH4FkQn-
-- Email：castion2293@yahoo.com.tw
+- LINE 免費諮詢：${LINKS.line}
+- Email：${AUTHOR.email}
 - Facebook 社團：https://www.facebook.com/groups/3238547836318385
 `;
 

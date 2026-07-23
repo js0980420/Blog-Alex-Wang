@@ -1,9 +1,10 @@
 ---
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { AUTHOR, SITE, breadcrumbSchema } from '../consts';
+import PillButton from '../components/PillButton.astro';
+import { AUTHOR, LINKS, SITE, breadcrumbSchema } from '../consts';
 import Base from '../layouts/Base.astro';
 
-const UPDATED = '2026年7月23日';
+const UPDATED = '2026年7月24日';
 
 const schema = [
   breadcrumbSchema([{ name: '首頁', item: `${SITE.url}/` }, { name: '隱私權政策' }]),
@@ -52,8 +53,14 @@ const schema = [
 
       <h2>政策更新與聯絡方式</h2>
       <p>
-        本政策若有修改會直接更新本頁並標示日期。對本政策有任何疑問，歡迎來信：{AUTHOR.email}。
+        本政策若有修改會直接更新本頁並標示日期。對本政策有任何疑問，歡迎來信：<a
+          href={LINKS.email}>{AUTHOR.email}</a
+        >。
       </p>
+      <div class="not-prose mt-6 flex flex-wrap gap-3">
+        <PillButton href={LINKS.email}>Email 聯絡</PillButton>
+        <PillButton href={LINKS.line} variant="line" external>LINE 聯絡</PillButton>
+      </div>
     </div>
   </div>
 </Base>

@@ -1,9 +1,10 @@
 ---
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { AUTHOR, SITE, breadcrumbSchema } from '../consts';
+import PillButton from '../components/PillButton.astro';
+import { AUTHOR, LINKS, SITE, breadcrumbSchema } from '../consts';
 import Base from '../layouts/Base.astro';
 
-const UPDATED = '2026年7月23日';
+const UPDATED = '2026年7月24日';
 
 const schema = [
   breadcrumbSchema([{ name: '首頁', item: `${SITE.url}/` }, { name: '免責聲明' }]),
@@ -45,8 +46,13 @@ const schema = [
 
       <h2>聯絡方式</h2>
       <p>
-        對本聲明或任何內容有疑問、發現文章資訊已過時，歡迎來信告知：{AUTHOR.email}，我會盡快確認與更新。
+        對本聲明或任何內容有疑問、發現文章資訊已過時，歡迎來信告知：
+        <a href={LINKS.email}>{AUTHOR.email}</a>，我會盡快確認與更新。
       </p>
+      <div class="not-prose mt-6 flex flex-wrap gap-3">
+        <PillButton href={LINKS.email}>Email 聯絡</PillButton>
+        <PillButton href={LINKS.line} variant="line" external>LINE 聯絡</PillButton>
+      </div>
     </div>
   </div>
 </Base>
