@@ -2,7 +2,8 @@
 title: Codex 安裝教學：安裝 VS Code、Codex 插件（外掛）、Codex CLI，選用 WSL2
 description: Windows 新手按照 VS Code、Codex 插件（外掛）、Codex CLI 三個主要工具依序安裝，並視需要選用 WSL2；包含真實操作畫面與錯誤紀錄。
 slug: codex-windows-wsl-install
-status: draft
+status: published
+featured: true
 pubDate: 2026-07-24
 updatedDate: 2026-07-24
 tags: [Codex, WSL2, VS Code, 安裝教學]

@@ -86,7 +86,7 @@ const blog = defineCollection({
                 updatedDate: fm.updatedDate ?? undefined,
                 tags: fm.tags ?? [],
                 faqs: fm.faqs ?? [],
-                featured: false,
+                featured: !!fm.featured,
                 unlisted: true,
               },
             });
