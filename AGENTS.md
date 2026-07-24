@@ -39,6 +39,13 @@ S334 講課照片改名「講課紀錄」、移至講師介紹下方、改雙欄
 Access 513k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
 
+## Git 提交規則（必須遵守）
+
+- 不得自動提交；只有使用者明確要求提交時才能執行 `git commit`。
+- 本專案所有 Git 提交的標題與詳細內文一律使用繁體中文。
+- 功能性變更必須撰寫詳細提交內文，說明改了什麼、為什麼修改，以及重要影響。
+- 只加入本次任務相關檔案，不得使用 `git add .`，也不得混入其他未完成草稿或無關變更。
+
 ## 新文章橫幅工作流（必須遵守）
 
 - 新增或發布 Directus 文章時，必須先閱讀並執行 `docs/blog-banner-workflow.md`。
