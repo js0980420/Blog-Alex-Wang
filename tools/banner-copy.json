@@ -6,8 +6,10 @@
     "subtitle": "從 Token 到自動發文"
   },
   "codex-windows-wsl-install": {
-    "badge": "Codex 安裝教學",
-    "title": "VS Code＋Codex 插件\nCodex CLI＋選用 WSL2",
-    "subtitle": "透過複製貼上安裝 CLI"
+    "badge": "Windows",
+    "platform": "",
+    "title": "Codex 安裝教學\nVS Code＋插件＋CLI\n選用 WSL2",
+    "subtitle": "透過複製貼上安裝 CLI",
+    "logos": ["windows", "vscode", "codex"]
   }
 }

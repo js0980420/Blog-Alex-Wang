@@ -92,7 +92,7 @@ function titleFontSize(title, maxWidth = 660) {
   return 42;
 }
 
-function buildLayer(copy, fontData) {
+function buildLayer(copy, fontData, logos) {
   return {
     type: 'div',
     props: {
@@ -142,24 +142,92 @@ function buildLayer(copy, fontData) {
                         children: `新手學 AI｜${copy.badge}`,
                       },
                     },
-                    {
-                      type: 'div',
-                      props: {
-                        style: {
-                          display: 'flex',
-                          backgroundColor: '#ffffff',
-                          border: '2px solid #c9dcf5',
-                          borderRadius: 16,
-                          padding: '8px 18px',
-                          fontSize: 30,
-                          color: TITLE_BLUE,
-                        },
-                        children: 'AI',
-                      },
-                    },
-                  ],
+                    copy.platform
+                      ? {
+                          type: 'div',
+                          props: {
+                            style: {
+                              display: 'flex',
+                              backgroundColor: '#ffffff',
+                              border: '2px solid #c9dcf5',
+                              borderRadius: 16,
+                              padding: '8px 18px',
+                              fontSize: 30,
+                              color: TITLE_BLUE,
+                            },
+                            children: copy.platform,
+                          },
+                        }
+                      : null,
+                  ].filter(Boolean),
                 },
               },
+              copy.logos?.length
+                ? {
+                    type: 'div',
+                    props: {
+                      style: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 12,
+                      },
+                      children: copy.logos.map((logo) => ({
+                        type: 'div',
+                        props: {
+                          style: {
+                            width: 54,
+                            height: 54,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#ffffff',
+                            border: '2px solid #dbeafe',
+                            borderRadius: 14,
+                          },
+                          children:
+                            logo === 'windows'
+                              ? {
+                                  type: 'div',
+                                  props: {
+                                    style: {
+                                      width: 34,
+                                      height: 34,
+                                      display: 'flex',
+                                      flexDirection: 'column',
+                                      gap: 3,
+                                    },
+                                    children: [0, 1].map(() => ({
+                                      type: 'div',
+                                      props: {
+                                        style: { display: 'flex', gap: 3, flex: 1 },
+                                        children: [0, 1].map(() => ({
+                                          type: 'div',
+                                          props: {
+                                            style: {
+                                              display: 'flex',
+                                              flex: 1,
+                                              backgroundColor: '#0078d4',
+                                            },
+                                          },
+                                        })),
+                                      },
+                                    })),
+                                  },
+                                }
+                              : {
+                                  type: 'img',
+                                  props: {
+                                    src: logos[logo],
+                                    width: 38,
+                                    height: 38,
+                                    style: { objectFit: 'contain' },
+                                  },
+                                },
+                        },
+                      })),
+                    },
+                  }
+                : null,
               // 主標題：spec 可用 \n 指定斷行；字級自動縮放（優先兩行、最長三行）
               {
                 type: 'div',
@@ -227,9 +295,11 @@ async function generate(article, fontData, background, instructor) {
     badge: copySpec.badge ?? article.tags?.[0] ?? 'AI 新手',
     title: copySpec.title ?? article.title,
     subtitle: copySpec.subtitle ?? deriveSubtitle(article.description),
+    logos: copySpec.logos ?? [],
+    platform: copySpec.platform ?? 'AI',
   };
 
-  const svg = await satori(buildLayer(copy, fontData), {
+  const svg = await satori(buildLayer(copy, fontData, logoData), {
     width: WIDTH,
     height: HEIGHT,
     fonts: [{ name: 'Noto Sans TC', data: fontData, weight: 700, style: 'normal' }],
@@ -251,12 +321,18 @@ async function generate(article, fontData, background, instructor) {
 }
 
 // ---- 主流程 ----
-const [fontData, specs] = await Promise.all([
+const [fontData, specs, vscodeLogo, codexLogo] = await Promise.all([
   loadFont(),
   readFile(path.resolve('tools/banner-copy.json'), 'utf8')
     .then(JSON.parse)
     .catch(() => ({})),
+  readFile(path.resolve('src/assets/vscode-logo.png')),
+  readFile(path.resolve('src/assets/codex.png')),
 ]);
+const logoData = {
+  vscode: `data:image/png;base64,${vscodeLogo.toString('base64')}`,
+  codex: `data:image/png;base64,${codexLogo.toString('base64')}`,
+};
 
 for (const asset of ['background.png', 'instructor-transparent.png']) {
   if (!(await exists(path.join(ASSET_DIR, asset)))) {
