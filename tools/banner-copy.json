@@ -8,7 +8,7 @@
   "codex-windows-wsl-install": {
     "badge": "Windows",
     "platform": "",
-    "title": "Codex 安裝教學\nVS Code＋插件＋CLI\n選用 WSL2",
+    "title": "安裝 Codex 教學\nVS Code＋插件＋CLI\n選用 WSL2",
     "subtitle": "透過複製貼上安裝 CLI",
     "logos": ["windows", "vscode", "codex"]
   }
