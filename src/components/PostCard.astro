@@ -6,11 +6,14 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const date = post.data.pubDate.toLocaleDateString('zh-TW', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('zh-TW', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+const pubText = formatDate(post.data.pubDate);
+const updatedText = post.data.updatedDate ? formatDate(post.data.updatedDate) : null;
 ---
 
 <article class="rounded-[1.75rem] border border-sky-200/80 bg-white/80 p-7 shadow-[0_8px_30px_rgba(30,64,175,0.05)] transition hover:border-sky-400 hover:bg-white">
@@ -25,7 +28,14 @@ const date = post.data.pubDate.toLocaleDateString('zh-TW', {
     />
     <div class="min-w-0">
       <div class="flex flex-wrap items-center gap-3 text-xs text-stone-400">
-        <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+        <span>
+          發佈於 <time datetime={post.data.pubDate.toISOString()}>{pubText}</time>
+        </span>
+        {post.data.updatedDate && updatedText && (
+          <span>
+            更新於 <time datetime={post.data.updatedDate.toISOString()}>{updatedText}</time>
+          </span>
+        )}
         {post.data.tags.map((tag) => (
           <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 uppercase tracking-wide">{tag}</span>
         ))}
