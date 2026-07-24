@@ -174,4 +174,56 @@ const updatedText = updatedDate
 
     <Cta />
   </article>
+
+  <script is:inline>
+    // 幫每個程式碼區塊加上「複製」按鈕：指令類內容一鍵複製貼上
+    (function () {
+      function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text);
+        }
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          return Promise.resolve();
+        } catch (e) {
+          return Promise.reject(e);
+        } finally {
+          document.body.removeChild(textarea);
+        }
+      }
+
+      document.querySelectorAll('.prose-blog pre').forEach(function (pre) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'copy-code-btn';
+        btn.textContent = '複製';
+        btn.setAttribute('aria-label', '複製程式碼');
+        btn.addEventListener('click', function () {
+          var text = pre.innerText.replace(/\n$/, '');
+          copyText(text).then(
+            function () {
+              btn.textContent = '已複製 ✓';
+              setTimeout(function () { btn.textContent = '複製'; }, 1500);
+            },
+            function () {
+              btn.textContent = '複製失敗';
+              setTimeout(function () { btn.textContent = '複製'; }, 1500);
+            }
+          );
+        });
+        wrapper.appendChild(btn);
+      });
+    })();
+  </script>
 </Base>

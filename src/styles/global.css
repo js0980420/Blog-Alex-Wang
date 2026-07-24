@@ -71,6 +71,20 @@ body {
 .prose-blog code {
   @apply rounded bg-sky-100 px-1.5 py-0.5 text-sm text-sky-900;
 }
+/* 程式碼區塊：長指令在框內橫向捲動，不撐寬頁面（撐寬會讓手機版 fixed header 跑版） */
+.prose-blog pre {
+  @apply my-6 max-w-full overflow-x-auto rounded-xl bg-slate-900 p-4 text-sm leading-6;
+}
+.prose-blog pre code {
+  @apply block bg-transparent p-0 text-slate-100;
+}
+/* 程式碼區塊右上角的複製按鈕（由文章頁 script 動態插入） */
+.code-block-wrapper {
+  @apply relative;
+}
+.copy-code-btn {
+  @apply absolute right-2 top-2 rounded-lg bg-white/10 px-2.5 py-1 text-xs text-slate-200 backdrop-blur transition hover:bg-white/25;
+}
 /* 表格：窄表格貼內容寬、寬表格在手機可橫向捲動 */
 .prose-blog table {
   @apply my-6 block max-w-full overflow-x-auto border-collapse text-sm leading-6;
