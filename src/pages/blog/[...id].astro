@@ -176,7 +176,7 @@ const updatedText = updatedDate
   </article>
 
   <script is:inline>
-    // 幫每個程式碼區塊加上「複製」按鈕：指令類內容一鍵複製貼上
+    // 幫程式碼區塊與引用區塊（提示詞）加上「複製」按鈕：要複製貼上的內容一鍵複製
     (function () {
       function copyText(text) {
         if (navigator.clipboard && window.isSecureContext) {
@@ -198,19 +198,20 @@ const updatedText = updatedDate
         }
       }
 
-      document.querySelectorAll('.prose-blog pre').forEach(function (pre) {
+      document.querySelectorAll('.prose-blog pre, .prose-blog blockquote').forEach(function (block) {
+        var isPre = block.tagName === 'PRE';
         var wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
-        pre.parentNode.insertBefore(wrapper, pre);
-        wrapper.appendChild(pre);
+        block.parentNode.insertBefore(wrapper, block);
+        wrapper.appendChild(block);
 
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'copy-code-btn';
+        btn.className = isPre ? 'copy-code-btn' : 'copy-code-btn copy-code-btn--light';
         btn.textContent = '複製';
-        btn.setAttribute('aria-label', '複製程式碼');
+        btn.setAttribute('aria-label', isPre ? '複製程式碼' : '複製內容');
         btn.addEventListener('click', function () {
-          var text = pre.innerText.replace(/\n$/, '');
+          var text = block.innerText.replace(/\n$/, '');
           copyText(text).then(
             function () {
               btn.textContent = '已複製 ✓';
