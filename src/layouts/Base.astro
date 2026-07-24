@@ -58,38 +58,48 @@ const jsonLd = {
   <head>
     <!-- Google Analytics（GA4）流量統計：gtag.js 延到頁面載入完才注入，避免佔用首次渲染的主執行緒；
          事件在此之前先排入 dataLayer，載入後照樣送出 -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-91Z2F673C0');
-      window.addEventListener('load', function () {
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-91Z2F673C0';
-        document.head.appendChild(s);
-      });
+      // 只統計正式網站；localhost、區域網路 IP 與其他預覽網址完全不載入 GA4。
+      var analyticsHosts = ['aixwang.dev', 'www.aixwang.dev'];
+      if (analyticsHosts.indexOf(window.location.hostname) !== -1) {
+        var preconnect = document.createElement('link');
+        preconnect.rel = 'preconnect';
+        preconnect.href = 'https://www.googletagmanager.com';
+        preconnect.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect);
 
-      // 自訂事件：追蹤關鍵轉換點擊（LINE 諮詢 / Tooka / YouTube）
-      document.addEventListener('click', function (e) {
-        var a = e.target.closest && e.target.closest('a[href]');
-        if (!a) return;
-        var href = a.href || '';
-        if (href.indexOf('line.me') !== -1) {
-          gtag('event', 'line_click', { link_url: href, page_path: location.pathname });
-        } else if (href.indexOf('/services/one-on-one') !== -1) {
-          gtag('event', 'one_on_one_click', { link_url: href, page_path: location.pathname });
-        } else if (href.indexOf('/services/speaking') !== -1) {
-          gtag('event', 'speaking_click', { link_url: href, page_path: location.pathname });
-        } else if (href.indexOf('tooka') !== -1) {
-          gtag('event', 'tooka_click', { link_url: href, page_path: location.pathname });
-        } else if (href.indexOf('youtube.com') !== -1 || href.indexOf('youtu.be') !== -1) {
-          gtag('event', 'youtube_click', { link_url: href, page_path: location.pathname });
-        }
-      });
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-91Z2F673C0');
+
+        window.addEventListener('load', function () {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-91Z2F673C0';
+          document.head.appendChild(s);
+        });
+
+        // 自訂事件：追蹤關鍵轉換點擊（LINE 諮詢 / Tooka / YouTube）
+        document.addEventListener('click', function (e) {
+          var a = e.target.closest && e.target.closest('a[href]');
+          if (!a) return;
+          var href = a.href || '';
+          if (href.indexOf('line.me') !== -1) {
+            window.gtag('event', 'line_click', { link_url: href, page_path: location.pathname });
+          } else if (href.indexOf('/services/one-on-one') !== -1) {
+            window.gtag('event', 'one_on_one_click', { link_url: href, page_path: location.pathname });
+          } else if (href.indexOf('/services/speaking') !== -1) {
+            window.gtag('event', 'speaking_click', { link_url: href, page_path: location.pathname });
+          } else if (href.indexOf('tooka') !== -1) {
+            window.gtag('event', 'tooka_click', { link_url: href, page_path: location.pathname });
+          } else if (href.indexOf('youtube.com') !== -1 || href.indexOf('youtu.be') !== -1) {
+            window.gtag('event', 'youtube_click', { link_url: href, page_path: location.pathname });
+          }
+        });
+      }
     </script>
 
     <meta charset="UTF-8" />
