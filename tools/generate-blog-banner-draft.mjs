@@ -1,5 +1,6 @@
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import yaml from 'js-yaml';
 import satori from 'satori';
 import sharp from 'sharp';
 
@@ -11,6 +12,8 @@ import sharp from 'sharp';
 //   npm run generate:banners                # 為所有缺圖的 published 文章生成草稿
 //   npm run generate:banners -- --slug xxx  # 指定單篇（已存在時需加 --force）
 //   npm run generate:banners -- --out-dir /tmp/preview  # 輸出到別處預覽
+//   npm run generate:banners -- --draft-file path/to/draft.md --force
+//     # 從本地 Markdown frontmatter 生成尚未進 Directus 的文章橫幅
 //
 // 文案來源：tools/banner-copy.json 有指定就用指定的（badge/title/subtitle/steps），
 // 沒有就從 Directus 欄位推導（badge=第一個 tag、title=文章標題、subtitle=描述句首）。
@@ -34,6 +37,7 @@ const getFlag = (name) => {
   return i === -1 ? undefined : (args[i + 1] ?? true);
 };
 const onlySlug = getFlag('--slug');
+const draftFile = getFlag('--draft-file');
 const force = args.includes('--force');
 const outDir = getFlag('--out-dir') ? path.resolve(getFlag('--out-dir')) : BANNER_DIR;
 
@@ -269,11 +273,28 @@ const instructor = await sharp(path.join(ASSET_DIR, 'instructor-transparent.png'
   .extract({ left: 0, top: 65, width: 615, height: 630 })
   .toBuffer();
 
-const res = await fetch(
-  `${DIRECTUS_URL}/items/articles?filter[status][_eq]=published&limit=-1&fields=slug,title,description,tags`,
-);
-if (!res.ok) throw new Error(`Directus 文章抓取失敗：HTTP ${res.status}`);
-let { data: articles } = await res.json();
+let articles;
+if (draftFile) {
+  const raw = await readFile(path.resolve(draftFile), 'utf8');
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!match) throw new Error(`本地草稿缺少 YAML frontmatter：${draftFile}`);
+  const frontmatter = yaml.load(match[1]);
+  if (!frontmatter?.slug || !frontmatter?.title) {
+    throw new Error(`本地草稿 frontmatter 必須包含 slug 與 title：${draftFile}`);
+  }
+  articles = [{
+    slug: frontmatter.slug,
+    title: frontmatter.title,
+    description: frontmatter.description ?? '',
+    tags: frontmatter.tags ?? [],
+  }];
+} else {
+  const res = await fetch(
+    `${DIRECTUS_URL}/items/articles?filter[status][_eq]=published&limit=-1&fields=slug,title,description,tags`,
+  );
+  if (!res.ok) throw new Error(`Directus 文章抓取失敗：HTTP ${res.status}`);
+  ({ data: articles } = await res.json());
+}
 
 if (onlySlug) {
   articles = articles.filter((a) => a.slug === onlySlug);

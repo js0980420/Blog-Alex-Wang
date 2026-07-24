@@ -8,7 +8,7 @@ import { AUTHOR, LINKS, SITE } from '../consts';
 export const prerender = true;
 
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection('blog')).sort(
+  const posts = (await getCollection('blog', ({ data }) => !data.unlisted)).sort(
     (a, b) =>
       b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
       (b.data.cmsId ?? 0) - (a.data.cmsId ?? 0),

@@ -16,6 +16,8 @@ interface Props {
   ogImageWidth?: number;
   ogImageHeight?: number;
   ogImageAlt?: string;
+  /** 不公開頁面：禁止搜尋引擎索引（unlisted 文章用） */
+  noindex?: boolean;
 }
 
 const {
@@ -23,6 +25,7 @@ const {
   description,
   schema = [],
   ogType = 'website',
+  noindex = false,
   ogImage: pageOgImage,
   ogImageWidth = pageOgImage ? 1200 : ogBanner.width,
   ogImageHeight = pageOgImage ? 630 : ogBanner.height,
@@ -93,8 +96,8 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <!-- 允許 Google 搜尋／Discover 使用大圖預覽 -->
-    <meta name="robots" content="max-image-preview:large" />
+    <!-- 允許 Google 搜尋／Discover 使用大圖預覽；unlisted 頁面則完全禁止索引 -->
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'max-image-preview:large'} />
     <link rel="icon" type="image/png" sizes="any" href="/favicon.png?v=2" />
     <link rel="shortcut icon" type="image/png" href="/favicon.png?v=2" />
     <link rel="apple-touch-icon" href="/aixwang-icon.png" />
@@ -118,6 +121,7 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body
+    data-pagefind-ignore={noindex ? 'all' : undefined}
     class="min-h-screen bg-[#f7fbff] font-display text-slate-900 antialiased"
     style="background-image: radial-gradient(circle at 8% 0%, rgba(34, 211, 238, 0.12), transparent 28rem), radial-gradient(circle at 92% 12%, rgba(37, 99, 235, 0.08), transparent 32rem);"
   >

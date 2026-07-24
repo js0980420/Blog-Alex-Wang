@@ -1,4 +1,7 @@
 import { defineCollection, z } from 'astro:content';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import yaml from 'js-yaml';
 import { marked } from 'marked';
 
 // 標題加上錨點 id（保留中文），供文章目錄與搜尋結果「跳至某段」使用
@@ -29,14 +32,16 @@ const blog = defineCollection({
   loader: {
     name: 'directus-articles',
     load: async ({ store, parseData, generateDigest }) => {
-      const fields = 'id,slug,title,description,body,pub_date,updated_date,tags,faqs,featured';
+      const fields = 'id,slug,title,description,body,pub_date,updated_date,tags,faqs,featured,status';
+      // unlisted＝不公開文章：有網址就能看，但不進列表/RSS/sitemap/搜尋，頁面加 noindex
       const res = await fetch(
-        `${DIRECTUS_URL}/items/articles?filter[status][_eq]=published&limit=-1&fields=${fields}`,
+        `${DIRECTUS_URL}/items/articles?filter[status][_in]=published,unlisted&limit=-1&fields=${fields}`,
       );
       if (!res.ok) throw new Error(`Directus 文章抓取失敗：HTTP ${res.status}`);
       const { data } = (await res.json()) as { data: Record<string, any>[] };
 
       store.clear();
+
       for (const a of data) {
         const entry = await parseData({
           id: a.slug,
@@ -49,6 +54,7 @@ const blog = defineCollection({
             tags: a.tags ?? [],
             faqs: a.faqs ?? [],
             featured: !!a.featured,
+            unlisted: a.status === 'unlisted',
           },
         });
         store.set({
@@ -58,6 +64,44 @@ const blog = defineCollection({
           digest: generateDigest(a),
         });
       }
+
+      // ─── 本地預覽注入（開發用，local-preview/ 不存在時自動跳過）───
+      // 放在 Directus 之後，確保同 slug 的本地草稿能覆蓋 CMS 舊內容。
+      try {
+        const previewDir = fileURLToPath(new URL('../local-preview/', import.meta.url));
+        if (existsSync(previewDir)) {
+          for (const file of readdirSync(previewDir).filter((f) => f.endsWith('.md'))) {
+            const raw = readFileSync(previewDir + file, 'utf-8');
+            const m = raw.match(/^---\n([\s\S]*?)\n---\n?/);
+            if (!m) continue;
+            const fm = yaml.load(m[1]) as Record<string, any>;
+            const body = raw.slice(m[0].length);
+            const slug = file.replace(/\.md$/, '');
+            const entry = await parseData({
+              id: slug,
+              data: {
+                title: fm.title,
+                description: fm.description ?? '',
+                pubDate: fm.pubDate,
+                updatedDate: fm.updatedDate ?? undefined,
+                tags: fm.tags ?? [],
+                faqs: fm.faqs ?? [],
+                featured: false,
+                unlisted: true,
+              },
+            });
+            store.set({
+              id: slug,
+              data: entry,
+              rendered: { html: marked.parse(body, { async: false }) },
+              digest: generateDigest(raw),
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('本地預覽注入略過：', e);
+      }
+      // ─── 本地預覽注入結束 ───
     },
   },
   schema: z.object({
@@ -76,6 +120,8 @@ const blog = defineCollection({
       .default([]),
     // 精選文章：部落格列表置頂顯示
     featured: z.boolean().default(false),
+    // 不公開文章：僅網址可達，不出現在任何列表與索引
+    unlisted: z.boolean().default(false),
   }),
 });
 

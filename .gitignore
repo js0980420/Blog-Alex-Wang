@@ -17,6 +17,9 @@ public/images/blog/*.webp
 public/images/profile/*.webp
 # 草稿生成用中文字型，generate:banners 缺檔時會自動下載
 tools/fonts/
+# 本地文章預覽與實測素材，不進正式網站
+local-preview/
+public/preview-assets/
 public/images/Facebook-Brand-Asset-Pack/__MACOSX/
 public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Primary Logo/Facebook_Logo_Primary.ai
 public/images/Facebook-Brand-Asset-Pack/Facebook Brand Asset Pack/Logo/Secondary Logo/

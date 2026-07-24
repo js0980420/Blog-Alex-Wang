@@ -9,7 +9,7 @@ import { HOME_FAQS } from '../data/faqs';
 import Base from '../layouts/Base.astro';
 
 // 文章 FAQ：依文章分組，只列有 FAQ 的文章（來源同各文章頁的 FAQPage）
-const posts = (await getCollection('blog'))
+const posts = (await getCollection('blog', ({ data }) => !data.unlisted))
   .filter((post) => post.data.faqs.length > 0)
   .sort(
     (a, b) =>

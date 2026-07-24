@@ -16,7 +16,7 @@ import {
 } from '../data/services';
 import Base from '../layouts/Base.astro';
 
-const allPosts = (await getCollection('blog')).sort(
+const allPosts = (await getCollection('blog', ({ data }) => !data.unlisted)).sort(
   (a, b) =>
     b.data.pubDate.valueOf() - a.data.pubDate.valueOf() ||
     (b.data.cmsId ?? 0) - (a.data.cmsId ?? 0),

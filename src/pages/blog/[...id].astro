@@ -37,6 +37,9 @@ const schemaImages = [
 const toc = [...(post.rendered?.html ?? '').matchAll(/<h2 id="([^"]+)">(.*?)<\/h2>/g)].map(
   (m) => ({ id: m[1], text: m[2].replace(/<[^>]+>/g, '') }),
 );
+if (faqs.length > 0 && !toc.some((item) => item.id === 'faq')) {
+  toc.push({ id: 'faq', text: 'FAQ 常見問題' });
+}
 
 const schema: object[] = [
   {
@@ -92,6 +95,7 @@ const updatedText =
   schema={schema}
   ogType="article"
   ogImage={postImage}
+  noindex={post.data.unlisted}
 >
   <article class="mx-auto max-w-3xl px-6 py-12">
     <nav aria-label="麵包屑" class="flex flex-wrap items-center gap-2 text-sm text-stone-400">
@@ -151,8 +155,8 @@ const updatedText =
     </div>
 
     {faqs.length > 0 && (
-      <section class="mt-14">
-        <h2 class="mb-6 text-2xl font-semibold text-stone-50">本文常見問題</h2>
+      <section id="faq" class="mt-14 scroll-mt-24">
+        <h2 class="mb-6 text-2xl font-semibold text-stone-50">FAQ 常見問題</h2>
         <FaqList faqs={faqs} />
       </section>
     )}
