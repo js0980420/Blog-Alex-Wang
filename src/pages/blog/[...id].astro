@@ -107,23 +107,25 @@ const updatedText = updatedDate
 
     <header class="mt-8">
       <h1 class="text-3xl font-semibold leading-snug text-stone-50 md:text-4xl md:leading-snug">{title}</h1>
-      <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-stone-400">
-        <span>作者：<a href="/about/" class="text-stone-300 hover:text-white">{AUTHOR.name}</a></span>
-        <span>·</span>
-        <span>
-          發佈於 <time datetime={pubDate.toISOString()}>{dateText}</time>
-        </span>
+      <div class="mt-5 space-y-2.5 text-sm text-stone-400">
+        <p>作者：<a href="/about/" class="text-stone-300 hover:text-white">{AUTHOR.name}</a></p>
+        <p>
+          <span class="inline-block rounded-full bg-sky-100 px-3 py-1">
+            發佈於 <time datetime={pubDate.toISOString()}>{dateText}</time>
+          </span>
+        </p>
         {updatedText && (
-          <>
-            <span>·</span>
-            <span>
+          <p>
+            <span class="inline-block rounded-full bg-amber-100 px-3 py-1">
               更新於 <time datetime={updatedDate!.toISOString()}>{updatedText}</time>
             </span>
-          </>
+          </p>
         )}
-        {post.data.tags.map((tag) => (
-          <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-xs">{tag}</span>
-        ))}
+        <p class="flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <span class="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-0.5 text-xs">{tag}</span>
+          ))}
+        </p>
       </div>
 
       <nav
