@@ -21,6 +21,14 @@ marked.use({
       const text = this.parser.parseInline(tokens);
       return `<h${depth} id="${slugifyHeading(text)}">${text}</h${depth}>\n`;
     },
+    // 引用區塊預設會有「複製」按鈕（提示詞用）；說明性質的引用在 markdown 開頭
+    // 加 [!note] 標記，這裡會拿掉標記文字並標成 data-no-copy，前端就不加按鈕
+    blockquote({ tokens }) {
+      const body = this.parser.parse(tokens);
+      const marker = body.match(/^<p>\s*\[!(?:note|備註|說明)\]\s*/i);
+      if (marker) return `<blockquote data-no-copy>${body.replace(marker[0], '<p>')}</blockquote>\n`;
+      return `<blockquote>${body}</blockquote>\n`;
+    },
   },
 });
 

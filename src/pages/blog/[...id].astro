@@ -198,7 +198,7 @@ const updatedText = updatedDate
         }
       }
 
-      document.querySelectorAll('.prose-blog pre, .prose-blog blockquote').forEach(function (block) {
+      document.querySelectorAll('.prose-blog pre, .prose-blog blockquote:not([data-no-copy])').forEach(function (block) {
         var isPre = block.tagName === 'PRE';
         var wrapper = document.createElement('div');
         wrapper.className = 'code-block-wrapper';
