@@ -60,6 +60,8 @@ Access 513k tokens of past work via get_observations([IDs]) or mem-search skill.
 - 版型以 `public/images/blog/threads-api-tutorial.png` 和
   `public/images/blog/instagram-api-tutorial.png` 為主要參考。
 - `slug`、圖片檔名與文章網址必須完全相同。完成後執行 `npm run check:banners` 和 `npm run build`。
+- 每次文章正式發布並確認網址可開啟後，必須將正式封面 PNG 下載到 Windows 的
+  `C:\Users\js098\Downloads\`，並把圖片本身複製到 Windows 剪貼簿，方便直接貼到社群。
 - 不得恢復 build-time `/og/<slug>.png` 動態生圖路由；正式圖片來源固定為
   `/images/blog/<slug>.png` 靜態檔（satori 只能作為 `generate:banners` 本機草稿工具使用）。
 - 頁面／演講／全站分享圖必須遵守版型安全區與版本號工作流

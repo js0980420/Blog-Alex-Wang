@@ -69,6 +69,12 @@ https://aixwang.dev/images/blog/<slug>.png
    npm run build
    ```
 
+7. 正式發布並確認文章網址與封面皆回傳 HTTP 200 後：
+   - 從 `https://aixwang.dev/images/blog/<slug>.png` 下載正式封面。
+   - 儲存到 Windows 的 `C:\Users\js098\Downloads\<slug>.png`。
+   - 將圖片本身複製到 Windows 剪貼簿，方便直接貼到 Threads、Facebook 或其他社群。
+   - 完成回報需同時註明下載位置與剪貼簿是否成功。
+
 ## 驗證機制
 
 `npm run check:banners` 會讀取 Directus 所有 published 文章，逐篇檢查：
