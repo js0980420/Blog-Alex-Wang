@@ -21,6 +21,7 @@
       "/services/speaking/*",
       "/quiz",
       "/quiz/*",
+      "/api/button-click",
       "/api/tool-quiz-email",
       "/robots.txt",
       "/sitemap.xml"

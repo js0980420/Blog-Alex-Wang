@@ -244,6 +244,27 @@ const jsonLd = {
             page_path: location.pathname,
           };
           window.gtag('event', 'button_click', parameters);
+          // GA4 未註冊 button_id 自訂維度時，button_click 只能看總次數。
+          // 另送 btn_<id> 原生事件，事件名稱最長 40 字元，可直接在事件報表看單顆次數。
+          var buttonEventName = ('btn_' + parameters.button_id).replace(/[^a-zA-Z0-9_]/g, '_').slice(0, 40);
+          window.gtag('event', buttonEventName, {
+            button_label: parameters.button_label,
+            button_location: parameters.button_location,
+            page_path: parameters.page_path,
+          });
+          // 同步寫入 Directus，讓 CMS 能直接查看每顆按鈕的點擊明細與次數。
+          // 不送搜尋文字、Email、IP 或 Cookie，只送畫面上既有的按鈕中繼資料。
+          var cmsPayload = JSON.stringify(parameters);
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/button-click', new Blob([cmsPayload], { type: 'application/json' }));
+          } else {
+            fetch('/api/button-click', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: cmsPayload,
+              keepalive: true,
+            }).catch(function () {});
+          }
         }
 
         // 自訂事件：追蹤按鈕與關鍵轉換點擊（LINE 諮詢 / Tooka / YouTube）
@@ -476,7 +497,7 @@ const jsonLd = {
         class="search-chat-toggle"
         id="search-chat-toggle"
         type="button"
-        aria-label="開啟 AI 站內搜尋"
+        aria-label="開啟站內搜尋"
         aria-expanded="false"
         aria-controls="search-chat-panel"
         data-ga-button="search_chat_toggle"
@@ -493,14 +514,14 @@ const jsonLd = {
         <span>我有問題</span>
       </button>
 
-      <section class="search-chat-panel" id="search-chat-panel" role="dialog" aria-label="AI 站內搜尋" hidden>
+      <section class="search-chat-panel" id="search-chat-panel" role="dialog" aria-label="站內搜尋" hidden>
         <div class="search-chat-bar">
           <span class="search-chat-dots" aria-hidden="true"><i></i><i></i><i></i></span>
           <b>alex@aixwang: search</b>
           <button
             id="search-chat-close"
             type="button"
-            aria-label="關閉 AI 站內搜尋"
+            aria-label="關閉站內搜尋"
             data-ga-button="search_chat_close"
             data-ga-label="關閉問答視窗"
             data-ga-location="search_chat"
@@ -508,9 +529,8 @@ const jsonLd = {
           >×</button>
         </div>
         <div class="search-chat-screen">
-          <p class="search-chat-boot"><span>AIX SEARCH AGENT</span><span>ONLINE</span></p>
+          <p class="search-chat-boot"><span>AIX SITE SEARCH</span><span>READY</span></p>
           <div class="search-chat-dialog">
-            <span class="search-chat-ai">AI</span>
             <p>你想搜尋什麼文章或教學？</p>
           </div>
           <div class="search-chat-examples" id="search-examples">
@@ -521,7 +541,6 @@ const jsonLd = {
           <div class="search-chat-answer" id="search-chat-answer" hidden>
             <p class="search-chat-command"><span>❯</span><b id="search-chat-query"></b></p>
             <div class="search-chat-response">
-              <span class="search-chat-ai">AI</span>
               <div class="search-chat-results" id="search-results" aria-live="polite"></div>
             </div>
           </div>
@@ -559,7 +578,7 @@ const jsonLd = {
             </svg>
           </button>
         </form>
-        <div class="search-chat-status" aria-hidden="true"><span>● ONLINE</span><span>ENTER 送出 · ESC 關閉</span></div>
+        <div class="search-chat-status" aria-hidden="true"><span>● READY</span><span>ENTER 送出 · ESC 關閉</span></div>
       </section>
     </div>
 
@@ -794,7 +813,7 @@ const jsonLd = {
       })();
 
       (function () {
-        // 右下角 AI 終端機搜尋：只查本站索引，不連接外部 chatbot。
+        // 右下角站內搜尋：只查本站索引，不連接外部服務。
         var container = document.getElementById('search-chatbot');
         var toggle = document.getElementById('search-chat-toggle');
         var panel = document.getElementById('search-chat-panel');
@@ -808,7 +827,6 @@ const jsonLd = {
         var pagefind = null;
         var pagefindPromise = null;
         var fallbackIndex = null;
-        var debounceTimer = null;
         var searchSequence = 0;
         var activeResult = -1;
         function openSearch() {
@@ -817,7 +835,7 @@ const jsonLd = {
           document.body.classList.add('search-chat-open');
           if (toggle) {
             toggle.setAttribute('aria-expanded', 'true');
-            toggle.setAttribute('aria-label', '關閉 AI 站內搜尋');
+            toggle.setAttribute('aria-label', '關閉站內搜尋');
           }
           window.setTimeout(function () { input && input.focus(); }, 0);
         }
@@ -826,7 +844,7 @@ const jsonLd = {
           document.body.classList.remove('search-chat-open');
           if (toggle) {
             toggle.setAttribute('aria-expanded', 'false');
-            toggle.setAttribute('aria-label', '開啟 AI 站內搜尋');
+            toggle.setAttribute('aria-label', '開啟站內搜尋');
           }
         }
         function loadFallback() {
@@ -873,9 +891,6 @@ const jsonLd = {
               .join('');
           }
         }
-        function renderLoading() {
-          box.innerHTML = '<p class="search-chat-empty">正在搜尋站內資料…</p>';
-        }
         function updateActiveResult() {
           box.querySelectorAll('.search-chat-result').forEach(function (item, index) {
             item.classList.toggle('is-active', index === activeResult);
@@ -899,7 +914,7 @@ const jsonLd = {
           if (queryEcho) queryEcho.textContent = input && input.value.trim() ? input.value.trim() : query;
           if (examples) examples.hidden = true;
           if (answer) answer.hidden = false;
-          renderLoading();
+          box.replaceChildren();
           loadPagefind().then(function (engine) {
             if (!engine) return searchFallback(query, sequence);
             return engine.search(query).then(function (search) {
@@ -920,9 +935,8 @@ const jsonLd = {
             });
           });
         }
-        function searchFor(query, immediate) {
+        function searchFor(query) {
           var q = query.trim().toLowerCase();
-          window.clearTimeout(debounceTimer);
           if (!q) {
             searchSequence++;
             if (examples) examples.hidden = false;
@@ -930,8 +944,7 @@ const jsonLd = {
             if (box) box.replaceChildren();
             return;
           }
-          if (immediate) executeSearch(q);
-          else debounceTimer = window.setTimeout(function () { executeSearch(q); }, 200);
+          executeSearch(q);
         }
         if (toggle) {
           toggle.addEventListener('click', function () {
@@ -949,7 +962,7 @@ const jsonLd = {
         if (input && box && form) {
           input.addEventListener('focus', loadPagefind);
           input.addEventListener('input', function () {
-            searchFor(input.value, false);
+            searchFor(input.value);
           });
           input.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
@@ -979,14 +992,14 @@ const jsonLd = {
           });
           form.addEventListener('submit', function (e) {
             e.preventDefault();
-            if (input.value.trim()) searchFor(input.value, true);
+            if (input.value.trim()) searchFor(input.value);
           });
           if (examples) {
             examples.addEventListener('click', function (e) {
               var button = e.target.closest('[data-search-example]');
               if (!button) return;
               input.value = button.getAttribute('data-search-example') || '';
-              searchFor(button.getAttribute('data-search-query') || input.value, true);
+              searchFor(button.getAttribute('data-search-query') || input.value);
               input.focus();
             });
           }
@@ -1741,7 +1754,7 @@ const jsonLd = {
         }
       }
 
-      /* ---------- 右下角 AI 終端機搜尋 ---------- */
+      /* ---------- 右下角站內搜尋 ---------- */
       .search-chatbot {
         position: fixed;
         right: max(18px, env(safe-area-inset-right));
@@ -1792,10 +1805,10 @@ const jsonLd = {
         max-height: min(640px, calc(100svh - 104px));
         flex-direction: column;
         overflow: hidden;
-        border: 1px solid #3f3b39;
+        border: 1px solid var(--color-rule-2);
         border-radius: 8px;
-        background: #151414;
-        color: #f5f1eb;
+        background: var(--color-paper);
+        color: var(--color-ink);
         box-shadow: 0 24px 70px rgb(22 18 17 / 28%);
       }
       .search-chat-panel:not([hidden]) {
@@ -1808,8 +1821,8 @@ const jsonLd = {
         align-items: center;
         gap: 10px;
         padding: 0 10px 0 13px;
-        border-bottom: 1px solid #393635;
-        background: #242120;
+        border-bottom: 1px solid var(--color-rule);
+        background: var(--color-paper-2);
       }
       .search-chat-dots {
         display: flex;
@@ -1825,7 +1838,7 @@ const jsonLd = {
       .search-chat-dots i:nth-child(3) { background: #5d9975; }
       .search-chat-bar b {
         overflow: hidden;
-        color: #aaa29d;
+        color: var(--color-ink-3);
         font-size: 9px;
         font-weight: 400;
         text-overflow: ellipsis;
@@ -1839,7 +1852,7 @@ const jsonLd = {
         padding: 0;
         border: 0;
         background: transparent;
-        color: #aaa29d;
+        color: var(--color-ink-3);
         font: 300 22px/1 sans-serif;
         cursor: pointer;
       }
@@ -1855,32 +1868,17 @@ const jsonLd = {
         justify-content: space-between;
         gap: 12px;
         margin: 0 0 20px;
-        color: #716b67;
+        color: var(--color-ink-3);
         font-size: 8px;
         letter-spacing: 0.1em;
       }
       .search-chat-dialog,
       .search-chat-response {
-        display: grid;
-        grid-template-columns: 29px minmax(0, 1fr);
-        align-items: start;
-        gap: 9px;
-      }
-      .search-chat-ai {
-        display: grid;
-        width: 29px;
-        height: 22px;
-        place-items: center;
-        border: 1px solid #bc6472;
-        border-radius: 3px;
-        color: #f09aa7;
-        font-size: 8px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
+        display: block;
       }
       .search-chat-dialog p {
         margin: 0;
-        color: #f7f3ee;
+        color: var(--color-ink);
         font-family: var(--font-display);
         font-size: 17px;
         font-weight: 600;
@@ -1889,7 +1887,7 @@ const jsonLd = {
       .search-chat-examples {
         display: grid;
         gap: 3px;
-        margin: 13px 0 0 38px;
+        margin: 13px 0 0;
       }
       .search-chat-examples[hidden],
       .search-chat-answer[hidden] {
@@ -1901,27 +1899,27 @@ const jsonLd = {
         border: 1px solid transparent;
         border-radius: 3px;
         background: transparent;
-        color: #aaa39e;
+        color: var(--color-ink-2);
         font: 500 11px/1.5 var(--font-display);
         text-align: left;
         cursor: pointer;
       }
       .search-chat-examples button:first-child {
-        border-color: #514b48;
-        background: #272322;
-        color: #fffaf4;
+        border-color: var(--color-rule-2);
+        background: var(--color-accent-tint);
+        color: var(--color-ink);
       }
       .search-chat-examples button span,
       .search-chat-command > span {
         margin-right: 6px;
-        color: #ef8998;
+        color: var(--color-accent);
       }
       .search-chat-answer {
         margin-top: 18px;
       }
       .search-chat-command {
-        margin: 0 0 13px 38px;
-        color: #d7d0ca;
+        margin: 0 0 13px;
+        color: var(--color-ink-2);
         font-size: 11px;
         line-height: 1.5;
       }
@@ -1939,15 +1937,15 @@ const jsonLd = {
         padding: 8px 9px;
         border: 1px solid transparent;
         border-radius: 3px;
-        color: #d8d1cb;
+        color: var(--color-ink-2);
         text-decoration: none;
       }
       .search-chat-result.is-active {
-        border-color: #514b48;
-        background: #272322;
+        border-color: var(--color-rule-2);
+        background: var(--color-accent-tint);
       }
       .search-chat-result strong {
-        color: #f1ebe5;
+        color: var(--color-ink);
         font-family: var(--font-display);
         font-size: 11px;
         font-weight: 600;
@@ -1956,7 +1954,7 @@ const jsonLd = {
       .search-chat-result span {
         display: -webkit-box;
         overflow: hidden;
-        color: #918a84;
+        color: var(--color-ink-3);
         font-family: var(--font-display);
         font-size: 9px;
         line-height: 1.5;
@@ -1965,7 +1963,7 @@ const jsonLd = {
       }
       .search-chat-empty {
         margin: 0;
-        color: #918a84;
+        color: var(--color-ink-3);
         font-family: var(--font-display);
         font-size: 10px;
         line-height: 1.6;
@@ -1978,10 +1976,10 @@ const jsonLd = {
         gap: 10px;
         margin-top: 18px;
         padding: 9px 11px;
-        border: 1px solid #3d654c;
+        border: 1px solid var(--color-rule-2);
         border-radius: 4px;
-        background: #1e2922;
-        color: #eef7f1;
+        background: var(--color-surface);
+        color: var(--color-ink);
         text-decoration: none;
       }
       .search-chat-line img {
@@ -1998,18 +1996,18 @@ const jsonLd = {
       }
       .search-chat-line small {
         margin-bottom: 2px;
-        color: #91ad9b;
+        color: var(--color-ink-3);
         font-family: var(--font-display);
         font-size: 9px;
       }
       .search-chat-line b {
-        color: #f3faf5;
+        color: var(--color-ink);
         font-family: var(--font-display);
         font-size: 12px;
         font-weight: 600;
       }
       .search-chat-line > i {
-        color: #72bf8e;
+        color: var(--color-accent);
         font-size: 13px;
         font-style: normal;
       }
@@ -2020,11 +2018,11 @@ const jsonLd = {
         align-items: center;
         gap: 7px;
         padding: 6px 9px 6px 12px;
-        border-top: 1px solid #393635;
-        background: #181716;
+        border-top: 1px solid var(--color-rule);
+        background: var(--color-paper-2);
       }
       .search-chat-form > span {
-        color: #827b76;
+        color: var(--color-ink-3);
         font-size: 8px;
       }
       .search-chat-form input {
@@ -2033,10 +2031,10 @@ const jsonLd = {
         border: 0;
         outline: 0;
         background: transparent;
-        color: #f2ece5;
+        color: var(--color-ink);
         font: 400 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
       }
-      .search-chat-form input::placeholder { color: #716b67; }
+      .search-chat-form input::placeholder { color: var(--color-ink-3); }
       .search-chat-form button {
         display: grid;
         width: 34px;
@@ -2045,8 +2043,8 @@ const jsonLd = {
         padding: 0;
         border: 0;
         border-radius: 50%;
-        background: #eee8e1;
-        color: #1a1817;
+        background: var(--color-accent);
+        color: var(--color-paper);
         cursor: pointer;
       }
       .search-chat-form button svg {
@@ -2063,13 +2061,13 @@ const jsonLd = {
         justify-content: space-between;
         gap: 10px;
         padding: 0 12px;
-        border-top: 1px solid #302e2c;
-        background: #211f1e;
-        color: #716b67;
+        border-top: 1px solid var(--color-rule);
+        background: var(--color-paper-2);
+        color: var(--color-ink-3);
         font-size: 7px;
         letter-spacing: 0.08em;
       }
-      .search-chat-status span:first-child { color: #71b58a; }
+      .search-chat-status span:first-child { color: var(--color-accent); }
       @media (max-width: 767px) {
         /* 首頁終端機仍在 viewport 時先收起浮動操作，避免遮住搜尋列與狀態列。 */
         body.home-cli-visible:not(.search-chat-open) .floating-line,

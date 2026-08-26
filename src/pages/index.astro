@@ -86,10 +86,8 @@ const schema = [
           <div class="cli-screen">
             <div class="cli-conversation">
             <div class="cli-dialog">
-              <span class="cli-ai-label" aria-hidden="true">AI</span>
               <div class="cli-bubble cli-question-bubble">
                 <h1 class="cli-question" id="hero-h" data-cli-question="你希望我怎麼幫助你？">你希望我怎麼幫助你？</h1>
-                <span class="cli-caret" aria-hidden="true"></span>
               </div>
             </div>
             <div class="cli-options" aria-label="選擇你需要的幫助">
@@ -153,9 +151,7 @@ const schema = [
             </div>
             <div class="cli-output" id="cli-output" aria-live="polite" aria-atomic="true">
               <p class="cli-command" id="cli-command-text"></p>
-              <p class="cli-thinking" id="cli-thinking" hidden><span aria-hidden="true"></span>AI 正在整理資料…</p>
               <div class="cli-answer" id="cli-answer" hidden>
-                <span class="cli-ai-label" aria-hidden="true">AI</span>
                 <div class="cli-bubble cli-answer-bubble">
                   <div class="cli-answer-content">
                     <div class="cli-answer-media" id="cli-answer-media">
@@ -443,7 +439,6 @@ const schema = [
       var question = cli.querySelector('[data-cli-question]');
       var options = Array.prototype.slice.call(cli.querySelectorAll('.cli-options button'));
       var commandText = document.getElementById('cli-command-text');
-      var thinking = document.getElementById('cli-thinking');
       var answer = document.getElementById('cli-answer');
       var answerText = document.getElementById('cli-answer-text');
       var answerImage = document.getElementById('cli-answer-image');
@@ -454,46 +449,14 @@ const schema = [
       var searchForm = document.getElementById('cli-search-form');
       var searchInput = document.getElementById('cli-search-input');
       var searchResults = document.getElementById('cli-search-results');
-      if (!question || !options.length || !commandText || !thinking || !answer || !answerText || !answerImage || !caseVisual || !articleVisual || !answerLink || !endButton || !searchForm || !searchInput || !searchResults) return;
+      if (!question || !options.length || !commandText || !answer || !answerText || !answerImage || !caseVisual || !articleVisual || !answerLink || !endButton || !searchForm || !searchInput || !searchResults) return;
 
-      var timers = [];
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var searchIndexPromise;
-      var searchTimer;
       var searchActive = -1;
-
-      function later(callback, delay) {
-        var timer = window.setTimeout(callback, delay);
-        timers.push(timer);
-        return timer;
-      }
-
-      function clearResponseTimers() {
-        timers.forEach(function (timer) { window.clearTimeout(timer); });
-        timers = [];
-      }
-
-      function typeText(element, value, speed, done) {
-        if (reduce) {
-          element.textContent = value;
-          if (done) done();
-          return;
-        }
-        element.textContent = '';
-        var index = 0;
-        function next() {
-          element.textContent = value.slice(0, index + 1);
-          index += 1;
-          if (index < value.length) later(next, speed);
-          else if (done) done();
-        }
-        next();
-      }
 
       function runAnswer(option) {
         if (!cli.classList.contains('is-ready')) return;
         var pageScrollY = window.scrollY;
-        clearResponseTimers();
         cli.focus({ preventScroll: true });
         question.textContent = question.dataset.cliQuestion || '';
         cli.classList.add('has-output');
@@ -511,23 +474,14 @@ const schema = [
         answerLink.firstChild.textContent = (option.dataset.linkLabel || '繼續查看') + ' ';
         answerLink.dataset.gaLabel = option.dataset.linkLabel || '繼續查看';
 
-        // 先顯示「AI 正在整理資料…」的思考泡泡，短暫停留後再換成回答泡泡，
-        // 讓對話節奏更像真的 AI 聊天產品，而不是內容瞬間切換。
-        answer.hidden = true;
-        thinking.hidden = false;
-        later(function () {
-          thinking.hidden = true;
-          answer.hidden = false;
-          typeText(answerText, option.dataset.answer || '', 14);
-        }, reduce ? 0 : 650);
+        answerText.textContent = option.dataset.answer || '';
+        answer.hidden = false;
 
         window.requestAnimationFrame(function () { window.scrollTo(0, pageScrollY); });
       }
 
       function endConversation() {
-        clearResponseTimers();
         cli.classList.remove('has-output');
-        thinking.hidden = true;
         answer.hidden = true;
         commandText.textContent = '';
         answerText.textContent = '';
@@ -587,7 +541,6 @@ const schema = [
 
       function searchSite(rawQuery) {
         var query = rawQuery.trim().toLowerCase();
-        window.clearTimeout(searchTimer);
         if (!query) {
           searchResults.hidden = true;
           searchResults.replaceChildren();
@@ -596,10 +549,6 @@ const schema = [
         }
         searchResults.hidden = false;
         searchResults.replaceChildren();
-        var loading = document.createElement('p');
-        loading.className = 'cli-search-empty';
-        loading.textContent = '搜尋中…';
-        searchResults.appendChild(loading);
         loadSearchIndex().then(function (items) {
           renderSearchResults(items.filter(function (item) {
             return ((item.t || '') + ' ' + (item.d || '') + ' ' + (item.g || ''))
@@ -619,8 +568,7 @@ const schema = [
 
       searchInput.addEventListener('focus', loadSearchIndex);
       searchInput.addEventListener('input', function () {
-        window.clearTimeout(searchTimer);
-        searchTimer = window.setTimeout(function () { searchSite(searchInput.value); }, 180);
+        searchSite(searchInput.value);
       });
       searchInput.addEventListener('keydown', function (event) {
         var links = searchResults.querySelectorAll('a');
@@ -648,16 +596,10 @@ const schema = [
       });
 
       function ready() {
-        cli.classList.remove('is-typing');
         cli.classList.add('is-ready');
       }
 
-      if (reduce) {
-        ready();
-      } else {
-        cli.classList.add('is-typing');
-        typeText(question, question.dataset.cliQuestion || '', 42, function () { later(ready, 220); });
-      }
+      ready();
     })();
   </script>
 
@@ -857,36 +799,17 @@ const schema = [
     .cli-conversation {
       width: 100%;
     }
-    /* 訊息列：AI 頭像＋泡泡。問句與回答共用同一種列。 */
+    /* 訊息列：不模擬 AI 身分或等待狀態，選擇後直接顯示內容。 */
     .cli-dialog {
-      display: flex;
+      display: block;
       min-width: 0;
-      align-items: flex-start;
-      gap: 12px;
     }
-    .cli-ai-label {
-      display: inline-grid;
-      width: 30px;
-      height: 30px;
-      flex: none;
-      place-items: center;
-      border: 1px solid var(--color-accent-line-2);
-      border-radius: 50%;
-      background: var(--color-accent-tint);
-      color: var(--color-accent);
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: 0.04em;
-    }
-    /* AI 泡泡（提問／回答共用外觀）：卡片邊界＋柔和陰影，靠頭像那一角收窄成 4px，
-       模擬對話泡泡的方向指示。 */
     .cli-bubble {
       min-width: 0;
       max-width: 640px;
       padding: 16px 18px;
       border: 1px solid var(--color-rule);
-      border-radius: 4px 16px 16px 16px;
+      border-radius: 12px;
       background: var(--color-surface);
       box-shadow: 0 2px 10px rgb(22 22 26 / 6%);
     }
@@ -903,18 +826,6 @@ const schema = [
       letter-spacing: 0;
       overflow-wrap: anywhere;
     }
-    .cli-caret {
-      display: inline-block;
-      width: 2px;
-      height: 1.3em;
-      flex: none;
-      background: var(--color-accent);
-      animation: cli-caret 0.72s step-end infinite;
-    }
-    .cli.is-ready .cli-caret {
-      opacity: 0;
-      animation: none;
-    }
     /* 建議選項：每個選項各自一張獨立卡片，直向列成一排並排的平行卡片列
        （參考 creatorhome.tw 資源雷達區塊的編號卡片清單），
        不再是擠在一起的膠囊按鈕（見上方 script 的說明）。 */
@@ -923,7 +834,7 @@ const schema = [
       flex-direction: column;
       gap: 10px;
       max-width: 720px;
-      margin: 6px 0 0 42px;
+      margin: 6px 0 0;
     }
     .cli-options button {
       display: flex;
@@ -967,13 +878,6 @@ const schema = [
     .cli-options button:hover .cli-option-arrow {
       transform: translateX(3px);
     }
-    .cli.is-typing .cli-options {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .cli.is-ready .cli-options {
-      animation: cli-options-in 0.34s var(--ease) both;
-    }
     .cli.has-output .cli-options {
       display: none;
     }
@@ -1000,38 +904,12 @@ const schema = [
       line-height: 1.6;
       box-shadow: 0 2px 8px rgb(122 46 59 / 10%);
     }
-    /* AI 思考中：小顆泡泡＋轉圈，取代原本瞬間切換，讓回答泡泡出現前有個緩衝。 */
-    .cli-thinking {
-      display: flex;
-      width: fit-content;
-      align-items: center;
-      gap: 9px;
-      margin-left: 42px;
-      padding: 10px 16px;
-      border: 1px solid var(--color-rule);
-      border-radius: 4px 16px 16px 16px;
-      background: var(--color-surface);
-      color: var(--color-ink-3);
-      font-size: 12px;
-    }
-    .cli-thinking[hidden],
     .cli-answer[hidden] {
       display: none;
     }
-    .cli-thinking > span {
-      width: 9px;
-      height: 9px;
-      border: 1px solid var(--color-rule-3);
-      border-top-color: var(--color-accent);
-      border-radius: 50%;
-      animation: cli-spin 0.75s linear infinite;
-    }
     .cli-answer {
-      display: flex;
+      display: block;
       min-width: 0;
-      align-items: flex-start;
-      gap: 12px;
-      animation: cli-answer-in 0.3s var(--ease) both;
     }
     .cli-answer-bubble {
       display: grid;
@@ -1300,16 +1178,6 @@ const schema = [
       stroke-linecap: round;
       stroke-linejoin: round;
     }
-    @keyframes cli-caret { 50% { opacity: 0; } }
-    @keyframes cli-spin { to { transform: rotate(360deg); } }
-    @keyframes cli-options-in {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes cli-answer-in {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
     @media (min-width: 768px) {
       .hero {
         min-height: calc(100vh - 84px);
@@ -1334,14 +1202,6 @@ const schema = [
         min-height: 0;
         padding: 18px 12px 22px;
       }
-      .cli-dialog {
-        gap: 8px;
-      }
-      .cli-ai-label {
-        width: 26px;
-        height: 26px;
-        font-size: 9px;
-      }
       .cli-bubble {
         padding: 12px 14px;
       }
@@ -1365,9 +1225,8 @@ const schema = [
         gap: 12px;
       }
       .cli-command { font-size: 11px; }
-      .cli-thinking { margin-left: 0; }
       .cli-answer {
-        gap: 8px;
+        display: block;
       }
       .cli-answer-content {
         grid-template-columns: 1fr;
@@ -2061,8 +1920,6 @@ const schema = [
          條件的 hover 規則。而且它也沒有必要：那顆按鈕的 translateY(-1px) 本來就
          只在有滑鼠的裝置上生效，過渡一關就是瞬間位移，不構成前庭風險的動態。 */
       .btn,
-      .cli-caret,
-      .cli-thinking span,
       .terminal-typed,
       .terminal-command > i,
       .terminal-thinking,
@@ -2071,7 +1928,6 @@ const schema = [
         transition: none !important;
         animation: none !important;
       }
-      .cli-caret { display: none; }
       .terminal-typed {
         max-width: 18em;
       }
@@ -2083,9 +1939,6 @@ const schema = [
         opacity: 1;
         transform: none;
       }
-      .cli-caret,
-      .cli-thinking > span,
-      .cli.is-ready .cli-options,
       .cli-answer {
         animation: none !important;
         transition: none !important;

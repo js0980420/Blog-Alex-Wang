@@ -134,6 +134,43 @@ const jsonLd = {
           script.src = 'https://www.googletagmanager.com/gtag/js?id=G-91Z2F673C0';
           document.head.appendChild(script);
         });
+
+        function trackButton(control) {
+          if (!control) return;
+          var label = control.getAttribute('data-ga-label') || control.textContent || '';
+          var parameters = {
+            button_id: control.getAttribute('data-ga-button') || 'unknown',
+            button_label: label.replace(/\s+/g, ' ').trim().slice(0, 100),
+            button_location: control.getAttribute('data-ga-location') || 'unknown',
+            button_action: control.getAttribute('data-ga-action') || 'click',
+            destination_url: control.href || '',
+            page_path: location.pathname,
+          };
+          window.gtag('event', 'button_click', parameters);
+          var buttonEventName = ('btn_' + parameters.button_id).replace(/[^a-zA-Z0-9_]/g, '_').slice(0, 40);
+          window.gtag('event', buttonEventName, {
+            button_label: parameters.button_label,
+            button_location: parameters.button_location,
+            page_path: parameters.page_path,
+          });
+
+          var cmsPayload = JSON.stringify(parameters);
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/button-click', new Blob([cmsPayload], { type: 'application/json' }));
+          } else {
+            fetch('/api/button-click', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: cmsPayload,
+              keepalive: true,
+            }).catch(function () {});
+          }
+        }
+
+        document.addEventListener('click', function (event) {
+          var control = event.target.closest && event.target.closest('[data-ga-button]');
+          if (control) trackButton(control);
+        });
       }
     </script>
   </head>
@@ -154,6 +191,10 @@ const jsonLd = {
           aria-expanded="false"
           aria-controls="service-mainnav"
           aria-label="開啟選單"
+          data-ga-button="service_mobile_menu"
+          data-ga-label="服務站手機選單"
+          data-ga-location="service_header"
+          data-ga-action="toggle_menu"
         >
           <i></i><i></i>
         </button>
