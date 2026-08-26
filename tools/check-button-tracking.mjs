@@ -1,10 +1,17 @@
-import { readFileSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
-const files = execFileSync('rg', ['--files', 'src', '-g', '*.astro'], { encoding: 'utf8' })
-  .trim()
-  .split('\n')
-  .filter(Boolean);
+function findAstroFiles(directory) {
+  return readdirSync(directory, { withFileTypes: true })
+    .flatMap((entry) => {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) return findAstroFiles(path);
+      return entry.isFile() && entry.name.endsWith('.astro') ? [path] : [];
+    })
+    .sort();
+}
+
+const files = findAstroFiles('src');
 
 const errors = [];
 let trackedControls = 0;
