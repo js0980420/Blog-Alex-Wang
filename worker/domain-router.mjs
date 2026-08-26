@@ -29,6 +29,14 @@ export default {
         return env.ASSETS.fetch(new Request(assetUrl, request));
       }
 
+      // /quiz 曝露 build 內的 /services/tool-quiz/（實際檔案在
+      // src/pages/services/tool-quiz.astro），瀏覽器網址保留在 /quiz/。
+      if (url.pathname === '/quiz' || url.pathname === '/quiz/') {
+        const assetUrl = new URL(request.url);
+        assetUrl.pathname = '/services/tool-quiz/';
+        return env.ASSETS.fetch(new Request(assetUrl, request));
+      }
+
       // /services/ 只是同一份 build 的內部路徑，正式子網域不暴露它。
       if (url.pathname === '/services' || url.pathname === '/services/') {
         url.pathname = '/';

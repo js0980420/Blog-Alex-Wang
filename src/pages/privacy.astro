@@ -4,7 +4,7 @@ import PillButton from '../components/PillButton.astro';
 import { AUTHOR, LINKS, SITE, breadcrumbSchema } from '../consts';
 import Base from '../layouts/Base.astro';
 
-const UPDATED = '2026年7月24日';
+const UPDATED = '2026年8月26日';
 
 const schema = [
   breadcrumbSchema([{ name: '首頁', item: `${SITE.url}/` }, { name: '隱私權政策' }]),
@@ -13,7 +13,7 @@ const schema = [
 
 <Base
   title={`隱私權政策｜${SITE.title}`}
-  description={`${SITE.title}（aixwang.dev）的隱私權政策：本站使用 Google Analytics 進行流量統計，無會員系統、不主動蒐集個人資料。說明資料蒐集範圍、用途與訪客的選擇。`}
+  description={`${SITE.title}（aixwang.dev）的隱私權政策：說明 Google Analytics、工具測驗 Email 寄送等資料處理方式，以及訪客可選擇的聯絡管道。`}
   schema={schema}
 >
   <div class="mx-auto max-w-3xl px-6 py-12">
@@ -23,7 +23,7 @@ const schema = [
 
     <div class="prose-blog mt-10">
       <p>
-        本頁說明「{SITE.title}」（{SITE.url}，以下稱「本站」）如何處理訪客資料。本站由 {AUTHOR.name}（王士麟）個人經營，沒有會員系統、不提供帳號註冊，也不會主動要求你填寫任何個人資料。
+        本頁說明「{SITE.title}」（{SITE.url}，以下稱「本站」）如何處理訪客資料。本站由 {AUTHOR.name}（王士麟）個人經營，沒有會員系統，也不提供帳號註冊。
       </p>
 
       <h2>本站蒐集哪些資料</h2>
@@ -32,6 +32,9 @@ const schema = [
       </p>
       <p>
         本站部署於 Cloudflare，Cloudflare 可能基於資安與效能目的記錄標準的伺服器紀錄（如 IP 位址、請求時間）。本站的站內搜尋在你的瀏覽器本機執行，搜尋關鍵字不會傳送到任何伺服器。
+      </p>
+      <p>
+        你可以選擇在 30 秒工具測驗完成後輸入 Email，讓本站透過寄信服務商 Resend 寄送本次建議。Email 只用於完成這次寄送，不會加入電子報名單；不想提供 Email 時，也可以直接在畫面查看結果或改用 LINE 聯絡。
       </p>
 
       <h2>資料的用途</h2>

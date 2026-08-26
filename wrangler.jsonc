@@ -5,6 +5,9 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "./worker/domain-router.mjs",
   "workers_dev": false,
+  "vars": {
+    "QUIZ_EMAIL_FROM": "Alex AI 服務 <noreply@aixwang.dev>"
+  },
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist",
@@ -16,6 +19,9 @@
       "/services/",
       "/services/speaking",
       "/services/speaking/*",
+      "/quiz",
+      "/quiz/*",
+      "/api/tool-quiz-email",
       "/robots.txt",
       "/sitemap.xml"
     ]
