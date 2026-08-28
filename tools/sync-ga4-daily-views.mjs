@@ -1,5 +1,5 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
-import { buildDailyContentViewRows, buildDailyViewRows, parseGa4AudienceMetrics, parseGa4DailyRows, parseGa4DailyUserRows } from './lib/daily-views-lib.mjs';
+import { buildDailyContentViewRows, buildDailyViewRows, parseGa4AudienceMetrics, parseGa4DailyRows, parseGa4DailyUserRows, parseGa4DeviceMetrics } from './lib/daily-views-lib.mjs';
 
 const CMS = 'https://cms.aixwang.dev';
 const SITE_LAUNCH_DATE = '2026-07-22';
@@ -55,13 +55,33 @@ async function fetchAudienceMetrics() {
   return parseGa4AudienceMetrics(response);
 }
 
-const [gaRows, dailyUserRows, audienceMetrics, articles] = await Promise.all([
+async function fetchDeviceMetrics() {
+  const client = new BetaAnalyticsDataClient();
+  const [response] = await client.runReport({
+    property: `properties/${propertyId}`,
+    dateRanges: [
+      { startDate: SITE_LAUNCH_DATE, endDate: 'today', name: 'since_launch' },
+      { startDate: '29daysAgo', endDate: 'today', name: 'last_30_days' },
+    ],
+    dimensions: [{ name: 'deviceCategory' }],
+    metrics: [{ name: 'totalUsers' }, { name: 'activeUsers' }],
+    dimensionFilter: { filter: { fieldName: 'hostName', stringFilter: { matchType: 'EXACT', value: 'aixwang.dev', caseSensitive: false } } },
+    returnPropertyQuota: true,
+  });
+  const quota = response.propertyQuota?.tokensPerDay;
+  if (quota) console.log(`GA4 每日配額：裝置類別查詢消耗 ${quota.consumed}，剩餘 ${quota.remaining} tokens。`);
+  return parseGa4DeviceMetrics(response);
+}
+
+const [gaRows, dailyUserRows, audienceMetrics, deviceMetrics, articles] = await Promise.all([
   fetchGaRows(),
   fetchGaUserRows(),
   fetchAudienceMetrics(),
+  fetchDeviceMetrics(),
   directus('/items/articles?fields=slug,title&limit=-1'),
 ]);
 const syncedAt = new Date().toISOString();
+Object.assign(audienceMetrics, deviceMetrics);
 audienceMetrics.synced_at = syncedAt;
 const articleTitles = new Map(articles.map((article) => [article.slug, article.title]));
 const rows = buildDailyViewRows({ gaRows, dailyUserRows, articleTitles, startDate: SITE_LAUNCH_DATE, endDate: syncedAt.slice(0, 10), syncedAt });
@@ -69,6 +89,8 @@ const contentRows = buildDailyContentViewRows({ gaRows, articleTitles, syncedAt 
 console.log(`每日流量 ${rows.length} 天；合計 ${rows.reduce((sum, row) => sum + row.total_views, 0)} 次。`);
 console.log(`逐篇／逐頁每日流量 ${contentRows.length} 筆（只保存有觀看的日期）。`);
 console.log(`置頂數字：總使用者 ${audienceMetrics.total_users}／近 30 天活躍 ${audienceMetrics.active_users_30d}／今日活躍 ${audienceMetrics.active_users_today}。`);
+console.log(`裝置類別（新站上線至今）：桌機 ${audienceMetrics.desktop_users}／手機 ${audienceMetrics.mobile_users}／平板 ${audienceMetrics.tablet_users}／其他 ${audienceMetrics.other_users}。`);
+console.log(`裝置類別（近 30 天活躍）：桌機 ${audienceMetrics.desktop_users_30d}／手機 ${audienceMetrics.mobile_users_30d}／平板 ${audienceMetrics.tablet_users_30d}／其他 ${audienceMetrics.other_users_30d}。`);
 if (!apply) { console.log('dry-run：沒有寫入 CMS。'); process.exit(0); }
 const existing = await directus('/items/daily_views?fields=id,date&limit=-1'); const idByDate = new Map(existing.map((item) => [item.date, item.id]));
 for (const row of rows) { const id = idByDate.get(row.date); await directus(id ? `/items/daily_views/${id}` : '/items/daily_views', { method: id ? 'PATCH' : 'POST', body: JSON.stringify(row) }); }

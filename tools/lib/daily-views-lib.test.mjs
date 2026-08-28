@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildDailyContentViewRows, buildDailyViewRows, parseGa4AudienceMetrics, parseGa4DailyRows, parseGa4DailyUserRows } from './daily-views-lib.mjs';
+import { buildDailyContentViewRows, buildDailyViewRows, parseGa4AudienceMetrics, parseGa4DailyRows, parseGa4DailyUserRows, parseGa4DeviceMetrics } from './daily-views-lib.mjs';
 
 test('parseGa4DailyRows 讀取日期、路徑、觀看與使用者指標', () => {
   assert.deepEqual(parseGa4DailyRows({ rows: [{ dimensionValues: [{ value: '20260816' }, { value: '/' }], metricValues: [{ value: '3' }, { value: '2' }, { value: '2' }] }] }), [{ date: '20260816', path: '/', views: 3, active_users: 2, total_users: 2 }]);
@@ -26,6 +26,45 @@ test('parseGa4AudienceMetrics 將三個日期區間轉成置頂數字', () => {
 test('parseGa4AudienceMetrics 沒有資料時回傳 0', () => {
   assert.deepEqual(parseGa4AudienceMetrics({}), {
     key: 'site', total_users: 0, active_users_30d: 0, active_users_today: 0,
+  });
+});
+
+test('parseGa4DeviceMetrics 依裝置類別與日期區間拆分使用者，大小寫不分', () => {
+  const response = {
+    rows: [
+      { dimensionValues: [{ value: 'desktop' }, { value: 'since_launch' }], metricValues: [{ value: '170' }, { value: '170' }] },
+      { dimensionValues: [{ value: 'Mobile' }, { value: 'since_launch' }], metricValues: [{ value: '105' }, { value: '105' }] },
+      { dimensionValues: [{ value: 'tablet' }, { value: 'since_launch' }], metricValues: [{ value: '1' }, { value: '1' }] },
+      { dimensionValues: [{ value: 'desktop' }, { value: 'last_30_days' }], metricValues: [{ value: '124' }, { value: '124' }] },
+      { dimensionValues: [{ value: 'mobile' }, { value: 'last_30_days' }], metricValues: [{ value: '73' }, { value: '72' }] },
+      { dimensionValues: [{ value: 'tablet' }, { value: 'last_30_days' }], metricValues: [{ value: '0' }, { value: '0' }] },
+    ],
+  };
+  assert.deepEqual(parseGa4DeviceMetrics(response), {
+    desktop_users: 170, mobile_users: 105, tablet_users: 1, other_users: 0,
+    desktop_users_30d: 124, mobile_users_30d: 72, tablet_users_30d: 0, other_users_30d: 0,
+  });
+});
+
+test('parseGa4DeviceMetrics 未知裝置類別歸入 other_users／other_users_30d，不會靜默丟資料', () => {
+  const response = {
+    rows: [
+      { dimensionValues: [{ value: 'desktop' }, { value: 'since_launch' }], metricValues: [{ value: '10' }, { value: '10' }] },
+      { dimensionValues: [{ value: 'smart tv' }, { value: 'since_launch' }], metricValues: [{ value: '2' }, { value: '2' }] },
+      { dimensionValues: [{ value: '(not set)' }, { value: 'since_launch' }], metricValues: [{ value: '1' }, { value: '1' }] },
+      { dimensionValues: [{ value: 'smart tv' }, { value: 'last_30_days' }], metricValues: [{ value: '1' }, { value: '1' }] },
+    ],
+  };
+  assert.deepEqual(parseGa4DeviceMetrics(response), {
+    desktop_users: 10, mobile_users: 0, tablet_users: 0, other_users: 3,
+    desktop_users_30d: 0, mobile_users_30d: 0, tablet_users_30d: 0, other_users_30d: 1,
+  });
+});
+
+test('parseGa4DeviceMetrics 沒有資料時全部回傳 0', () => {
+  assert.deepEqual(parseGa4DeviceMetrics({}), {
+    desktop_users: 0, mobile_users: 0, tablet_users: 0, other_users: 0,
+    desktop_users_30d: 0, mobile_users_30d: 0, tablet_users_30d: 0, other_users_30d: 0,
   });
 });
 

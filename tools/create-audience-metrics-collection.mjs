@@ -10,6 +10,14 @@ const FIELDS = [
   { field: 'total_users', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '新站上線至今的去重總使用者。' } },
   { field: 'active_users_30d', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '最近 30 天區間內的去重活躍使用者。' } },
   { field: 'active_users_today', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: 'GA4 Property 時區今天的活躍使用者。' } },
+  { field: 'desktop_users', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '新站上線至今，GA4 deviceCategory=desktop 的去重使用者，區間與 total_users 相同。' } },
+  { field: 'mobile_users', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '新站上線至今，GA4 deviceCategory=mobile 的去重使用者，區間與 total_users 相同。' } },
+  { field: 'tablet_users', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '新站上線至今，GA4 deviceCategory=tablet 的去重使用者，區間與 total_users 相同。' } },
+  { field: 'other_users', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '新站上線至今，GA4 deviceCategory 不是 desktop/mobile/tablet 的去重使用者（例如 smart tv、(not set)），避免這幾類被靜默漏計。' } },
+  { field: 'desktop_users_30d', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '近 30 天，GA4 deviceCategory=desktop 的活躍使用者，區間與指標與 active_users_30d 相同。' } },
+  { field: 'mobile_users_30d', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '近 30 天，GA4 deviceCategory=mobile 的活躍使用者，區間與指標與 active_users_30d 相同。' } },
+  { field: 'tablet_users_30d', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '近 30 天，GA4 deviceCategory=tablet 的活躍使用者，區間與指標與 active_users_30d 相同。' } },
+  { field: 'other_users_30d', type: 'integer', schema: { default_value: 0 }, meta: { interface: 'input', readonly: true, width: 'half', note: '近 30 天，GA4 deviceCategory 不是 desktop/mobile/tablet 的活躍使用者，避免這幾類被靜默漏計。' } },
   { field: 'synced_at', type: 'timestamp', meta: { interface: 'datetime', display: 'datetime', display_options: { relative: false, format: 'short', use24: true }, readonly: true, width: 'half', note: '最後同步時間。' } },
 ];
 

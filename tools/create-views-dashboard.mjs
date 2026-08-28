@@ -41,37 +41,73 @@ const PANELS = [
     options: { collection: 'audience_metrics', field: 'active_users_today', function: 'sum' },
   },
   {
-    name: '文章累積觀看總數', icon: 'visibility', type: 'metric',
+    name: '桌機使用者', icon: 'computer', type: 'metric',
+    note: '新站上線至今，GA4 deviceCategory=desktop 的去重使用者，區間與「總使用者」相同。',
     position_x: 1, position_y: 6, width: 20, height: 5,
+    options: { collection: 'audience_metrics', field: 'desktop_users', function: 'sum' },
+  },
+  {
+    name: '手機使用者', icon: 'smartphone', type: 'metric',
+    note: '新站上線至今，GA4 deviceCategory=mobile 的去重使用者，區間與「總使用者」相同。',
+    position_x: 21, position_y: 6, width: 20, height: 5,
+    options: { collection: 'audience_metrics', field: 'mobile_users', function: 'sum' },
+  },
+  {
+    name: '平板使用者', icon: 'tablet', type: 'metric',
+    note: '新站上線至今，GA4 deviceCategory=tablet 的去重使用者，區間與「總使用者」相同。',
+    position_x: 41, position_y: 6, width: 20, height: 5,
+    options: { collection: 'audience_metrics', field: 'tablet_users', function: 'sum' },
+  },
+  {
+    name: '桌機使用者（近 30 天）', icon: 'computer', type: 'metric',
+    note: '近 30 天，GA4 deviceCategory=desktop 的活躍使用者，區間與指標與「近 30 天活躍使用者」相同。',
+    position_x: 1, position_y: 11, width: 20, height: 5,
+    options: { collection: 'audience_metrics', field: 'desktop_users_30d', function: 'sum' },
+  },
+  {
+    name: '手機使用者（近 30 天）', icon: 'smartphone', type: 'metric',
+    note: '近 30 天，GA4 deviceCategory=mobile 的活躍使用者，區間與指標與「近 30 天活躍使用者」相同。',
+    position_x: 21, position_y: 11, width: 20, height: 5,
+    options: { collection: 'audience_metrics', field: 'mobile_users_30d', function: 'sum' },
+  },
+  {
+    name: '平板使用者（近 30 天）', icon: 'tablet', type: 'metric',
+    note: '近 30 天，GA4 deviceCategory=tablet 的活躍使用者，區間與指標與「近 30 天活躍使用者」相同。',
+    position_x: 41, position_y: 11, width: 20, height: 5,
+    options: { collection: 'audience_metrics', field: 'tablet_users_30d', function: 'sum' },
+  },
+  {
+    name: '文章累積觀看總數', icon: 'visibility', type: 'metric',
+    position_x: 1, position_y: 16, width: 20, height: 5,
     options: { collection: 'articles', field: 'views', function: 'sum' },
   },
   {
     name: '文章近 30 天觀看總數', icon: 'date_range', type: 'metric',
-    position_x: 21, position_y: 6, width: 20, height: 5,
+    position_x: 21, position_y: 16, width: 20, height: 5,
     options: { collection: 'articles', field: 'views_30d', function: 'sum' },
   },
   {
     name: '文章平均停留秒數（近 30 天）', icon: 'timer', type: 'metric',
     note: '公式：userEngagementDuration ÷ activeUsers（GA4「網頁和畫面」報表算法，不是除以瀏覽數）。沒有使用者資料的文章不計入平均。',
-    position_x: 41, position_y: 6, width: 20, height: 5,
+    position_x: 41, position_y: 16, width: 20, height: 5,
     options: { collection: 'articles', field: 'avg_engagement_seconds_30d', function: 'avg', maximumFractionDigits: 0, suffix: 's' },
   },
   {
     name: '每日流量趨勢', icon: 'show_chart', type: 'time-series',
     note: '新站每日總觀看數；排除 StarJobTW 舊站與非現行路徑。當天數字尚未結算，可能持續增加。',
-    position_x: 1, position_y: 11, width: 60, height: 18,
+    position_x: 1, position_y: 21, width: 60, height: 18,
     options: { collection: 'daily_views', dateField: 'date', valueField: 'total_views', function: 'sum', precision: 'day', range: 'auto', showXAxis: true, showYAxis: true },
   },
   {
     name: '每日活躍使用者', icon: 'person_check', type: 'time-series',
     note: '每天至少有一次參與工作階段的使用者；使用全站日期層級查詢，不會跨頁重複加總。',
-    position_x: 1, position_y: 29, width: 60, height: 18,
+    position_x: 1, position_y: 39, width: 60, height: 18,
     options: { collection: 'daily_views', dateField: 'date', valueField: 'active_users', function: 'sum', precision: 'day', range: 'auto', showXAxis: true, showYAxis: true },
   },
   {
     name: '所有文章觀看次數', icon: 'table_view', type: 'directus-panel-table',
     note: '直接列出所有文章；可點欄位標題排序，點擊資料列可開啟文章。',
-    position_x: 1, position_y: 47, width: 60, height: 50,
+    position_x: 1, position_y: 57, width: 60, height: 50,
     options: {
       collection: 'articles',
       fields: ['title', 'status', 'views', 'views_30d', 'avg_engagement_seconds_30d', 'views_synced_at'],
@@ -84,7 +120,7 @@ const PANELS = [
   {
     name: '每篇文章每日流量', icon: 'calendar_view_day', type: 'directus-panel-table',
     note: '每篇文章每天的觀看數；可依名稱或路徑篩選單篇文章，只保存有觀看的日期。',
-    position_x: 1, position_y: 99, width: 60, height: 45,
+    position_x: 1, position_y: 109, width: 60, height: 45,
     options: {
       collection: 'daily_content_views',
       fields: ['name', 'date', 'views', 'active_users', 'total_users', 'path'],
@@ -94,24 +130,24 @@ const PANELS = [
   },
   {
     name: '新站上線後累積觀看總數', icon: 'language', type: 'metric',
-    position_x: 1, position_y: 146, width: 20, height: 5,
+    position_x: 1, position_y: 156, width: 20, height: 5,
     options: { collection: 'page_views', field: 'views', function: 'sum' },
   },
   {
     name: '全站頁面近 30 天觀看總數', icon: 'date_range', type: 'metric',
-    position_x: 21, position_y: 146, width: 20, height: 5,
+    position_x: 21, position_y: 156, width: 20, height: 5,
     options: { collection: 'page_views', field: 'views_30d', function: 'sum' },
   },
   {
     name: '全站頁面平均停留秒數（近 30 天）', icon: 'timer', type: 'metric',
     note: '公式：userEngagementDuration ÷ activeUsers（GA4「網頁和畫面」報表算法，不是除以瀏覽數）。沒有使用者資料的頁面不計入平均。',
-    position_x: 41, position_y: 146, width: 20, height: 5,
+    position_x: 41, position_y: 156, width: 20, height: 5,
     options: { collection: 'page_views', field: 'avg_engagement_seconds_30d', function: 'avg', maximumFractionDigits: 0, suffix: 's' },
   },
   {
     name: '所有頁面觀看次數', icon: 'table_view', type: 'directus-panel-table',
     note: '列出目前新站的一般頁面；單篇文章另列於文章表格，並排除 StarJobTW 舊站與非現行路徑。',
-    position_x: 1, position_y: 151, width: 60, height: 50,
+    position_x: 1, position_y: 161, width: 60, height: 50,
     options: {
       collection: 'page_views',
       fields: ['name', 'views', 'views_30d', 'avg_engagement_seconds_30d', 'path'],
@@ -124,7 +160,7 @@ const PANELS = [
   {
     name: '每個頁面每日流量', icon: 'calendar_view_day', type: 'directus-panel-table',
     note: '每個一般頁面每天的觀看數；可依名稱或路徑篩選單一頁面，只保存有觀看的日期。',
-    position_x: 1, position_y: 203, width: 60, height: 45,
+    position_x: 1, position_y: 213, width: 60, height: 45,
     options: {
       collection: 'daily_content_views',
       fields: ['name', 'date', 'views', 'active_users', 'total_users', 'path'],
@@ -135,13 +171,13 @@ const PANELS = [
   {
     name: '熱門入口工作階段', icon: 'bar_chart', type: 'bar-chart',
     note: '依入口分類加總工作階段；Google 自然搜尋包含無法單獨辨識的 AI Overview。',
-    position_x: 1, position_y: 250, width: 60, height: 18,
+    position_x: 1, position_y: 260, width: 60, height: 18,
     options: { collection: 'traffic_sources', xAxis: 'channel', yAxis: 'sessions', function: 'sum', horizontal: true, decimals: 0 },
   },
   {
     name: '流量入口與進站頁', icon: 'alt_route', type: 'directus-panel-table',
     note: '依工作階段排序；要區分 IG 留言、YouTube 資訊欄等位置，分享連結需帶 UTM。',
-    position_x: 1, position_y: 268, width: 60, height: 45,
+    position_x: 1, position_y: 278, width: 60, height: 45,
     options: {
       collection: 'traffic_sources',
       fields: ['channel', 'sessions', 'views', 'medium', 'campaign', 'landing_page'],

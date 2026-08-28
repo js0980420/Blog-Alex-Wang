@@ -73,6 +73,26 @@ npm run views:create-dashboard -- --apply
 使用者」與「當日活躍使用者」。三個區間透過同一個 GA4 多日期範圍請求取得；總使用者從新站
 2026-07-22 上線日起算，近 30 天使用 `29daysAgo` 到今天的 30 個曆日，數字都是區間內去重結果，
 不會把每日使用者相加。
+
+同一個 collection 另外保存裝置類別拆分，共 8 個欄位，分兩組區間／指標，各自對齊既有的置頂數字：
+
+| 欄位 | 區間 | 指標 | 對齊哪個既有欄位 |
+| --- | --- | --- | --- |
+| `desktop_users`／`mobile_users`／`tablet_users`／`other_users` | 新站上線至今 | `totalUsers` | `total_users` |
+| `desktop_users_30d`／`mobile_users_30d`／`tablet_users_30d`／`other_users_30d` | 近 30 天 | `activeUsers` | `active_users_30d` |
+
+這 8 個欄位來自同一個 `runReport` 查詢（`fetchDeviceMetrics()`）：`dimensions` 只帶
+`deviceCategory` 一個，`dateRanges` 用兩組具名區間（`since_launch`／`last_30_days`），`metrics`
+同時要 `totalUsers` 與 `activeUsers`。GA4 會把「日期區間」當成隱含維度**附加在明確指定的維度
+之後**（回應的 `dimensionValues` 順序是 `[deviceCategory, dateRange]`，不是排在最前面）——這是
+拿真實 GA4 Property 實測驗證過的順序，`tools/lib/daily-views-lib.mjs` 的 `parseGa4DeviceMetrics()`
+註解與對應測試都照這個順序寫，不是猜的。
+
+`other_users`／`other_users_30d` 收 GA4 回傳但不是 `desktop`/`mobile`/`tablet` 的類別（例如
+`smart tv`、`(not set)`），避免這幾類使用者被靜默漏算而看不出加總對不上 `total_users`／
+`active_users_30d`。實測（2026-08-28，`aixwang.dev`）：新站上線至今桌機 170／手機 105／平板 1／
+其他 0（合計 276，與 `total_users` 一致）；近 30 天活躍桌機 124／手機 72／平板 0／其他 0
+（合計 196，與 `active_users_30d` 一致）。
 `traffic_sources` 會保存 GA4 的來源、媒介、活動名稱、進站頁、工作階段與觀看數。Instagram 留言、
 YouTube 資訊欄等具體位置無法從未加標記的歷史網址反推；分享時需使用 `utm_source`、`utm_medium`
 與 `utm_campaign`，例如 `utm_source=ig&utm_medium=comment` 或

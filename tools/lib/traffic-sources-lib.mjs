@@ -28,7 +28,9 @@ export function classifySource(source, medium) {
   if (s === 'google' && m === 'organic') return 'Google 搜尋／AI Overview';
   if (s === 'bing' && m === 'organic') return 'Bing 搜尋';
   if (s.includes('yahoo') && (m === 'organic' || m === 'referral')) return 'Yahoo 搜尋';
-  if (s === '(direct)' || m === '(none)') return '直接進入';
+  // 不叫「直接進入」：這個分類混雜了真的直接輸入網址／書籤，跟從 App／通訊軟體點連結但沒帶
+  // referrer 而被 GA4 判斷成查無來源的情況，兩者無法用 GA4 現有資料分開。
+  if (s === '(direct)' || m === '(none)') return '不明來源';
   if (m === 'organic') return `${source} 搜尋`;
   if (m === 'referral') return `${source} 推薦連結`;
   return source || '其他';

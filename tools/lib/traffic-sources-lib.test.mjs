@@ -8,6 +8,7 @@ test('classifySource 辨識搜尋、Threads 與帶 UTM 的入口位置', () => {
   assert.equal(classifySource('chatgpt.com', 'referral'), 'ChatGPT');
   assert.equal(classifySource('lm.facebook.com', 'referral'), 'Facebook');
   assert.equal(classifySource('line.me', 'referral'), 'LINE');
+  assert.equal(classifySource('(direct)', '(none)'), '不明來源');
 });
 test('buildTrafficSourceRows 合併同入口並排除舊站 landing page', () => {
   const rows = buildTrafficSourceRows({ gaRows: [
